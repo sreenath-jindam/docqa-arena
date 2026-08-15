@@ -1,0 +1,25 @@
+# Local / container profile. CPU-only, small models, generation via a free API tier.
+corpus_dir: data/corpus
+golden_csv: eval/golden.csv
+results_dir: eval/results
+index_dir: storage/chroma
+cache_path: storage/embedding_cache.sqlite
+
+pipeline:
+  chunker: recursive
+  retriever: hybrid
+  reranker: null          # off by default — turn it on and watch the latency column
+  top_k: 5
+  rerank_candidates: 20
+  embed_model: BAAI/bge-small-en-v1.5   # 133MB, runs fine on CPU
+  rerank_model: BAAI/bge-reranker-base
+  chunk_size: 800
+  chunk_overlap: 120
+  generator_model: llama-3.1-8b-instant
+  judge_backend: llm
+  device: cpu
+
+sweep:
+  chunkers: [fixed, recursive, semantic]
+  retrievers: [vector, bm25, hybrid]
+  rerankers: [null, cross-encoder]

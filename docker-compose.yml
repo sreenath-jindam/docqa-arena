@@ -1,0 +1,44 @@
+services:
+  api:
+    build: .
+    container_name: docqa-api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      DOCQA_CONFIG: configs/local.yaml
+      DOCQA_CACHE: "${DOCQA_CACHE:-1}"
+      DOCQA_AUTO_INGEST: "1"
+      LLM_BASE_URL: "${LLM_BASE_URL}"
+      LLM_API_KEY: "${LLM_API_KEY}"
+      LLM_MODEL: "${LLM_MODEL}"
+      JUDGE_MODEL: "${JUDGE_MODEL}"
+    volumes:
+      # The index and embedding cache survive a rebuild. This is also the mount
+      # point a GPU-built index is dropped into — see scripts/export_index.py.
+      - ./storage:/app/storage
+      - ./data:/app/data:ro
+      - model_cache:/models
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
+
+  ui:
+    build:
+      context: .
+      dockerfile: Dockerfile.ui
+    container_name: docqa-ui
+    restart: unless-stopped
+    ports:
+      - "8501:8501"
+    environment:
+      API_URL: http://api:8000
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  model_cache:

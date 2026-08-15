@@ -1,0 +1,7 @@
+# Optional: the RAGAS judge backend. Kept separate because it pulls in the whole
+# LangChain tree, and the sweep runs fine on the built-in llm judge without it.
+-r requirements.txt
+ragas==0.2.10
+langchain-openai==0.2.14
+langchain-huggingface==0.1.2
+datasets==3.2.0

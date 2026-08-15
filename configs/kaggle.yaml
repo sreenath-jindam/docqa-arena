@@ -1,0 +1,26 @@
+# Kaggle profile. Larger models, GPU, everything written under /kaggle/working
+# (set DOCQA_DATA_DIR=/kaggle/working before importing anything).
+corpus_dir: data/corpus
+golden_csv: eval/golden.csv
+results_dir: results
+index_dir: chroma
+cache_path: embedding_cache.sqlite
+
+pipeline:
+  chunker: recursive
+  retriever: hybrid
+  reranker: null
+  top_k: 5
+  rerank_candidates: 20
+  embed_model: BAAI/bge-m3               # 2.2GB — this is the reason for the GPU
+  rerank_model: BAAI/bge-reranker-v2-m3
+  chunk_size: 800
+  chunk_overlap: 120
+  generator_model: llama-3.1-8b-instant
+  judge_backend: llm
+  device: cuda
+
+sweep:
+  chunkers: [fixed, recursive, semantic]
+  retrievers: [vector, bm25, hybrid]
+  rerankers: [null, cross-encoder]

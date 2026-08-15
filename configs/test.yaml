@@ -1,0 +1,21 @@
+# Offline profile used by the test suite: no model downloads, no network.
+corpus_dir: data/corpus
+golden_csv: eval/golden.csv
+results_dir: .pytest-results
+index_dir: .pytest-index
+cache_path: .pytest-cache/embeddings.sqlite
+
+pipeline:
+  chunker: recursive
+  retriever: hybrid
+  reranker: null
+  top_k: 5
+  embed_model: hash-64
+  generator_model: echo
+  judge_backend: stub
+  device: cpu
+
+sweep:
+  chunkers: [fixed, recursive]
+  retrievers: [vector, bm25]
+  rerankers: [null]
