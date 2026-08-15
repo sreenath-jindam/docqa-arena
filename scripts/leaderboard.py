@@ -23,23 +23,60 @@ COLUMNS = [
     ("ndcg_at_k", "nDCG@5"),
     ("correctness", "Correct"),
     ("faithfulness", "Faithful"),
+    ("judge_coverage", "Judged"),
     ("retrieval_ms", "Retr ms"),
     ("rerank_ms", "Rerank ms"),
 ]
+
+# Below this share of judged items, generation scores are reported as "--".
+# A configuration scored on 3 of 31 answers is not comparable to one scored on
+# all 31, and printing a number invites exactly that comparison.
+MIN_COVERAGE = 0.9
+
+
+def coverage_from_evaluations(config_dir: Path) -> float:
+    """Recover coverage for artifacts written before it was tracked.
+
+    Defaulting to 1.0 would be the dangerous choice: the artifacts most likely
+    to lack the field are exactly the ones from a run where the judge failed,
+    so an optimistic default prints unmeasured zeros as if they were scores.
+    """
+    path = config_dir / "evaluations.json"
+    if not path.exists():
+        return 0.0
+    evaluations = json.loads(path.read_text())
+    if not evaluations:
+        return 0.0
+    measured = 0
+    for evaluation in evaluations:
+        judge = evaluation.get("judge", {})
+        if judge.get("measured") is True:
+            measured += 1
+            continue
+        explanation = (judge.get("explanation") or "").lower()
+        failed = "judge error" in explanation or "judge unavailable" in explanation
+        if not failed and judge.get("correctness") is not None:
+            measured += 1
+    return measured / len(evaluations)
 
 
 def collect(results_dir: Path) -> list[dict]:
     rows = []
     for summary_file in sorted(results_dir.glob("*/summary.json")):
         data = json.loads(summary_file.read_text())
+        generation = data["generation"]
+        coverage = generation.get("judge_coverage")
+        if coverage is None:
+            coverage = coverage_from_evaluations(summary_file.parent)
         rows.append(
             {
                 "config": data["config"]["slug"],
                 "recall_at_k": data["retrieval"]["recall_at_k"],
                 "mrr": data["retrieval"]["mrr"],
                 "ndcg_at_k": data["retrieval"]["ndcg_at_k"],
-                "correctness": data["generation"]["correctness"],
-                "faithfulness": data["generation"]["faithfulness"],
+                "correctness": generation["correctness"] if coverage >= MIN_COVERAGE else None,
+                "faithfulness": generation["faithfulness"] if coverage >= MIN_COVERAGE else None,
+                "judge_coverage": coverage,
                 "retrieval_ms": data["retrieval"]["retrieval_latency_ms_mean"],
                 "rerank_ms": data["retrieval"]["rerank_latency_ms_mean"],
             }
@@ -50,6 +87,10 @@ def collect(results_dir: Path) -> list[dict]:
 def fmt(key: str, value) -> str:
     if key == "config":
         return str(value)
+    if value is None:
+        return "--"
+    if key == "judge_coverage":
+        return f"{value:.0%}"
     if key.endswith("_ms"):
         return f"{value:.0f}"
     return f"{value:.3f}"
@@ -69,7 +110,8 @@ def main() -> None:
         print(f"no summary.json files under {results_dir}")
         return
 
-    rows.sort(key=lambda r: -r[args.sort])
+    # None sorts last rather than crashing the comparison.
+    rows.sort(key=lambda r: (r[args.sort] is None, -(r[args.sort] or 0)))
     headers = [label for _, label in COLUMNS]
     keys = [key for key, _ in COLUMNS]
 
@@ -86,6 +128,12 @@ def main() -> None:
             print("  ".join(fmt(k, row[k]).ljust(w) for k, w in zip(keys, widths)))
 
     print(f"\n{len(rows)} configurations · sorted by {args.sort}")
+    unmeasured = [r["config"] for r in rows if r["faithfulness"] is None]
+    if unmeasured:
+        print(
+            f"{len(unmeasured)} configuration(s) show -- for generation scores: fewer than "
+            f"{MIN_COVERAGE:.0%} of answers were judged. Run scripts/rejudge.py to fill them in."
+        )
 
 
 if __name__ == "__main__":

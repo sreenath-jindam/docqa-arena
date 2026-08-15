@@ -1,0 +1,644 @@
+{
+ "59e46a62147406f2f1c7570de9d3498fb1490192": {
+  "correctness": "partially-correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer is partially correct because it mentions the typical time frame for card refunds, but it lacks the crucial information that the exact timing is controlled by the issuing bank. The answer is faithful because it only makes claims that are supported by the retrieved context.",
+  "measured": true
+ },
+ "b1b5130ef38413b08e2dcc0ca88fbe999013778e": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the settlement timing of bank debit refunds and card refunds, and all factual claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "7f0c9ee2b069e7dd3d543da2e29bdf779ef41e2b": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, stating that the original processing fee is not returned on either a full or a partial refund. this is supported by the context, which explicitly states that the processing fee is not returned when you refund.",
+  "measured": true
+ },
+ "ed62f64dcf665cefb5b3489658dfe01458bc1ff9": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the expected answer and is supported by the retrieved context, which provides detailed information about refunds, including the behavior of application fees.",
+  "measured": true
+ },
+ "d0a3547fedbe5d7c926e34921ed3069aa00e94f8": {
+  "correctness": "partially-correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer is partially correct because it mentions the combined total not exceeding the original charge amount, but it does not explicitly state that the refunds must be issued separately, which is an important detail. the answer is faithful because it accurately reflects the context, which supports all the claims made in the answer.",
+  "measured": true
+ },
+ "648ec93b4771869d3903de4f229729784fb35732": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer matches the expected answer in substance and every factual claim is supported by the retrieved context below.",
+  "measured": true
+ },
+ "5a9502c05d8fba70ad4fa6b9b69b7c36ade9defa": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer matches the expected answer in substance and every factual claim is supported by the retrieved context, which explains why a charge under dispute cannot be refunded due to the dispute process deciding where the funds go.",
+  "measured": true
+ },
+ "180f057bf9f6c4b6725cb7698beeb2ab21d053b1": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately describes the outcome of refunding more than the available balance, and all factual claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "82c7095c4b4f9fd14c71f6fa1df2b44dbf463e7c": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, specifically the section on webhooks, which explains that refund.updated is the correct webhook to rely on for knowing the money actually reached the customer.",
+  "measured": true
+ },
+ "c021a65a98e3f59d320dfbb0d64ac284f9d41fb7": {
+  "correctness": "partially-correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer is partially correct because it mentions the status of the refund as pending, but it does not mention that the status moves to succeeded or failed once the issuer responds, which is an important part of the expected answer. the generated answer is faithful because it is supported by the retrieved context.",
+  "measured": true
+ },
+ "a490f370823ca6a6eec0144c9806ac10f918ed83": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, which states that attempting to exceed the original charge amount returns a `charge_already_refunded` error.",
+  "measured": true
+ },
+ "75a6430b54d82419699cc374a18191b03a6f0cc3": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately describes the dispute status when it is first created, and the retrieved context supports this claim by mentioning that the Dispute object is created with a status of `needs_response` and an `evidence_details.due_by` timestamp.",
+  "measured": true
+ },
+ "548989896299062a6e13e94f91a5d9da964d9791": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, which states that the issuing bank takes anywhere from 60 to 75 days to reach a decision on a dispute.",
+  "measured": true
+ },
+ "1bd2f2c2a438bd6bc3dfcce65bcc4ec8bd3be8f1": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, which states that the dispute fee is charged when the dispute is created and is not refunded regardless of outcome.",
+  "measured": true
+ },
+ "250e837cfbfd1b1f1c3231a0604d4720ff7a9ffb": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer matches the expected answer in substance and every factual claim is supported by the retrieved context, which describes the process of opening a dispute and the immediate withdrawal of the disputed amount and a separate dispute fee from the balance.",
+  "measured": true
+ },
+ "793e116868863338fbeefdd797fd2b71030655f8": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the expected answer in substance, and all factual claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "5f8355d7f23a504a96ef042e113d40ea1ba08f0d": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, which explicitly states that for a fraudulent dispute, the bank looks at the customer's IP address, billing address match, and any record of prior undisputed purchases from the same customer.",
+  "measured": true
+ },
+ "204344bccefa6d94c9a689d01b5966a23ab45195": {
+  "correctness": "partially-correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer matches the expected answer in substance, but is missing the detail that the disputed amount is not returned when the dispute is lost.",
+  "measured": true
+ },
+ "552ad832607700a3051d562ad6b3fa04cb1d5df6": {
+  "correctness": "partially-correct",
+  "faithfulness": "partially-faithful",
+  "explanation": "the generated answer is partially correct because it states that submission is final, but it is partially faithful because it does not accurately represent the context, which states that the evidence object becomes read-only after submission, and it includes an irrelevant reference to [4]",
+  "measured": true
+ },
+ "354ca8a3d2df7b1eb277a7472328459fce399db7": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately describes the dispute rate threshold and its consequences, and all factual claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "8c85baee3fbed9f554bfc07f7010abfc5499d3b7": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, including the fact that refunds do not count toward the dispute rate and that this is why refunding an early fraud warning is cheaper than fighting the chargeback.",
+  "measured": true
+ },
+ "876d0b5c923575755d2ad6977ae9e61eaabdc4b3": {
+  "correctness": "partially-correct",
+  "faithfulness": "partially-faithful",
+  "explanation": "the generated answer is partially correct because it mentions the correct webhook, but partially faithful because it incorrectly states that the `closed` event carries the final status in its payload, when in fact it is the `charge.dispute.closed` webhook that carries the final status in its payload.",
+  "measured": true
+ },
+ "6cc7b1d4a4061767daad1b1761204614ac86f24a": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately describes the Invoice object and its lifecycle, and all factual claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "861485cc82429edb54dd969bf69bd30c130b5836": {
+  "correctness": "partially-correct",
+  "faithfulness": "partially-faithful",
+  "explanation": "the generated answer is partially correct because it mentions the one hour time frame, but it is partially faithful because it includes a claim about auto_advance that is not supported by the context.",
+  "measured": true
+ },
+ "3c41d16fe7976ce3af38dcc624be57bac6435415": {
+  "correctness": "partially-correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer is partially correct because it misses the hosted payment page, but it is faithful because it only makes claims supported by the context.",
+  "measured": true
+ },
+ "1dc13b1ecbe9976acd20dd261ea59457a7b6a3bf": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, which states that a voided invoice is preserved for records but treated as though it never existed for revenue purposes.",
+  "measured": true
+ },
+ "9ecc44522304f87d0de930ad3780f0ab56d0914f": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately describes how to correct an overcharge on a finalised invoice using a credit note, and all factual claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "88e25f9ab6cb2a53d64e16f318deb90144ad7cbc": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer matches the expected answer in substance and every factual claim is supported by the retrieved context.",
+  "measured": true
+ },
+ "eff1b6654e6400cf7f1a9750c7964769b69a180e": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately describes the proration process for changing a subscription mid-period, and all factual claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "2182faba56a0bd962345ce6e2acff3ecb5ac3c99": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately describes the difference between an unpaid and a canceled subscription, and all factual claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "c3cfae901b008149a27a006584d9a17e4b4c7973": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the retrieved context, specifically the section on trials, which states that a zero-amount invoice is created at the start of a trial to record the billing period.",
+  "measured": true
+ },
+ "e119e4e76c746ff167c3cf04976f14a586462947": {
+  "correctness": "partially-correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer is partially correct because it mentions the typical settlement time of 5-10 business days, but lacks the crucial information that the exact timing is controlled by the issuing bank. the answer is faithful because it only makes claims that are supported by the retrieved context.",
+  "measured": true
+ },
+ "aa6cb3710dd29247d45681b785f1239dff546bbb": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, including the settlement timing for bank debit and card refunds, and the fact that the processing fee is not returned when you refund. The answer also correctly states that refunds cannot be cancelled once created.",
+  "measured": true
+ },
+ "9bfee98dd132551f4c568dda9b7b792d6a3391c3": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, stating that the processing fee is not returned on either a full or a partial refund, which is supported by the context.",
+  "measured": true
+ },
+ "ba0e1deff58b7bb8123e8d06e16b56dcb174a357": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the expected answer in substance, and every factual claim is supported by the retrieved context.",
+  "measured": true
+ },
+ "15233516d1e36f263fbf8169fabddc2e9a7b6bfb": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the retrieved context, stating that multiple partial refunds can be issued as long as their combined total does not exceed the original charge amount.",
+  "measured": true
+ },
+ "b7beb87b9662c2467ba97f3db661666a0dd45c19": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer matches the expected answer in substance and every factual claim is supported by the retrieved context.",
+  "measured": true
+ },
+ "e38e6e9fb91148819cad765d483215127af12191": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the retrieved context, stating that a charge under dispute cannot be refunded due to the dispute process determining where the funds go, and issuing a refund would move the same funds twice.",
+  "measured": true
+ },
+ "5d234b2e9cd9addb7536af5a386902591d1f8211": {
+  "correctness": "partially-correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer is partially correct because it mentions that the refund still proceeds and the balance goes negative, but it lacks information about the settlement timing. the answer is faithful because it is supported by the retrieved context.",
+  "measured": true
+ },
+ "9f9f4cac57604f0f1425ab570a063e048afd3552": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately describes the difference between refund.created and refund.updated webhooks, and explains why refund.updated is preferred for knowing the money actually reached the customer. The answer is supported by the context, which provides detailed information about the refund process and webhooks.",
+  "measured": true
+ },
+ "8f53243d366f99b8d2fefb10dfe0c46fbb5c86ea": {
+  "correctness": "incorrect",
+  "faithfulness": "unfaithful",
+  "explanation": "the generated answer does not match the expected answer in substance, and it also makes a claim that is not supported by the retrieved context.",
+  "measured": true
+ },
+ "74a0dd9b4309f0183e1dea0fe9b92127473a46c9": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, which states that attempting to exceed the original charge amount returns a `charge_already_refunded` error.",
+  "measured": true
+ },
+ "ae063f7ee671659f20a0eea76177e50f30271790": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately describes the dispute status when it is first created, and the retrieved context supports this claim.",
+  "measured": true
+ },
+ "17e109d8a33046f05fad055dc504607d129eb817": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the expected answer and is supported by the retrieved context, which clearly states that the issuing bank takes anywhere from 60 to 75 days to reach a decision on a dispute.",
+  "measured": true
+ },
+ "83ff43e1dd767b4c2213f7ecbabb40b50ba461fe": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, which clearly states that the dispute fee is not returned even on a win.",
+  "measured": true
+ },
+ "ef04aa5d787ab2adad2acd16617932a2ad0d6a7f": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer matches the expected answer in substance and every factual claim is supported by the retrieved context, which accurately describes the process of opening a dispute and the immediate withdrawal of the disputed amount and a separate dispute fee from the balance.",
+  "measured": true
+ },
+ "ca42f06a22a176e22925f3169d55cbda2100b073": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the expected answer in substance and every factual claim is supported by the retrieved context.",
+  "measured": true
+ },
+ "c52a3ea9832b796ccaeee80ee6c6ad1a7fe83b67": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer matches the expected answer in substance and every factual claim is supported by the retrieved context, which explicitly states that for a 'fraudulent' dispute, the bank looks at the customer's IP address, billing address match, and any record of prior undisputed purchases from the same customer.",
+  "measured": true
+ },
+ "e653eb7427baec9cfb549b2056ea872cf98ce3d9": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately describes the consequence of missing the evidence deadline, and all factual claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "12e1b69130af59c1c8743ccfa69878ea2c461bc2": {
+  "correctness": "partially-correct",
+  "faithfulness": "unfaithful",
+  "explanation": "the generated answer does not address the question, but the retrieved context does not contain information about changing evidence after submission, so the answer is partially correct. however, the answer is unfaithful because it does not provide any factual claim supported by the context.",
+  "measured": true
+ },
+ "c64af5e886310f329ec3bb9d3df7cf0d943fe981": {
+  "correctness": "partially-correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer is partially correct because it mentions the network monitoring programme and fines, but it also includes additional information about refunds not counting towards the dispute rate, which is not present in the expected answer. the generated answer is faithful because it only includes factual claims supported by the retrieved context.",
+  "measured": true
+ },
+ "15457b6057f81c62ccc6948557504c1de2d78cc5": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, including the fact that refunds do not count toward the dispute rate and that this is why refunding an early fraud warning is cheaper than fighting the chargeback.",
+  "measured": true
+ },
+ "eb88415259171aeda1acc97d75e928dd6d7ecd5e": {
+  "correctness": "partially-correct",
+  "faithfulness": "partially-faithful",
+  "explanation": "the generated answer is partially correct because it correctly identifies the webhook that carries the final status, but it incorrectly states that the final status is carried in the payload of the `charge.dispute.closed` webhook. the context actually states that the final status is carried in the payload of the `closed` event, which is fired by the `charge.dispute.closed` webhook.",
+  "measured": true
+ },
+ "70ec82f0555ed3f295f71fab4a192dcc9bbb3bd0": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately represents the Invoice object and its purpose, and all factual claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "ece6985fe841ec91a7aef0c86b1a2bdf64463224": {
+  "correctness": "partially-correct",
+  "faithfulness": "partially-faithful",
+  "explanation": "the generated answer is partially correct as it mentions that a draft invoice gets finalised automatically one hour after creation, but it lacks the condition that auto_advance must be set to false. The answer is partially faithful as it references the context, but it does not accurately represent the information provided.",
+  "measured": true
+ },
+ "c53a61d4d4ac2da44050ab066b25c972b2f21e23": {
+  "correctness": "partially-correct",
+  "faithfulness": "partially-faithful",
+  "explanation": "The generated answer is partially correct as it mentions that a finalised invoice is immutable, but it misses other changes such as moving to 'open' and getting a hosted payment page. The answer is partially faithful as it references the context, but it does not accurately represent the context's information about finalisation.",
+  "measured": true
+ },
+ "4c59cd342ade85b39c5e10c3d092f6832d9654d4": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, which states that a voided invoice is treated as though it never existed for revenue purposes.",
+  "measured": true
+ },
+ "562401ade8c907ef2f103db1d7ec4aa5ad15b68e": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately describes how to correct an overcharge on a finalised invoice using a credit note, and all factual claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "225d4a94443e02f2eb7cf19ee0b3e67e1d9a556c": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer matches the expected answer in substance and every factual claim is supported by the retrieved context.",
+  "measured": true
+ },
+ "826cc4f38e6bfdbb5f79b9eb838b00007c317299": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately describes the proration process for changing a subscription mid-period, and all factual claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "2b05969b96d3a880447b7022d7ee9b7b9b8c3c66": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately describes the difference between an unpaid and a canceled subscription, and all factual claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "8742bbc941a95eb7a4148662e9f7b563f60f4dfa": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the retrieved context, which states that a zero-amount invoice is created at the start of a trial to record the billing period.",
+  "measured": true
+ },
+ "1289a3d14a5c40b7af41458525c98201112408fd": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer matches the expected answer in substance and every factual claim is supported by the retrieved context below.",
+  "measured": true
+ },
+ "682eda64c704370bd90acc5ef98b67771b728301": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, explaining that refunds do not count toward the dispute rate, which is why refunding an early fraud warning is almost always cheaper than fighting the resulting chargeback.",
+  "measured": true
+ },
+ "4d490de223bd9afc74ed6047ba1cfe7b74f5db34": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately represents the invoice object and its purpose, and all factual claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "8f508bb1f1bef5dfedaf0242c1cd63f720e3ee2a": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately describes the difference between an unpaid and a canceled subscription, and all factual claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "10e8a4521fe0982ac1a82aa73d018c6745b85ae3": {
+  "correctness": "partially-correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer is partially correct because it does not mention the issuing bank controlling the exact timing, but it is faithful because it only makes claims supported by the context",
+  "measured": true
+ },
+ "9f79ac324daf79885b716efe3020a02b8b38ab31": {
+  "correctness": "partially-correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer correctly states that bank debit refunds settle more slowly than card refunds, but incorrectly states that card refunds typically take five to ten business days to settle. The context supports the claim that bank debit refunds settle more slowly, but does not provide information on the typical settlement time for card refunds.",
+  "measured": true
+ },
+ "1d9c9bebd54f1f53db7a0d8d9a00e9c9b807aade": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, stating that the processing fee is not returned on either a full or a partial refund, which is consistent with the retrieved context.",
+  "measured": true
+ },
+ "d0b870a73cc10e4df5ab1f391bb8a69ed320df7a": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the expected answer and is supported by the retrieved context, which provides detailed information about application fees, refunds, and dispute fees.",
+  "measured": true
+ },
+ "ab6c8e661b0d4a0209308164da9856304f6a163c": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, including the requirement that the combined total of partial refunds does not exceed the original charge amount.",
+  "measured": true
+ },
+ "7241ccde2dbddea00dd773a50022bb48fdb93595": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, stating that a charge under dispute cannot be refunded due to the dispute process determining where the funds go.",
+  "measured": true
+ },
+ "46fbf1c68e55922f3bdf1975d1a4d853ba937e32": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately describes the outcome of refunding more than the available balance, and all factual claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "9280cf20fa9be05a59ec525b3448accfffaafdf8": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, stating that refund.updated is the correct webhook to rely on for knowing the money actually reached the customer, which is supported by the context.",
+  "measured": true
+ },
+ "0598485eaa4e445590e909f07a72f48ebff81535": {
+  "correctness": "partially-correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer is partially correct because it only mentions the status of the refund as pending, but does not mention that it moves to succeeded or failed once the issuer responds. the answer is faithful because it is supported by the retrieved context.",
+  "measured": true
+ },
+ "e4ea16d4f4d9021a64f253823a5b791d87b5ed14": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately describes the error that comes back when refunding more than the charge amount, and all claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "42827480dd782628de5904d21f66844107938dad": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer matches the expected answer in substance and every factual claim is supported by the retrieved context.",
+  "measured": true
+ },
+ "ffd4ea68ae8f2a22b1bfcd3a86859cb5d28c1472": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, including the timeframe of 60 to 75 days for the issuing bank to reach a decision.",
+  "measured": true
+ },
+ "0b935d999bc69b7635d6613e04b2e6d45190c466": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, stating that the dispute fee is not returned even on a win, and the context supports this claim with a clear explanation of the dispute lifecycle.",
+  "measured": true
+ },
+ "650b658c39232c75c62f122e1b2aa97fb7860841": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer matches the expected answer in substance and every factual claim is supported by the retrieved context.",
+  "measured": true
+ },
+ "35a301e1ec36fa95444d282814ad254576e015ab": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer matches the expected answer in substance and every factual claim is supported by the retrieved context.",
+  "measured": true
+ },
+ "ffbd3a8771ac38f8590e7d0a21db3859a91446b5": {
+  "correctness": "partially-correct",
+  "faithfulness": "faithful",
+  "explanation": "The generated answer is partially correct because it misses the word 'undisputed' in 'prior undisputed purchases'. The answer is faithful because it only makes claims supported by the context.",
+  "measured": true
+ },
+ "9cf4dd09e8e4162413a9273bd55abf6ccdb70b75": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately describes the consequence of missing the evidence deadline, and all factual claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "0d02b5d460f983215eab0047f34357dadfabcffd": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "The generated answer accurately reflects the expected answer, and all claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "8546e78e52b3c87df3326a7d86254d3c29bb5c8b": {
+  "correctness": "partially-correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer is partially correct because it mentions the network monitoring programme, but it lacks the information about the monthly fines. the answer is faithful because it accurately reflects the context, which supports the claim about exceeding one percent putting an account into a network monitoring programme.",
+  "measured": true
+ },
+ "d7e6f87b702d599c2f73ca8c5b421e13e499013d": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "The generated answer accurately explains why refunding an early fraud warning is cheaper than fighting the chargeback, citing the avoidance of the dispute fee and the impact on the dispute rate. The explanation is supported by the retrieved context, which provides detailed information on dispute rates, fees, and refund timing.",
+  "measured": true
+ },
+ "95b0ccdaa72da08404f2c63200a02b297225117a": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately describes the final dispute outcome webhook as `charge.dispute.closed`, which is supported by the context that it fires on the final decision and carries the final status in its payload.",
+  "measured": true
+ },
+ "6b61182c472d246dfd544ad8f8591cb2514d88ec": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately describes the Invoice object and its purpose, and all factual claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "95c99d0b3770c47e8a34c27f618e2f951b6c7337": {
+  "correctness": "partially-correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer is partially correct because it mentions that auto_advance can be set to false, but it does not fully explain the automatic finalisation process. the answer is faithful because it only makes claims that are supported by the retrieved context.",
+  "measured": true
+ },
+ "1be24372a319dc47e1bfef06c2b42356d985299c": {
+  "correctness": "partially-correct",
+  "faithfulness": "partially-faithful",
+  "explanation": "the generated answer is partially correct as it mentions the invoice moving to open and freezing its line items, but it misses the hosted payment page. the answer is partially faithful as it mentions the invoice being finalised, but it does not provide a complete explanation of the process.",
+  "measured": true
+ },
+ "9d549992f666a0925bedaf15218850e27241e586": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, which states that a voided invoice is preserved for records but treated as though it never existed for revenue purposes.",
+  "measured": true
+ },
+ "96f709ad73bca3d45a8c36ab003deffaa29bedd9": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately describes how to correct an overcharge on a finalised invoice, and all factual claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "aaf4abea1055b2357fe8c228e3a81b2739594573": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer matches the expected answer in substance and every factual claim is supported by the retrieved context.",
+  "measured": true
+ },
+ "6015b53442752f4b9e39c2d5c69ce69b7e31266e": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately describes the proration process for changing a subscription mid-period, and all claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "ecac1444d476b72f2430f190004f077d0f699358": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately describes the difference between an unpaid and a canceled subscription, and all claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "bad039790988db75f491cded55d0ce09bcf1c25e": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, which states that a zero-amount invoice is created at the start of a trial to record the billing period.",
+  "measured": true
+ },
+ "5332a049d78eca1415ca8fa798023eae71dfa153": {
+  "correctness": "partially-correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer is partially correct because it does not mention the issuing bank controlling the exact timing, but it is faithful because it only makes claims supported by the context",
+  "measured": true
+ },
+ "da92ece18cfc6ecc36a7ed678ad733ec14915ca6": {
+  "correctness": "partially-correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer is partially correct because it correctly states that bank debit refunds are slower, but incorrectly states that card refunds take five to ten business days to settle. The answer is faithful because it is supported by the retrieved context.",
+  "measured": true
+ },
+ "96591efcaa0d930eb5f650b27d3d2be600f10e9e": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, which states that the original processing fee is not returned on either a full or a partial refund.",
+  "measured": true
+ },
+ "989f2bf12e0aff0fd0f782de9a183b8109654453": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, including the specific condition for not refunding the application fee.",
+  "measured": true
+ },
+ "921a62f7a5641e66f7baef63c8b306bfce04768b": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, including the requirement that the combined total of partial refunds does not exceed the original charge amount, and all factual claims are supported by the context.",
+  "measured": true
+ },
+ "5b5a52710a5401b57e63d84166dfd1c97cfe0d9c": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer matches the expected answer in substance and every factual claim is supported by the retrieved context.",
+  "measured": true
+ },
+ "495171429108d0af0ef3904a1159122baa6a83c8": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer matches the expected answer in substance and every factual claim is supported by the retrieved context, specifically the section '## Refunds on disputed charges'",
+  "measured": true
+ },
+ "e15af93a9e67be8c2379629a1246e08e4eea07f7": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately describes the outcome of refunding more than the available balance, and all factual claims are supported by the retrieved context.",
+  "measured": true
+ },
+ "b8905bc64514075395800eadde138467248a3f71": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, stating that refund.updated is the correct webhook to use when the application needs to know the money actually reached the customer, which is supported by the context.",
+  "measured": true
+ },
+ "823afa3da20937d6a5ace46694e5ad2d44e5776f": {
+  "correctness": "incorrect",
+  "faithfulness": "unfaithful",
+  "explanation": "the generated answer does not match the expected answer in substance, and it contains a claim that is not supported by the retrieved context",
+  "measured": true
+ },
+ "5e47969064cd3b02e32c4f3b9988f1b23139c903": {
+  "correctness": "correct",
+  "faithfulness": "faithful",
+  "explanation": "the generated answer accurately reflects the context, which states that attempting to exceed the original charge amount returns a `charge_already_refunded` error.",
+  "measured": true
+ }
+}

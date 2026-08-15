@@ -22,9 +22,51 @@ from __future__ import annotations
 import json
 import os
 import re
+import time
 from abc import ABC, abstractmethod
 
 from src.types import JudgeResult, RetrievalResult
+
+
+class JudgeUnavailable(Exception):
+    """The judge could not score this item — quota, network, or a bad response.
+
+    Distinct from a low score on purpose. "The answer was unfaithful" and "we
+    could not measure faithfulness" are different facts, and collapsing them
+    into 0.0 is exactly the mistake this project exists to avoid.
+    """
+
+
+def _call_with_backoff(fn, attempts: int = 5, base_delay: float = 2.0):
+    """Retry a judge call through transient rate limits.
+
+    Per-minute limits clear on their own, so backing off works. Per-day limits
+    do not, so a 429 mentioning TPD gives up immediately rather than sleeping
+    through a quota that will not reset for hours.
+    """
+    last: Exception | None = None
+    for attempt in range(attempts):
+        try:
+            return fn()
+        except Exception as exc:  # noqa: BLE001 - provider SDKs vary
+            last = exc
+            message = str(exc)
+            if "429" not in message and "rate_limit" not in message.lower():
+                raise JudgeUnavailable(message) from exc
+            if "TPD" in message or "per day" in message.lower():
+                raise JudgeUnavailable(f"daily quota exhausted: {message[:200]}") from exc
+            wait = _retry_after(message) or base_delay * (2 ** attempt)
+            time.sleep(min(wait, 60.0))
+    raise JudgeUnavailable(f"rate limited after {attempts} attempts: {str(last)[:200]}")
+
+
+def _retry_after(message: str) -> float | None:
+    """Providers usually say how long to wait; believe them over a guess."""
+    match = re.search(r"try again in ([0-9.]+)m([0-9.]+)s", message)
+    if match:
+        return float(match.group(1)) * 60 + float(match.group(2))
+    match = re.search(r"try again in ([0-9.]+)s", message)
+    return float(match.group(1)) + 0.5 if match else None
 
 JUDGE_SYSTEM = """You are an expert RAG evaluation judge.
 
@@ -77,11 +119,13 @@ class LLMJudge(Judge):
             f"Generated answer:\n{generated}\n\n"
             f"Retrieved context:\n{context_text}"
         )
-        response = self.client.chat.completions.create(
-            model=self.model,
-            messages=[{"role": "system", "content": JUDGE_SYSTEM}, {"role": "user", "content": user}],
-            temperature=0.0,
-            max_tokens=300,
+        response = _call_with_backoff(
+            lambda: self.client.chat.completions.create(
+                model=self.model,
+                messages=[{"role": "system", "content": JUDGE_SYSTEM}, {"role": "user", "content": user}],
+                temperature=0.0,
+                max_tokens=300,
+            )
         )
         return _parse_judge(response.choices[0].message.content or "")
 
@@ -126,8 +170,10 @@ class RagasJudge(Judge):
             reference=expected,
             retrieved_contexts=[r.content for r in context],
         )
-        faith = Faithfulness(llm=self.llm).single_turn_score(sample)
-        corr = AnswerCorrectness(llm=self.llm, embeddings=self.embeddings).single_turn_score(sample)
+        faith = _call_with_backoff(lambda: Faithfulness(llm=self.llm).single_turn_score(sample))
+        corr = _call_with_backoff(
+            lambda: AnswerCorrectness(llm=self.llm, embeddings=self.embeddings).single_turn_score(sample)
+        )
         return JudgeResult(
             correctness=_bucket(corr, ("incorrect", "partially-correct", "correct")),
             faithfulness=_bucket(faith, ("unfaithful", "partially-faithful", "faithful")),
@@ -167,11 +213,11 @@ def _parse_judge(raw: str) -> JudgeResult:
     text = re.sub(r"^```(?:json)?|```$", "", text, flags=re.MULTILINE).strip()
     match = re.search(r"\{.*\}", text, flags=re.DOTALL)
     if not match:
-        return JudgeResult("incorrect", "unfaithful", f"unparseable judge output: {raw[:200]}")
+        raise JudgeUnavailable(f"unparseable judge output: {raw[:200]}")
     try:
         data = json.loads(match.group(0))
-    except json.JSONDecodeError:
-        return JudgeResult("incorrect", "unfaithful", f"invalid JSON from judge: {raw[:200]}")
+    except json.JSONDecodeError as exc:
+        raise JudgeUnavailable(f"invalid JSON from judge: {raw[:200]}") from exc
 
     correctness = str(data.get("correctness", "incorrect")).lower().strip()
     faithfulness = str(data.get("faithfulness", "unfaithful")).lower().strip()

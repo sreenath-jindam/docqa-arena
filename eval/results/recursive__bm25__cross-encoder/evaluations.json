@@ -1,0 +1,2906 @@
+[
+  {
+    "id": "refund-settlement-time",
+    "query": "How long does a card refund take to reach the customer?",
+    "query_type": "factual",
+    "expected_answer": "Card refunds usually settle in five to ten business days, and the issuing bank controls the exact timing.",
+    "generated_answer": "Card refunds typically take five to ten business days to settle. [1]",
+    "retrieval": {
+      "example_id": "refund-settlement-time",
+      "query": "How long does a card refund take to reach the customer?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "60427fbf98615483",
+        "e5de82ceefd870c6",
+        "711676881f669054",
+        "ecda609ff4ce8fd8",
+        "92738e438714c204"
+      ],
+      "relevant_chunk_ids": [
+        "60427fbf98615483"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.93896699945617,
+      "rerank_latency_ms": 5270.440690000214
+    },
+    "judge": {
+      "correctness": "partially-correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer is partially correct because it does not mention the issuing bank controlling the exact timing, but it is faithful because it only makes claims supported by the context",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 795,
+      "completion_tokens": 16,
+      "total_tokens": 811,
+      "latency_ms": 3365.9579420000227
+    },
+    "passages": [
+      {
+        "chunk_id": "60427fbf98615483",
+        "document_id": "refunds.md",
+        "content": "## Settlement timing\n\nA refund is submitted to the customer's bank immediately, but the funds do not appear on their statement right away. Card refunds typically take five to ten business days to settle, and the exact timing is controlled by the issuing bank rather than by us. Bank debit refunds settle more slowly, usually within ten to fifteen business days.\n\nDuring this window the Refund object has a status of `pending`. It moves to `succeeded` once the issuer confirms the credit, or to `failed` if the issuer rejects it \u2014 most commonly because the customer's card was closed between the charge and the refund.\n\n",
+        "char_start": 735,
+        "char_end": 1354,
+        "rank": 1,
+        "score": 0.9678429961204529,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "e5de82ceefd870c6",
+        "document_id": "refunds.md",
+        "content": "## Refunds and negative balances\n\nIf your available balance is lower than the refund amount, the refund still proceeds and your balance goes negative. A negative balance is settled by your next incoming payments, or by a debit from your bank account if no payments arrive within seven days.\n\n## Refunds on disputed charges\n\nA charge that is under dispute cannot be refunded. The dispute process determines where the money goes, and issuing a refund on top of it would move the same funds twice. Withdraw the dispute response first, or wait for the dispute to close.\n\n",
+        "char_start": 1875,
+        "char_end": 2442,
+        "rank": 2,
+        "score": 0.13285571336746216,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "711676881f669054",
+        "document_id": "disputes.md",
+        "content": "## The dispute lifecycle\n\nWhen a dispute is opened, the disputed amount and a separate dispute fee are immediately withdrawn from your balance. The Dispute object is created with a status of `needs_response` and an `evidence_details.due_by` timestamp.\n\nSubmitting evidence moves the dispute to `under_review`. The issuing bank then takes anywhere from 60 to 75 days to reach a decision. A dispute you win moves to `won` and the disputed amount is returned to your balance; the dispute fee is not returned. A dispute you lose moves to `lost` and nothing is returned.\n\nIf you do not respond before the due date, the dispute closes automatically in the cardholder's favour and moves to `lost`.\n\n",
+        "char_start": 261,
+        "char_end": 953,
+        "rank": 3,
+        "score": 0.019835546612739563,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "ecda609ff4ce8fd8",
+        "document_id": "refunds.md",
+        "content": "# Refunds\n\nA refund returns money from your account balance to a customer who was previously charged. Refunds are created against a specific charge and can never exceed the amount of that charge.\n\n## Creating a refund\n\nTo refund a charge in full, create a Refund object with only the charge identifier. To refund part of a charge, pass an `amount` in the smallest currency unit \u2014 1250 for $12.50. You may issue multiple partial refunds against the same charge as long as their combined total does not exceed the original charge amount. Attempting to exceed it returns a `charge_already_refunded` error.\n\nA refund cannot be cancelled once it has been created. If you refund by mistake, the only remedy is to charge the customer again.\n\n",
+        "char_start": 0,
+        "char_end": 735,
+        "rank": 4,
+        "score": 0.016000421717762947,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "92738e438714c204",
+        "document_id": "refunds.md",
+        "content": "## Webhooks\n\nTwo events are emitted for every refund. `refund.created` fires when the refund is submitted, and `refund.updated` fires when its status changes \u2014 most importantly on the transition from `pending` to `succeeded` or `failed`. Rely on `refund.updated`, not `refund.created`, if your application needs to know the money actually reached the customer.\n",
+        "char_start": 2442,
+        "char_end": 2803,
+        "rank": 5,
+        "score": 0.015522795729339123,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "refund-bank-debit-time",
+    "query": "How long do bank debit refunds take compared to card refunds?",
+    "query_type": "factual",
+    "expected_answer": "Bank debit refunds are slower, usually ten to fifteen business days.",
+    "generated_answer": "Bank debit refunds settle more slowly, usually within ten to fifteen business days, compared to card refunds which typically take five to ten business days to settle [1].",
+    "retrieval": {
+      "example_id": "refund-bank-debit-time",
+      "query": "How long do bank debit refunds take compared to card refunds?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "60427fbf98615483",
+        "e5de82ceefd870c6",
+        "711676881f669054",
+        "ecda609ff4ce8fd8",
+        "433242e10c4b5ea6"
+      ],
+      "relevant_chunk_ids": [
+        "60427fbf98615483"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.09165300070890225,
+      "rerank_latency_ms": 423.96264699982567
+    },
+    "judge": {
+      "correctness": "partially-correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer correctly states that bank debit refunds settle more slowly than card refunds, but incorrectly states that card refunds typically take five to ten business days to settle. The context supports the claim that bank debit refunds settle more slowly, but does not provide information on the typical settlement time for card refunds.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 852,
+      "completion_tokens": 33,
+      "total_tokens": 885,
+      "latency_ms": 7311.4646049998555
+    },
+    "passages": [
+      {
+        "chunk_id": "60427fbf98615483",
+        "document_id": "refunds.md",
+        "content": "## Settlement timing\n\nA refund is submitted to the customer's bank immediately, but the funds do not appear on their statement right away. Card refunds typically take five to ten business days to settle, and the exact timing is controlled by the issuing bank rather than by us. Bank debit refunds settle more slowly, usually within ten to fifteen business days.\n\nDuring this window the Refund object has a status of `pending`. It moves to `succeeded` once the issuer confirms the credit, or to `failed` if the issuer rejects it \u2014 most commonly because the customer's card was closed between the charge and the refund.\n\n",
+        "char_start": 735,
+        "char_end": 1354,
+        "rank": 1,
+        "score": 0.9893163442611694,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "e5de82ceefd870c6",
+        "document_id": "refunds.md",
+        "content": "## Refunds and negative balances\n\nIf your available balance is lower than the refund amount, the refund still proceeds and your balance goes negative. A negative balance is settled by your next incoming payments, or by a debit from your bank account if no payments arrive within seven days.\n\n## Refunds on disputed charges\n\nA charge that is under dispute cannot be refunded. The dispute process determines where the money goes, and issuing a refund on top of it would move the same funds twice. Withdraw the dispute response first, or wait for the dispute to close.\n\n",
+        "char_start": 1875,
+        "char_end": 2442,
+        "rank": 2,
+        "score": 0.12138526141643524,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "711676881f669054",
+        "document_id": "disputes.md",
+        "content": "## The dispute lifecycle\n\nWhen a dispute is opened, the disputed amount and a separate dispute fee are immediately withdrawn from your balance. The Dispute object is created with a status of `needs_response` and an `evidence_details.due_by` timestamp.\n\nSubmitting evidence moves the dispute to `under_review`. The issuing bank then takes anywhere from 60 to 75 days to reach a decision. A dispute you win moves to `won` and the disputed amount is returned to your balance; the dispute fee is not returned. A dispute you lose moves to `lost` and nothing is returned.\n\nIf you do not respond before the due date, the dispute closes automatically in the cardholder's favour and moves to `lost`.\n\n",
+        "char_start": 261,
+        "char_end": 953,
+        "rank": 3,
+        "score": 0.0044536045752465725,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "ecda609ff4ce8fd8",
+        "document_id": "refunds.md",
+        "content": "# Refunds\n\nA refund returns money from your account balance to a customer who was previously charged. Refunds are created against a specific charge and can never exceed the amount of that charge.\n\n## Creating a refund\n\nTo refund a charge in full, create a Refund object with only the charge identifier. To refund part of a charge, pass an `amount` in the smallest currency unit \u2014 1250 for $12.50. You may issue multiple partial refunds against the same charge as long as their combined total does not exceed the original charge amount. Attempting to exceed it returns a `charge_already_refunded` error.\n\nA refund cannot be cancelled once it has been created. If you refund by mistake, the only remedy is to charge the customer again.\n\n",
+        "char_start": 0,
+        "char_end": 735,
+        "rank": 4,
+        "score": 0.0031548459082841873,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "433242e10c4b5ea6",
+        "document_id": "disputes.md",
+        "content": "## Dispute rate\n\nCard networks monitor the ratio of disputes to total charges. Exceeding roughly one percent puts an account into a network monitoring programme, which carries monthly fines and can eventually result in the account losing card acceptance. Refunds do not count toward the dispute rate, which is why refunding an early fraud warning is almost always cheaper than fighting the resulting chargeback.\n\n## Webhooks\n\n`charge.dispute.created` fires when the dispute opens, `charge.dispute.updated` fires when evidence is submitted or the status changes, and `charge.dispute.closed` fires on the final decision. The `closed` event carries the final status in its payload.\n",
+        "char_start": 2245,
+        "char_end": 2924,
+        "rank": 5,
+        "score": 0.0027993132825940847,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "refund-fee-not-returned",
+    "query": "Do I get the processing fee back when I refund a charge?",
+    "query_type": "factual",
+    "expected_answer": "No. The original processing fee is not returned on either a full or a partial refund.",
+    "generated_answer": "No, the processing fee is not returned when you refund a charge. This is true for both full and partial refunds. [1]",
+    "retrieval": {
+      "example_id": "refund-fee-not-returned",
+      "query": "Do I get the processing fee back when I refund a charge?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "f41eaf437f7837b8",
+        "ecda609ff4ce8fd8",
+        "5f16a0cf73d4f327",
+        "e5de82ceefd870c6",
+        "60427fbf98615483"
+      ],
+      "relevant_chunk_ids": [
+        "f41eaf437f7837b8"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.13164299980417127,
+      "rerank_latency_ms": 533.4530519994587
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately reflects the context, stating that the processing fee is not returned on either a full or a partial refund, which is consistent with the retrieved context.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 807,
+      "completion_tokens": 28,
+      "total_tokens": 835,
+      "latency_ms": 7302.870401999826
+    },
+    "passages": [
+      {
+        "chunk_id": "f41eaf437f7837b8",
+        "document_id": "refunds.md",
+        "content": "## Fees\n\nThe processing fee from the original charge is not returned when you refund. This is true for both full and partial refunds. For a $100 charge with a $3.20 fee, a full refund returns $100 to the customer and leaves your balance $3.20 lower than before the charge existed.\n\nApplication fees behave differently. When a charge that carried an application fee is refunded, the application fee is refunded proportionally and automatically, unless you set `refund_application_fee` to false at the time of the refund.\n\n",
+        "char_start": 1354,
+        "char_end": 1875,
+        "rank": 1,
+        "score": 0.9977439641952515,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "ecda609ff4ce8fd8",
+        "document_id": "refunds.md",
+        "content": "# Refunds\n\nA refund returns money from your account balance to a customer who was previously charged. Refunds are created against a specific charge and can never exceed the amount of that charge.\n\n## Creating a refund\n\nTo refund a charge in full, create a Refund object with only the charge identifier. To refund part of a charge, pass an `amount` in the smallest currency unit \u2014 1250 for $12.50. You may issue multiple partial refunds against the same charge as long as their combined total does not exceed the original charge amount. Attempting to exceed it returns a `charge_already_refunded` error.\n\nA refund cannot be cancelled once it has been created. If you refund by mistake, the only remedy is to charge the customer again.\n\n",
+        "char_start": 0,
+        "char_end": 735,
+        "rank": 2,
+        "score": 0.3207223117351532,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "5f16a0cf73d4f327",
+        "document_id": "disputes.md",
+        "content": "## Dispute fees\n\nThe dispute fee is charged the moment the dispute is created and is not refunded regardless of outcome. This is a bank cost, not a service charge, and it applies even to disputes you win. The fee amount varies by country and currency.\n\n## Early fraud warnings\n\nSome card networks send a fraud signal before a formal dispute is filed. An early fraud warning indicates the issuer has flagged the charge as fraudulent but the cardholder has not yet filed a chargeback. Refunding the charge at this stage usually prevents the dispute from being filed at all, which avoids the dispute fee and keeps the charge off your dispute rate.\n\n",
+        "char_start": 1599,
+        "char_end": 2245,
+        "rank": 3,
+        "score": 0.051938097923994064,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "e5de82ceefd870c6",
+        "document_id": "refunds.md",
+        "content": "## Refunds and negative balances\n\nIf your available balance is lower than the refund amount, the refund still proceeds and your balance goes negative. A negative balance is settled by your next incoming payments, or by a debit from your bank account if no payments arrive within seven days.\n\n## Refunds on disputed charges\n\nA charge that is under dispute cannot be refunded. The dispute process determines where the money goes, and issuing a refund on top of it would move the same funds twice. Withdraw the dispute response first, or wait for the dispute to close.\n\n",
+        "char_start": 1875,
+        "char_end": 2442,
+        "rank": 4,
+        "score": 0.01962324231863022,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "60427fbf98615483",
+        "document_id": "refunds.md",
+        "content": "## Settlement timing\n\nA refund is submitted to the customer's bank immediately, but the funds do not appear on their statement right away. Card refunds typically take five to ten business days to settle, and the exact timing is controlled by the issuing bank rather than by us. Bank debit refunds settle more slowly, usually within ten to fifteen business days.\n\nDuring this window the Refund object has a status of `pending`. It moves to `succeeded` once the issuer confirms the credit, or to `failed` if the issuer rejects it \u2014 most commonly because the customer's card was closed between the charge and the refund.\n\n",
+        "char_start": 735,
+        "char_end": 1354,
+        "rank": 5,
+        "score": 0.01670916937291622,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "refund-application-fee",
+    "query": "What happens to an application fee when the charge is refunded?",
+    "query_type": "semantic",
+    "expected_answer": "It is refunded proportionally and automatically unless refund_application_fee is set to false.",
+    "generated_answer": "When a charge that carried an application fee is refunded, the application fee is refunded proportionally and automatically, unless you set `refund_application_fee` to false at the time of the refund. [1]",
+    "retrieval": {
+      "example_id": "refund-application-fee",
+      "query": "What happens to an application fee when the charge is refunded?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "f41eaf437f7837b8",
+        "ecda609ff4ce8fd8",
+        "5f16a0cf73d4f327",
+        "e5de82ceefd870c6",
+        "60427fbf98615483"
+      ],
+      "relevant_chunk_ids": [
+        "f41eaf437f7837b8"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.09340499946119962,
+      "rerank_latency_ms": 528.2594689997495
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately reflects the expected answer and is supported by the retrieved context, which provides detailed information about application fees, refunds, and dispute fees.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 806,
+      "completion_tokens": 42,
+      "total_tokens": 848,
+      "latency_ms": 8310.977423000622
+    },
+    "passages": [
+      {
+        "chunk_id": "f41eaf437f7837b8",
+        "document_id": "refunds.md",
+        "content": "## Fees\n\nThe processing fee from the original charge is not returned when you refund. This is true for both full and partial refunds. For a $100 charge with a $3.20 fee, a full refund returns $100 to the customer and leaves your balance $3.20 lower than before the charge existed.\n\nApplication fees behave differently. When a charge that carried an application fee is refunded, the application fee is refunded proportionally and automatically, unless you set `refund_application_fee` to false at the time of the refund.\n\n",
+        "char_start": 1354,
+        "char_end": 1875,
+        "rank": 1,
+        "score": 0.9955927729606628,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "ecda609ff4ce8fd8",
+        "document_id": "refunds.md",
+        "content": "# Refunds\n\nA refund returns money from your account balance to a customer who was previously charged. Refunds are created against a specific charge and can never exceed the amount of that charge.\n\n## Creating a refund\n\nTo refund a charge in full, create a Refund object with only the charge identifier. To refund part of a charge, pass an `amount` in the smallest currency unit \u2014 1250 for $12.50. You may issue multiple partial refunds against the same charge as long as their combined total does not exceed the original charge amount. Attempting to exceed it returns a `charge_already_refunded` error.\n\nA refund cannot be cancelled once it has been created. If you refund by mistake, the only remedy is to charge the customer again.\n\n",
+        "char_start": 0,
+        "char_end": 735,
+        "rank": 2,
+        "score": 0.21678847074508667,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "5f16a0cf73d4f327",
+        "document_id": "disputes.md",
+        "content": "## Dispute fees\n\nThe dispute fee is charged the moment the dispute is created and is not refunded regardless of outcome. This is a bank cost, not a service charge, and it applies even to disputes you win. The fee amount varies by country and currency.\n\n## Early fraud warnings\n\nSome card networks send a fraud signal before a formal dispute is filed. An early fraud warning indicates the issuer has flagged the charge as fraudulent but the cardholder has not yet filed a chargeback. Refunding the charge at this stage usually prevents the dispute from being filed at all, which avoids the dispute fee and keeps the charge off your dispute rate.\n\n",
+        "char_start": 1599,
+        "char_end": 2245,
+        "rank": 3,
+        "score": 0.0956556499004364,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "e5de82ceefd870c6",
+        "document_id": "refunds.md",
+        "content": "## Refunds and negative balances\n\nIf your available balance is lower than the refund amount, the refund still proceeds and your balance goes negative. A negative balance is settled by your next incoming payments, or by a debit from your bank account if no payments arrive within seven days.\n\n## Refunds on disputed charges\n\nA charge that is under dispute cannot be refunded. The dispute process determines where the money goes, and issuing a refund on top of it would move the same funds twice. Withdraw the dispute response first, or wait for the dispute to close.\n\n",
+        "char_start": 1875,
+        "char_end": 2442,
+        "rank": 4,
+        "score": 0.034060705453157425,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "60427fbf98615483",
+        "document_id": "refunds.md",
+        "content": "## Settlement timing\n\nA refund is submitted to the customer's bank immediately, but the funds do not appear on their statement right away. Card refunds typically take five to ten business days to settle, and the exact timing is controlled by the issuing bank rather than by us. Bank debit refunds settle more slowly, usually within ten to fifteen business days.\n\nDuring this window the Refund object has a status of `pending`. It moves to `succeeded` once the issuer confirms the credit, or to `failed` if the issuer rejects it \u2014 most commonly because the customer's card was closed between the charge and the refund.\n\n",
+        "char_start": 735,
+        "char_end": 1354,
+        "rank": 5,
+        "score": 0.023231204599142075,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "refund-multiple-partial",
+    "query": "Can I issue more than one partial refund on the same charge?",
+    "query_type": "factual",
+    "expected_answer": "Yes, as long as the partial refunds together do not exceed the original charge amount.",
+    "generated_answer": "Yes, you may issue multiple partial refunds against the same charge as long as their combined total does not exceed the original charge amount. [1]",
+    "retrieval": {
+      "example_id": "refund-multiple-partial",
+      "query": "Can I issue more than one partial refund on the same charge?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "ecda609ff4ce8fd8",
+        "e5de82ceefd870c6",
+        "f41eaf437f7837b8",
+        "60427fbf98615483",
+        "433242e10c4b5ea6"
+      ],
+      "relevant_chunk_ids": [
+        "ecda609ff4ce8fd8"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.11893200007762061,
+      "rerank_latency_ms": 513.8784380005745
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately reflects the context, including the requirement that the combined total of partial refunds does not exceed the original charge amount.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 813,
+      "completion_tokens": 30,
+      "total_tokens": 843,
+      "latency_ms": 8297.242017999451
+    },
+    "passages": [
+      {
+        "chunk_id": "ecda609ff4ce8fd8",
+        "document_id": "refunds.md",
+        "content": "# Refunds\n\nA refund returns money from your account balance to a customer who was previously charged. Refunds are created against a specific charge and can never exceed the amount of that charge.\n\n## Creating a refund\n\nTo refund a charge in full, create a Refund object with only the charge identifier. To refund part of a charge, pass an `amount` in the smallest currency unit \u2014 1250 for $12.50. You may issue multiple partial refunds against the same charge as long as their combined total does not exceed the original charge amount. Attempting to exceed it returns a `charge_already_refunded` error.\n\nA refund cannot be cancelled once it has been created. If you refund by mistake, the only remedy is to charge the customer again.\n\n",
+        "char_start": 0,
+        "char_end": 735,
+        "rank": 1,
+        "score": 0.991734504699707,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "e5de82ceefd870c6",
+        "document_id": "refunds.md",
+        "content": "## Refunds and negative balances\n\nIf your available balance is lower than the refund amount, the refund still proceeds and your balance goes negative. A negative balance is settled by your next incoming payments, or by a debit from your bank account if no payments arrive within seven days.\n\n## Refunds on disputed charges\n\nA charge that is under dispute cannot be refunded. The dispute process determines where the money goes, and issuing a refund on top of it would move the same funds twice. Withdraw the dispute response first, or wait for the dispute to close.\n\n",
+        "char_start": 1875,
+        "char_end": 2442,
+        "rank": 2,
+        "score": 0.22043852508068085,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "f41eaf437f7837b8",
+        "document_id": "refunds.md",
+        "content": "## Fees\n\nThe processing fee from the original charge is not returned when you refund. This is true for both full and partial refunds. For a $100 charge with a $3.20 fee, a full refund returns $100 to the customer and leaves your balance $3.20 lower than before the charge existed.\n\nApplication fees behave differently. When a charge that carried an application fee is refunded, the application fee is refunded proportionally and automatically, unless you set `refund_application_fee` to false at the time of the refund.\n\n",
+        "char_start": 1354,
+        "char_end": 1875,
+        "rank": 3,
+        "score": 0.05917493253946304,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "60427fbf98615483",
+        "document_id": "refunds.md",
+        "content": "## Settlement timing\n\nA refund is submitted to the customer's bank immediately, but the funds do not appear on their statement right away. Card refunds typically take five to ten business days to settle, and the exact timing is controlled by the issuing bank rather than by us. Bank debit refunds settle more slowly, usually within ten to fifteen business days.\n\nDuring this window the Refund object has a status of `pending`. It moves to `succeeded` once the issuer confirms the credit, or to `failed` if the issuer rejects it \u2014 most commonly because the customer's card was closed between the charge and the refund.\n\n",
+        "char_start": 735,
+        "char_end": 1354,
+        "rank": 4,
+        "score": 0.0038523173425346613,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "433242e10c4b5ea6",
+        "document_id": "disputes.md",
+        "content": "## Dispute rate\n\nCard networks monitor the ratio of disputes to total charges. Exceeding roughly one percent puts an account into a network monitoring programme, which carries monthly fines and can eventually result in the account losing card acceptance. Refunds do not count toward the dispute rate, which is why refunding an early fraud warning is almost always cheaper than fighting the resulting chargeback.\n\n## Webhooks\n\n`charge.dispute.created` fires when the dispute opens, `charge.dispute.updated` fires when evidence is submitted or the status changes, and `charge.dispute.closed` fires on the final decision. The `closed` event carries the final status in its payload.\n",
+        "char_start": 2245,
+        "char_end": 2924,
+        "rank": 5,
+        "score": 0.0019199684029445052,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "refund-cannot-cancel",
+    "query": "Is it possible to cancel a refund after creating it?",
+    "query_type": "factual",
+    "expected_answer": "No. A refund cannot be cancelled; the only remedy is to charge the customer again.",
+    "generated_answer": "No, a refund cannot be cancelled once it has been created. If you refund by mistake, the only remedy is to charge the customer again. [1]",
+    "retrieval": {
+      "example_id": "refund-cannot-cancel",
+      "query": "Is it possible to cancel a refund after creating it?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "ecda609ff4ce8fd8",
+        "92738e438714c204",
+        "0aabcd347db24908",
+        "e5de82ceefd870c6",
+        "b2f879500e6e1f7f"
+      ],
+      "relevant_chunk_ids": [
+        "ecda609ff4ce8fd8"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.08532399988325778,
+      "rerank_latency_ms": 375.1290489999519
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer matches the expected answer in substance and is supported by the retrieved context, specifically the section on creating a refund.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 755,
+      "completion_tokens": 33,
+      "total_tokens": 788,
+      "latency_ms": 6274.575657000241
+    },
+    "passages": [
+      {
+        "chunk_id": "ecda609ff4ce8fd8",
+        "document_id": "refunds.md",
+        "content": "# Refunds\n\nA refund returns money from your account balance to a customer who was previously charged. Refunds are created against a specific charge and can never exceed the amount of that charge.\n\n## Creating a refund\n\nTo refund a charge in full, create a Refund object with only the charge identifier. To refund part of a charge, pass an `amount` in the smallest currency unit \u2014 1250 for $12.50. You may issue multiple partial refunds against the same charge as long as their combined total does not exceed the original charge amount. Attempting to exceed it returns a `charge_already_refunded` error.\n\nA refund cannot be cancelled once it has been created. If you refund by mistake, the only remedy is to charge the customer again.\n\n",
+        "char_start": 0,
+        "char_end": 735,
+        "rank": 1,
+        "score": 0.9819372296333313,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "92738e438714c204",
+        "document_id": "refunds.md",
+        "content": "## Webhooks\n\nTwo events are emitted for every refund. `refund.created` fires when the refund is submitted, and `refund.updated` fires when its status changes \u2014 most importantly on the transition from `pending` to `succeeded` or `failed`. Rely on `refund.updated`, not `refund.created`, if your application needs to know the money actually reached the customer.\n",
+        "char_start": 2442,
+        "char_end": 2803,
+        "rank": 2,
+        "score": 0.045221295207738876,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "0aabcd347db24908",
+        "document_id": "invoices.md",
+        "content": "An invoice that is paid moves to `paid`. One that is written off moves to `uncollectible`. One that is cancelled before payment moves to `void`. A voided invoice is preserved for your records but is treated as though it never existed for revenue purposes.\n\nInvoices are finalised automatically one hour after creation unless you set `auto_advance` to false, which keeps the invoice in draft indefinitely and hands control of finalisation to your own code.\n\n",
+        "char_start": 668,
+        "char_end": 1125,
+        "rank": 3,
+        "score": 0.00943439919501543,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "e5de82ceefd870c6",
+        "document_id": "refunds.md",
+        "content": "## Refunds and negative balances\n\nIf your available balance is lower than the refund amount, the refund still proceeds and your balance goes negative. A negative balance is settled by your next incoming payments, or by a debit from your bank account if no payments arrive within seven days.\n\n## Refunds on disputed charges\n\nA charge that is under dispute cannot be refunded. The dispute process determines where the money goes, and issuing a refund on top of it would move the same funds twice. Withdraw the dispute response first, or wait for the dispute to close.\n\n",
+        "char_start": 1875,
+        "char_end": 2442,
+        "rank": 4,
+        "score": 0.004725840408354998,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "b2f879500e6e1f7f",
+        "document_id": "invoices.md",
+        "content": "## Trials\n\nA subscription with a trial period does not generate a payable invoice until the trial ends. A zero-amount invoice is still created at the start of the trial so that the billing period is recorded. Trials can be extended while active by updating `trial_end`, but a trial cannot be added to a subscription after it has started billing.\n\n## Credit notes\n\nA credit note reduces the amount owed on an invoice that has already been finalised. Because a finalised invoice is immutable, this is the only way to correct an overcharge after finalisation. A credit note on a paid invoice can either refund the customer or add the amount to their customer balance, applied automatically against their next invoice.\n",
+        "char_start": 2276,
+        "char_end": 2991,
+        "rank": 5,
+        "score": 0.003292965469881892,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "refund-disputed-charge",
+    "query": "Can I refund a charge that is currently disputed?",
+    "query_type": "semantic",
+    "expected_answer": "No. A charge under dispute cannot be refunded because the dispute process decides where the funds go.",
+    "generated_answer": "No, a charge that is under dispute cannot be refunded. [1]",
+    "retrieval": {
+      "example_id": "refund-disputed-charge",
+      "query": "Can I refund a charge that is currently disputed?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "e5de82ceefd870c6",
+        "5f16a0cf73d4f327",
+        "ecda609ff4ce8fd8",
+        "433242e10c4b5ea6",
+        "37a67d5ee905ad5d"
+      ],
+      "relevant_chunk_ids": [
+        "e5de82ceefd870c6"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.11299800007691374,
+      "rerank_latency_ms": 521.9070279999869
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately reflects the context, stating that a charge under dispute cannot be refunded due to the dispute process determining where the funds go.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 762,
+      "completion_tokens": 16,
+      "total_tokens": 778,
+      "latency_ms": 208.04753300035372
+    },
+    "passages": [
+      {
+        "chunk_id": "e5de82ceefd870c6",
+        "document_id": "refunds.md",
+        "content": "## Refunds and negative balances\n\nIf your available balance is lower than the refund amount, the refund still proceeds and your balance goes negative. A negative balance is settled by your next incoming payments, or by a debit from your bank account if no payments arrive within seven days.\n\n## Refunds on disputed charges\n\nA charge that is under dispute cannot be refunded. The dispute process determines where the money goes, and issuing a refund on top of it would move the same funds twice. Withdraw the dispute response first, or wait for the dispute to close.\n\n",
+        "char_start": 1875,
+        "char_end": 2442,
+        "rank": 1,
+        "score": 0.9955875873565674,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "5f16a0cf73d4f327",
+        "document_id": "disputes.md",
+        "content": "## Dispute fees\n\nThe dispute fee is charged the moment the dispute is created and is not refunded regardless of outcome. This is a bank cost, not a service charge, and it applies even to disputes you win. The fee amount varies by country and currency.\n\n## Early fraud warnings\n\nSome card networks send a fraud signal before a formal dispute is filed. An early fraud warning indicates the issuer has flagged the charge as fraudulent but the cardholder has not yet filed a chargeback. Refunding the charge at this stage usually prevents the dispute from being filed at all, which avoids the dispute fee and keeps the charge off your dispute rate.\n\n",
+        "char_start": 1599,
+        "char_end": 2245,
+        "rank": 2,
+        "score": 0.9389902949333191,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "ecda609ff4ce8fd8",
+        "document_id": "refunds.md",
+        "content": "# Refunds\n\nA refund returns money from your account balance to a customer who was previously charged. Refunds are created against a specific charge and can never exceed the amount of that charge.\n\n## Creating a refund\n\nTo refund a charge in full, create a Refund object with only the charge identifier. To refund part of a charge, pass an `amount` in the smallest currency unit \u2014 1250 for $12.50. You may issue multiple partial refunds against the same charge as long as their combined total does not exceed the original charge amount. Attempting to exceed it returns a `charge_already_refunded` error.\n\nA refund cannot be cancelled once it has been created. If you refund by mistake, the only remedy is to charge the customer again.\n\n",
+        "char_start": 0,
+        "char_end": 735,
+        "rank": 3,
+        "score": 0.8298431634902954,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "433242e10c4b5ea6",
+        "document_id": "disputes.md",
+        "content": "## Dispute rate\n\nCard networks monitor the ratio of disputes to total charges. Exceeding roughly one percent puts an account into a network monitoring programme, which carries monthly fines and can eventually result in the account losing card acceptance. Refunds do not count toward the dispute rate, which is why refunding an early fraud warning is almost always cheaper than fighting the resulting chargeback.\n\n## Webhooks\n\n`charge.dispute.created` fires when the dispute opens, `charge.dispute.updated` fires when evidence is submitted or the status changes, and `charge.dispute.closed` fires on the final decision. The `closed` event carries the final status in its payload.\n",
+        "char_start": 2245,
+        "char_end": 2924,
+        "rank": 4,
+        "score": 0.7520368099212646,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "37a67d5ee905ad5d",
+        "document_id": "disputes.md",
+        "content": "# Disputes\n\nA dispute, also called a chargeback, is created when a cardholder asks their bank to reverse a charge. The bank pulls the funds from your account while it investigates, and you have a fixed window to submit evidence that the charge was legitimate.\n\n",
+        "char_start": 0,
+        "char_end": 261,
+        "rank": 5,
+        "score": 0.25673601031303406,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "refund-negative-balance",
+    "query": "What happens if I refund more than my available balance?",
+    "query_type": "semantic",
+    "expected_answer": "The refund still goes through and the balance goes negative, settled by later payments or a bank debit after seven days.",
+    "generated_answer": "If your available balance is lower than the refund amount, the refund still proceeds and your balance goes negative. A negative balance is settled by your next incoming payments, or by a debit from your bank account if no payments arrive within seven days. [1]",
+    "retrieval": {
+      "example_id": "refund-negative-balance",
+      "query": "What happens if I refund more than my available balance?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "e5de82ceefd870c6",
+        "ecda609ff4ce8fd8",
+        "f41eaf437f7837b8",
+        "b2f879500e6e1f7f",
+        "60427fbf98615483"
+      ],
+      "relevant_chunk_ids": [
+        "e5de82ceefd870c6"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.08852199971443042,
+      "rerank_latency_ms": 385.00881399977516
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately describes the outcome of refunding more than the available balance, and all factual claims are supported by the retrieved context.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 817,
+      "completion_tokens": 52,
+      "total_tokens": 869,
+      "latency_ms": 167.2255599996788
+    },
+    "passages": [
+      {
+        "chunk_id": "e5de82ceefd870c6",
+        "document_id": "refunds.md",
+        "content": "## Refunds and negative balances\n\nIf your available balance is lower than the refund amount, the refund still proceeds and your balance goes negative. A negative balance is settled by your next incoming payments, or by a debit from your bank account if no payments arrive within seven days.\n\n## Refunds on disputed charges\n\nA charge that is under dispute cannot be refunded. The dispute process determines where the money goes, and issuing a refund on top of it would move the same funds twice. Withdraw the dispute response first, or wait for the dispute to close.\n\n",
+        "char_start": 1875,
+        "char_end": 2442,
+        "rank": 1,
+        "score": 0.9137373566627502,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "ecda609ff4ce8fd8",
+        "document_id": "refunds.md",
+        "content": "# Refunds\n\nA refund returns money from your account balance to a customer who was previously charged. Refunds are created against a specific charge and can never exceed the amount of that charge.\n\n## Creating a refund\n\nTo refund a charge in full, create a Refund object with only the charge identifier. To refund part of a charge, pass an `amount` in the smallest currency unit \u2014 1250 for $12.50. You may issue multiple partial refunds against the same charge as long as their combined total does not exceed the original charge amount. Attempting to exceed it returns a `charge_already_refunded` error.\n\nA refund cannot be cancelled once it has been created. If you refund by mistake, the only remedy is to charge the customer again.\n\n",
+        "char_start": 0,
+        "char_end": 735,
+        "rank": 2,
+        "score": 0.2637345790863037,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "f41eaf437f7837b8",
+        "document_id": "refunds.md",
+        "content": "## Fees\n\nThe processing fee from the original charge is not returned when you refund. This is true for both full and partial refunds. For a $100 charge with a $3.20 fee, a full refund returns $100 to the customer and leaves your balance $3.20 lower than before the charge existed.\n\nApplication fees behave differently. When a charge that carried an application fee is refunded, the application fee is refunded proportionally and automatically, unless you set `refund_application_fee` to false at the time of the refund.\n\n",
+        "char_start": 1354,
+        "char_end": 1875,
+        "rank": 3,
+        "score": 0.03554617986083031,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "b2f879500e6e1f7f",
+        "document_id": "invoices.md",
+        "content": "## Trials\n\nA subscription with a trial period does not generate a payable invoice until the trial ends. A zero-amount invoice is still created at the start of the trial so that the billing period is recorded. Trials can be extended while active by updating `trial_end`, but a trial cannot be added to a subscription after it has started billing.\n\n## Credit notes\n\nA credit note reduces the amount owed on an invoice that has already been finalised. Because a finalised invoice is immutable, this is the only way to correct an overcharge after finalisation. A credit note on a paid invoice can either refund the customer or add the amount to their customer balance, applied automatically against their next invoice.\n",
+        "char_start": 2276,
+        "char_end": 2991,
+        "rank": 4,
+        "score": 0.008635212667286396,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "60427fbf98615483",
+        "document_id": "refunds.md",
+        "content": "## Settlement timing\n\nA refund is submitted to the customer's bank immediately, but the funds do not appear on their statement right away. Card refunds typically take five to ten business days to settle, and the exact timing is controlled by the issuing bank rather than by us. Bank debit refunds settle more slowly, usually within ten to fifteen business days.\n\nDuring this window the Refund object has a status of `pending`. It moves to `succeeded` once the issuer confirms the credit, or to `failed` if the issuer rejects it \u2014 most commonly because the customer's card was closed between the charge and the refund.\n\n",
+        "char_start": 735,
+        "char_end": 1354,
+        "rank": 5,
+        "score": 0.005742394831031561,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "refund-webhook-choice",
+    "query": "Which webhook tells me a refund actually reached the customer?",
+    "query_type": "keyword",
+    "expected_answer": "refund.updated, because refund.created only fires on submission.",
+    "generated_answer": "Rely on `refund.updated`, not `refund.created`, if your application needs to know the money actually reached the customer. [1]",
+    "retrieval": {
+      "example_id": "refund-webhook-choice",
+      "query": "Which webhook tells me a refund actually reached the customer?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "92738e438714c204",
+        "433242e10c4b5ea6",
+        "ecda609ff4ce8fd8",
+        "60427fbf98615483",
+        "b2f879500e6e1f7f"
+      ],
+      "relevant_chunk_ids": [
+        "92738e438714c204"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.09881499954644823,
+      "rerank_latency_ms": 480.64294699997845
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately reflects the context, stating that refund.updated is the correct webhook to rely on for knowing the money actually reached the customer, which is supported by the context.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 811,
+      "completion_tokens": 29,
+      "total_tokens": 840,
+      "latency_ms": 225.2975379997224
+    },
+    "passages": [
+      {
+        "chunk_id": "92738e438714c204",
+        "document_id": "refunds.md",
+        "content": "## Webhooks\n\nTwo events are emitted for every refund. `refund.created` fires when the refund is submitted, and `refund.updated` fires when its status changes \u2014 most importantly on the transition from `pending` to `succeeded` or `failed`. Rely on `refund.updated`, not `refund.created`, if your application needs to know the money actually reached the customer.\n",
+        "char_start": 2442,
+        "char_end": 2803,
+        "rank": 1,
+        "score": 0.984802782535553,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "433242e10c4b5ea6",
+        "document_id": "disputes.md",
+        "content": "## Dispute rate\n\nCard networks monitor the ratio of disputes to total charges. Exceeding roughly one percent puts an account into a network monitoring programme, which carries monthly fines and can eventually result in the account losing card acceptance. Refunds do not count toward the dispute rate, which is why refunding an early fraud warning is almost always cheaper than fighting the resulting chargeback.\n\n## Webhooks\n\n`charge.dispute.created` fires when the dispute opens, `charge.dispute.updated` fires when evidence is submitted or the status changes, and `charge.dispute.closed` fires on the final decision. The `closed` event carries the final status in its payload.\n",
+        "char_start": 2245,
+        "char_end": 2924,
+        "rank": 2,
+        "score": 0.015462834388017654,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "ecda609ff4ce8fd8",
+        "document_id": "refunds.md",
+        "content": "# Refunds\n\nA refund returns money from your account balance to a customer who was previously charged. Refunds are created against a specific charge and can never exceed the amount of that charge.\n\n## Creating a refund\n\nTo refund a charge in full, create a Refund object with only the charge identifier. To refund part of a charge, pass an `amount` in the smallest currency unit \u2014 1250 for $12.50. You may issue multiple partial refunds against the same charge as long as their combined total does not exceed the original charge amount. Attempting to exceed it returns a `charge_already_refunded` error.\n\nA refund cannot be cancelled once it has been created. If you refund by mistake, the only remedy is to charge the customer again.\n\n",
+        "char_start": 0,
+        "char_end": 735,
+        "rank": 3,
+        "score": 0.014881696552038193,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "60427fbf98615483",
+        "document_id": "refunds.md",
+        "content": "## Settlement timing\n\nA refund is submitted to the customer's bank immediately, but the funds do not appear on their statement right away. Card refunds typically take five to ten business days to settle, and the exact timing is controlled by the issuing bank rather than by us. Bank debit refunds settle more slowly, usually within ten to fifteen business days.\n\nDuring this window the Refund object has a status of `pending`. It moves to `succeeded` once the issuer confirms the credit, or to `failed` if the issuer rejects it \u2014 most commonly because the customer's card was closed between the charge and the refund.\n\n",
+        "char_start": 735,
+        "char_end": 1354,
+        "rank": 4,
+        "score": 0.004173429682850838,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "b2f879500e6e1f7f",
+        "document_id": "invoices.md",
+        "content": "## Trials\n\nA subscription with a trial period does not generate a payable invoice until the trial ends. A zero-amount invoice is still created at the start of the trial so that the billing period is recorded. Trials can be extended while active by updating `trial_end`, but a trial cannot be added to a subscription after it has started billing.\n\n## Credit notes\n\nA credit note reduces the amount owed on an invoice that has already been finalised. Because a finalised invoice is immutable, this is the only way to correct an overcharge after finalisation. A credit note on a paid invoice can either refund the customer or add the amount to their customer balance, applied automatically against their next invoice.\n",
+        "char_start": 2276,
+        "char_end": 2991,
+        "rank": 5,
+        "score": 0.0017797007458284497,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "refund-pending-status",
+    "query": "What status does a refund have while it is still settling?",
+    "query_type": "factual",
+    "expected_answer": "It is pending, and moves to succeeded or failed once the issuer responds.",
+    "generated_answer": "The refund has a status of `pending` during this window [1].",
+    "retrieval": {
+      "example_id": "refund-pending-status",
+      "query": "What status does a refund have while it is still settling?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "60427fbf98615483",
+        "92738e438714c204",
+        "e5de82ceefd870c6",
+        "ecda609ff4ce8fd8",
+        "433242e10c4b5ea6"
+      ],
+      "relevant_chunk_ids": [
+        "60427fbf98615483"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.09547100034978939,
+      "rerank_latency_ms": 484.8663630000374
+    },
+    "judge": {
+      "correctness": "partially-correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer is partially correct because it only mentions the status of the refund as pending, but does not mention that it moves to succeeded or failed once the issuer responds. the answer is faithful because it is supported by the retrieved context.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 782,
+      "completion_tokens": 16,
+      "total_tokens": 798,
+      "latency_ms": 2232.079053000234
+    },
+    "passages": [
+      {
+        "chunk_id": "60427fbf98615483",
+        "document_id": "refunds.md",
+        "content": "## Settlement timing\n\nA refund is submitted to the customer's bank immediately, but the funds do not appear on their statement right away. Card refunds typically take five to ten business days to settle, and the exact timing is controlled by the issuing bank rather than by us. Bank debit refunds settle more slowly, usually within ten to fifteen business days.\n\nDuring this window the Refund object has a status of `pending`. It moves to `succeeded` once the issuer confirms the credit, or to `failed` if the issuer rejects it \u2014 most commonly because the customer's card was closed between the charge and the refund.\n\n",
+        "char_start": 735,
+        "char_end": 1354,
+        "rank": 1,
+        "score": 0.8761719465255737,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "92738e438714c204",
+        "document_id": "refunds.md",
+        "content": "## Webhooks\n\nTwo events are emitted for every refund. `refund.created` fires when the refund is submitted, and `refund.updated` fires when its status changes \u2014 most importantly on the transition from `pending` to `succeeded` or `failed`. Rely on `refund.updated`, not `refund.created`, if your application needs to know the money actually reached the customer.\n",
+        "char_start": 2442,
+        "char_end": 2803,
+        "rank": 2,
+        "score": 0.13554851710796356,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "e5de82ceefd870c6",
+        "document_id": "refunds.md",
+        "content": "## Refunds and negative balances\n\nIf your available balance is lower than the refund amount, the refund still proceeds and your balance goes negative. A negative balance is settled by your next incoming payments, or by a debit from your bank account if no payments arrive within seven days.\n\n## Refunds on disputed charges\n\nA charge that is under dispute cannot be refunded. The dispute process determines where the money goes, and issuing a refund on top of it would move the same funds twice. Withdraw the dispute response first, or wait for the dispute to close.\n\n",
+        "char_start": 1875,
+        "char_end": 2442,
+        "rank": 3,
+        "score": 0.13090702891349792,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "ecda609ff4ce8fd8",
+        "document_id": "refunds.md",
+        "content": "# Refunds\n\nA refund returns money from your account balance to a customer who was previously charged. Refunds are created against a specific charge and can never exceed the amount of that charge.\n\n## Creating a refund\n\nTo refund a charge in full, create a Refund object with only the charge identifier. To refund part of a charge, pass an `amount` in the smallest currency unit \u2014 1250 for $12.50. You may issue multiple partial refunds against the same charge as long as their combined total does not exceed the original charge amount. Attempting to exceed it returns a `charge_already_refunded` error.\n\nA refund cannot be cancelled once it has been created. If you refund by mistake, the only remedy is to charge the customer again.\n\n",
+        "char_start": 0,
+        "char_end": 735,
+        "rank": 4,
+        "score": 0.012578615918755531,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "433242e10c4b5ea6",
+        "document_id": "disputes.md",
+        "content": "## Dispute rate\n\nCard networks monitor the ratio of disputes to total charges. Exceeding roughly one percent puts an account into a network monitoring programme, which carries monthly fines and can eventually result in the account losing card acceptance. Refunds do not count toward the dispute rate, which is why refunding an early fraud warning is almost always cheaper than fighting the resulting chargeback.\n\n## Webhooks\n\n`charge.dispute.created` fires when the dispute opens, `charge.dispute.updated` fires when evidence is submitted or the status changes, and `charge.dispute.closed` fires on the final decision. The `closed` event carries the final status in its payload.\n",
+        "char_start": 2245,
+        "char_end": 2924,
+        "rank": 5,
+        "score": 0.008304531686007977,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "refund-overage-error",
+    "query": "What error comes back if I refund more than the charge amount?",
+    "query_type": "keyword",
+    "expected_answer": "A charge_already_refunded error.",
+    "generated_answer": "[1] Attempting to exceed the original charge amount returns a `charge_already_refunded` error.",
+    "retrieval": {
+      "example_id": "refund-overage-error",
+      "query": "What error comes back if I refund more than the charge amount?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "ecda609ff4ce8fd8",
+        "e5de82ceefd870c6",
+        "f41eaf437f7837b8",
+        "60427fbf98615483",
+        "433242e10c4b5ea6"
+      ],
+      "relevant_chunk_ids": [
+        "ecda609ff4ce8fd8"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.10523999935685424,
+      "rerank_latency_ms": 523.1121199994959
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately describes the error that comes back when refunding more than the charge amount, and all claims are supported by the retrieved context.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 813,
+      "completion_tokens": 22,
+      "total_tokens": 835,
+      "latency_ms": 7637.908079999761
+    },
+    "passages": [
+      {
+        "chunk_id": "ecda609ff4ce8fd8",
+        "document_id": "refunds.md",
+        "content": "# Refunds\n\nA refund returns money from your account balance to a customer who was previously charged. Refunds are created against a specific charge and can never exceed the amount of that charge.\n\n## Creating a refund\n\nTo refund a charge in full, create a Refund object with only the charge identifier. To refund part of a charge, pass an `amount` in the smallest currency unit \u2014 1250 for $12.50. You may issue multiple partial refunds against the same charge as long as their combined total does not exceed the original charge amount. Attempting to exceed it returns a `charge_already_refunded` error.\n\nA refund cannot be cancelled once it has been created. If you refund by mistake, the only remedy is to charge the customer again.\n\n",
+        "char_start": 0,
+        "char_end": 735,
+        "rank": 1,
+        "score": 0.950333297252655,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "e5de82ceefd870c6",
+        "document_id": "refunds.md",
+        "content": "## Refunds and negative balances\n\nIf your available balance is lower than the refund amount, the refund still proceeds and your balance goes negative. A negative balance is settled by your next incoming payments, or by a debit from your bank account if no payments arrive within seven days.\n\n## Refunds on disputed charges\n\nA charge that is under dispute cannot be refunded. The dispute process determines where the money goes, and issuing a refund on top of it would move the same funds twice. Withdraw the dispute response first, or wait for the dispute to close.\n\n",
+        "char_start": 1875,
+        "char_end": 2442,
+        "rank": 2,
+        "score": 0.3428553640842438,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "f41eaf437f7837b8",
+        "document_id": "refunds.md",
+        "content": "## Fees\n\nThe processing fee from the original charge is not returned when you refund. This is true for both full and partial refunds. For a $100 charge with a $3.20 fee, a full refund returns $100 to the customer and leaves your balance $3.20 lower than before the charge existed.\n\nApplication fees behave differently. When a charge that carried an application fee is refunded, the application fee is refunded proportionally and automatically, unless you set `refund_application_fee` to false at the time of the refund.\n\n",
+        "char_start": 1354,
+        "char_end": 1875,
+        "rank": 3,
+        "score": 0.03765144199132919,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "60427fbf98615483",
+        "document_id": "refunds.md",
+        "content": "## Settlement timing\n\nA refund is submitted to the customer's bank immediately, but the funds do not appear on their statement right away. Card refunds typically take five to ten business days to settle, and the exact timing is controlled by the issuing bank rather than by us. Bank debit refunds settle more slowly, usually within ten to fifteen business days.\n\nDuring this window the Refund object has a status of `pending`. It moves to `succeeded` once the issuer confirms the credit, or to `failed` if the issuer rejects it \u2014 most commonly because the customer's card was closed between the charge and the refund.\n\n",
+        "char_start": 735,
+        "char_end": 1354,
+        "rank": 4,
+        "score": 0.02455107308924198,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "433242e10c4b5ea6",
+        "document_id": "disputes.md",
+        "content": "## Dispute rate\n\nCard networks monitor the ratio of disputes to total charges. Exceeding roughly one percent puts an account into a network monitoring programme, which carries monthly fines and can eventually result in the account losing card acceptance. Refunds do not count toward the dispute rate, which is why refunding an early fraud warning is almost always cheaper than fighting the resulting chargeback.\n\n## Webhooks\n\n`charge.dispute.created` fires when the dispute opens, `charge.dispute.updated` fires when evidence is submitted or the status changes, and `charge.dispute.closed` fires on the final decision. The `closed` event carries the final status in its payload.\n",
+        "char_start": 2245,
+        "char_end": 2924,
+        "rank": 5,
+        "score": 0.012268321588635445,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "dispute-initial-status",
+    "query": "What status does a dispute have when it is first created?",
+    "query_type": "factual",
+    "expected_answer": "needs_response, along with an evidence due_by timestamp.",
+    "generated_answer": "The Dispute object is created with a status of `needs_response` [1].",
+    "retrieval": {
+      "example_id": "dispute-initial-status",
+      "query": "What status does a dispute have when it is first created?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "711676881f669054",
+        "37a67d5ee905ad5d",
+        "433242e10c4b5ea6",
+        "5f16a0cf73d4f327",
+        "92738e438714c204"
+      ],
+      "relevant_chunk_ids": [
+        "711676881f669054"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.10481299977982417,
+      "rerank_latency_ms": 600.1668459994107
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer matches the expected answer in substance and every factual claim is supported by the retrieved context.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 724,
+      "completion_tokens": 18,
+      "total_tokens": 742,
+      "latency_ms": 6255.1270889998705
+    },
+    "passages": [
+      {
+        "chunk_id": "711676881f669054",
+        "document_id": "disputes.md",
+        "content": "## The dispute lifecycle\n\nWhen a dispute is opened, the disputed amount and a separate dispute fee are immediately withdrawn from your balance. The Dispute object is created with a status of `needs_response` and an `evidence_details.due_by` timestamp.\n\nSubmitting evidence moves the dispute to `under_review`. The issuing bank then takes anywhere from 60 to 75 days to reach a decision. A dispute you win moves to `won` and the disputed amount is returned to your balance; the dispute fee is not returned. A dispute you lose moves to `lost` and nothing is returned.\n\nIf you do not respond before the due date, the dispute closes automatically in the cardholder's favour and moves to `lost`.\n\n",
+        "char_start": 261,
+        "char_end": 953,
+        "rank": 1,
+        "score": 0.7553818225860596,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "37a67d5ee905ad5d",
+        "document_id": "disputes.md",
+        "content": "# Disputes\n\nA dispute, also called a chargeback, is created when a cardholder asks their bank to reverse a charge. The bank pulls the funds from your account while it investigates, and you have a fixed window to submit evidence that the charge was legitimate.\n\n",
+        "char_start": 0,
+        "char_end": 261,
+        "rank": 2,
+        "score": 0.17929793894290924,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "433242e10c4b5ea6",
+        "document_id": "disputes.md",
+        "content": "## Dispute rate\n\nCard networks monitor the ratio of disputes to total charges. Exceeding roughly one percent puts an account into a network monitoring programme, which carries monthly fines and can eventually result in the account losing card acceptance. Refunds do not count toward the dispute rate, which is why refunding an early fraud warning is almost always cheaper than fighting the resulting chargeback.\n\n## Webhooks\n\n`charge.dispute.created` fires when the dispute opens, `charge.dispute.updated` fires when evidence is submitted or the status changes, and `charge.dispute.closed` fires on the final decision. The `closed` event carries the final status in its payload.\n",
+        "char_start": 2245,
+        "char_end": 2924,
+        "rank": 3,
+        "score": 0.13283270597457886,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "5f16a0cf73d4f327",
+        "document_id": "disputes.md",
+        "content": "## Dispute fees\n\nThe dispute fee is charged the moment the dispute is created and is not refunded regardless of outcome. This is a bank cost, not a service charge, and it applies even to disputes you win. The fee amount varies by country and currency.\n\n## Early fraud warnings\n\nSome card networks send a fraud signal before a formal dispute is filed. An early fraud warning indicates the issuer has flagged the charge as fraudulent but the cardholder has not yet filed a chargeback. Refunding the charge at this stage usually prevents the dispute from being filed at all, which avoids the dispute fee and keeps the charge off your dispute rate.\n\n",
+        "char_start": 1599,
+        "char_end": 2245,
+        "rank": 4,
+        "score": 0.06506872177124023,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "92738e438714c204",
+        "document_id": "refunds.md",
+        "content": "## Webhooks\n\nTwo events are emitted for every refund. `refund.created` fires when the refund is submitted, and `refund.updated` fires when its status changes \u2014 most importantly on the transition from `pending` to `succeeded` or `failed`. Rely on `refund.updated`, not `refund.created`, if your application needs to know the money actually reached the customer.\n",
+        "char_start": 2442,
+        "char_end": 2803,
+        "rank": 5,
+        "score": 0.007773169782012701,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "dispute-decision-time",
+    "query": "How long does the issuing bank take to decide a dispute?",
+    "query_type": "factual",
+    "expected_answer": "Between 60 and 75 days after evidence is submitted.",
+    "generated_answer": "The issuing bank takes anywhere from 60 to 75 days to reach a decision. [1]",
+    "retrieval": {
+      "example_id": "dispute-decision-time",
+      "query": "How long does the issuing bank take to decide a dispute?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "711676881f669054",
+        "60427fbf98615483",
+        "e5de82ceefd870c6",
+        "37a67d5ee905ad5d",
+        "0cfae2316946670e"
+      ],
+      "relevant_chunk_ids": [
+        "711676881f669054"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.11005099986505229,
+      "rerank_latency_ms": 403.24398499979
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately reflects the context, including the timeframe of 60 to 75 days for the issuing bank to reach a decision.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 743,
+      "completion_tokens": 21,
+      "total_tokens": 764,
+      "latency_ms": 7342.672185000083
+    },
+    "passages": [
+      {
+        "chunk_id": "711676881f669054",
+        "document_id": "disputes.md",
+        "content": "## The dispute lifecycle\n\nWhen a dispute is opened, the disputed amount and a separate dispute fee are immediately withdrawn from your balance. The Dispute object is created with a status of `needs_response` and an `evidence_details.due_by` timestamp.\n\nSubmitting evidence moves the dispute to `under_review`. The issuing bank then takes anywhere from 60 to 75 days to reach a decision. A dispute you win moves to `won` and the disputed amount is returned to your balance; the dispute fee is not returned. A dispute you lose moves to `lost` and nothing is returned.\n\nIf you do not respond before the due date, the dispute closes automatically in the cardholder's favour and moves to `lost`.\n\n",
+        "char_start": 261,
+        "char_end": 953,
+        "rank": 1,
+        "score": 0.9777025580406189,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "60427fbf98615483",
+        "document_id": "refunds.md",
+        "content": "## Settlement timing\n\nA refund is submitted to the customer's bank immediately, but the funds do not appear on their statement right away. Card refunds typically take five to ten business days to settle, and the exact timing is controlled by the issuing bank rather than by us. Bank debit refunds settle more slowly, usually within ten to fifteen business days.\n\nDuring this window the Refund object has a status of `pending`. It moves to `succeeded` once the issuer confirms the credit, or to `failed` if the issuer rejects it \u2014 most commonly because the customer's card was closed between the charge and the refund.\n\n",
+        "char_start": 735,
+        "char_end": 1354,
+        "rank": 2,
+        "score": 0.296498566865921,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "e5de82ceefd870c6",
+        "document_id": "refunds.md",
+        "content": "## Refunds and negative balances\n\nIf your available balance is lower than the refund amount, the refund still proceeds and your balance goes negative. A negative balance is settled by your next incoming payments, or by a debit from your bank account if no payments arrive within seven days.\n\n## Refunds on disputed charges\n\nA charge that is under dispute cannot be refunded. The dispute process determines where the money goes, and issuing a refund on top of it would move the same funds twice. Withdraw the dispute response first, or wait for the dispute to close.\n\n",
+        "char_start": 1875,
+        "char_end": 2442,
+        "rank": 3,
+        "score": 0.14212259650230408,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "37a67d5ee905ad5d",
+        "document_id": "disputes.md",
+        "content": "# Disputes\n\nA dispute, also called a chargeback, is created when a cardholder asks their bank to reverse a charge. The bank pulls the funds from your account while it investigates, and you have a fixed window to submit evidence that the charge was legitimate.\n\n",
+        "char_start": 0,
+        "char_end": 261,
+        "rank": 4,
+        "score": 0.07724683731794357,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "0cfae2316946670e",
+        "document_id": "disputes.md",
+        "content": "## Evidence\n\nEvidence is submitted as a structured object rather than free text, because issuing banks score specific fields. The fields that matter most depend on the dispute reason. For a `product_not_received` dispute, shipping documentation with a tracking number and a delivery confirmation carries the most weight. For a `fraudulent` dispute, the customer's IP address, billing address match, and any record of prior undisputed purchases from the same customer are what the bank looks at.\n\nEvidence can be updated any number of times before it is submitted, but submission is final. Once you submit, the evidence object becomes read-only.\n\n",
+        "char_start": 953,
+        "char_end": 1599,
+        "rank": 5,
+        "score": 0.02692410908639431,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "dispute-fee-refunded",
+    "query": "Do I get the dispute fee back if I win the dispute?",
+    "query_type": "semantic",
+    "expected_answer": "No. The dispute fee is charged when the dispute opens and is never returned, even on a win.",
+    "generated_answer": "No, you do not get the dispute fee back if you win the dispute. [2]",
+    "retrieval": {
+      "example_id": "dispute-fee-refunded",
+      "query": "Do I get the dispute fee back if I win the dispute?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "5f16a0cf73d4f327",
+        "711676881f669054",
+        "e5de82ceefd870c6",
+        "433242e10c4b5ea6",
+        "37a67d5ee905ad5d"
+      ],
+      "relevant_chunk_ids": [
+        "5f16a0cf73d4f327"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.08121199971355963,
+      "rerank_latency_ms": 356.2475569997332
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately reflects the context, stating that the dispute fee is not returned even on a win, and the context supports this claim with a clear explanation of the dispute lifecycle.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 758,
+      "completion_tokens": 20,
+      "total_tokens": 778,
+      "latency_ms": 7348.37505699943
+    },
+    "passages": [
+      {
+        "chunk_id": "5f16a0cf73d4f327",
+        "document_id": "disputes.md",
+        "content": "## Dispute fees\n\nThe dispute fee is charged the moment the dispute is created and is not refunded regardless of outcome. This is a bank cost, not a service charge, and it applies even to disputes you win. The fee amount varies by country and currency.\n\n## Early fraud warnings\n\nSome card networks send a fraud signal before a formal dispute is filed. An early fraud warning indicates the issuer has flagged the charge as fraudulent but the cardholder has not yet filed a chargeback. Refunding the charge at this stage usually prevents the dispute from being filed at all, which avoids the dispute fee and keeps the charge off your dispute rate.\n\n",
+        "char_start": 1599,
+        "char_end": 2245,
+        "rank": 1,
+        "score": 0.9603677988052368,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "711676881f669054",
+        "document_id": "disputes.md",
+        "content": "## The dispute lifecycle\n\nWhen a dispute is opened, the disputed amount and a separate dispute fee are immediately withdrawn from your balance. The Dispute object is created with a status of `needs_response` and an `evidence_details.due_by` timestamp.\n\nSubmitting evidence moves the dispute to `under_review`. The issuing bank then takes anywhere from 60 to 75 days to reach a decision. A dispute you win moves to `won` and the disputed amount is returned to your balance; the dispute fee is not returned. A dispute you lose moves to `lost` and nothing is returned.\n\nIf you do not respond before the due date, the dispute closes automatically in the cardholder's favour and moves to `lost`.\n\n",
+        "char_start": 261,
+        "char_end": 953,
+        "rank": 2,
+        "score": 0.9527602195739746,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "e5de82ceefd870c6",
+        "document_id": "refunds.md",
+        "content": "## Refunds and negative balances\n\nIf your available balance is lower than the refund amount, the refund still proceeds and your balance goes negative. A negative balance is settled by your next incoming payments, or by a debit from your bank account if no payments arrive within seven days.\n\n## Refunds on disputed charges\n\nA charge that is under dispute cannot be refunded. The dispute process determines where the money goes, and issuing a refund on top of it would move the same funds twice. Withdraw the dispute response first, or wait for the dispute to close.\n\n",
+        "char_start": 1875,
+        "char_end": 2442,
+        "rank": 3,
+        "score": 0.32900816202163696,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "433242e10c4b5ea6",
+        "document_id": "disputes.md",
+        "content": "## Dispute rate\n\nCard networks monitor the ratio of disputes to total charges. Exceeding roughly one percent puts an account into a network monitoring programme, which carries monthly fines and can eventually result in the account losing card acceptance. Refunds do not count toward the dispute rate, which is why refunding an early fraud warning is almost always cheaper than fighting the resulting chargeback.\n\n## Webhooks\n\n`charge.dispute.created` fires when the dispute opens, `charge.dispute.updated` fires when evidence is submitted or the status changes, and `charge.dispute.closed` fires on the final decision. The `closed` event carries the final status in its payload.\n",
+        "char_start": 2245,
+        "char_end": 2924,
+        "rank": 4,
+        "score": 0.09224697947502136,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "37a67d5ee905ad5d",
+        "document_id": "disputes.md",
+        "content": "# Disputes\n\nA dispute, also called a chargeback, is created when a cardholder asks their bank to reverse a charge. The bank pulls the funds from your account while it investigates, and you have a fixed window to submit evidence that the charge was legitimate.\n\n",
+        "char_start": 0,
+        "char_end": 261,
+        "rank": 5,
+        "score": 0.014957122504711151,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "dispute-funds-withdrawn",
+    "query": "What is taken from my balance when a dispute is opened?",
+    "query_type": "factual",
+    "expected_answer": "The disputed amount and a separate dispute fee, both immediately.",
+    "generated_answer": "When a dispute is opened, the disputed amount and a separate dispute fee are immediately withdrawn from your balance. [1]",
+    "retrieval": {
+      "example_id": "dispute-funds-withdrawn",
+      "query": "What is taken from my balance when a dispute is opened?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "711676881f669054",
+        "e5de82ceefd870c6",
+        "37a67d5ee905ad5d",
+        "5f16a0cf73d4f327",
+        "433242e10c4b5ea6"
+      ],
+      "relevant_chunk_ids": [
+        "711676881f669054"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.09304100058216136,
+      "rerank_latency_ms": 510.2637850004612
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer matches the expected answer in substance and every factual claim is supported by the retrieved context.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 757,
+      "completion_tokens": 25,
+      "total_tokens": 782,
+      "latency_ms": 7281.727038999634
+    },
+    "passages": [
+      {
+        "chunk_id": "711676881f669054",
+        "document_id": "disputes.md",
+        "content": "## The dispute lifecycle\n\nWhen a dispute is opened, the disputed amount and a separate dispute fee are immediately withdrawn from your balance. The Dispute object is created with a status of `needs_response` and an `evidence_details.due_by` timestamp.\n\nSubmitting evidence moves the dispute to `under_review`. The issuing bank then takes anywhere from 60 to 75 days to reach a decision. A dispute you win moves to `won` and the disputed amount is returned to your balance; the dispute fee is not returned. A dispute you lose moves to `lost` and nothing is returned.\n\nIf you do not respond before the due date, the dispute closes automatically in the cardholder's favour and moves to `lost`.\n\n",
+        "char_start": 261,
+        "char_end": 953,
+        "rank": 1,
+        "score": 0.9418408274650574,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "e5de82ceefd870c6",
+        "document_id": "refunds.md",
+        "content": "## Refunds and negative balances\n\nIf your available balance is lower than the refund amount, the refund still proceeds and your balance goes negative. A negative balance is settled by your next incoming payments, or by a debit from your bank account if no payments arrive within seven days.\n\n## Refunds on disputed charges\n\nA charge that is under dispute cannot be refunded. The dispute process determines where the money goes, and issuing a refund on top of it would move the same funds twice. Withdraw the dispute response first, or wait for the dispute to close.\n\n",
+        "char_start": 1875,
+        "char_end": 2442,
+        "rank": 2,
+        "score": 0.16240376234054565,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "37a67d5ee905ad5d",
+        "document_id": "disputes.md",
+        "content": "# Disputes\n\nA dispute, also called a chargeback, is created when a cardholder asks their bank to reverse a charge. The bank pulls the funds from your account while it investigates, and you have a fixed window to submit evidence that the charge was legitimate.\n\n",
+        "char_start": 0,
+        "char_end": 261,
+        "rank": 3,
+        "score": 0.14616349339485168,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "5f16a0cf73d4f327",
+        "document_id": "disputes.md",
+        "content": "## Dispute fees\n\nThe dispute fee is charged the moment the dispute is created and is not refunded regardless of outcome. This is a bank cost, not a service charge, and it applies even to disputes you win. The fee amount varies by country and currency.\n\n## Early fraud warnings\n\nSome card networks send a fraud signal before a formal dispute is filed. An early fraud warning indicates the issuer has flagged the charge as fraudulent but the cardholder has not yet filed a chargeback. Refunding the charge at this stage usually prevents the dispute from being filed at all, which avoids the dispute fee and keeps the charge off your dispute rate.\n\n",
+        "char_start": 1599,
+        "char_end": 2245,
+        "rank": 4,
+        "score": 0.0774187222123146,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "433242e10c4b5ea6",
+        "document_id": "disputes.md",
+        "content": "## Dispute rate\n\nCard networks monitor the ratio of disputes to total charges. Exceeding roughly one percent puts an account into a network monitoring programme, which carries monthly fines and can eventually result in the account losing card acceptance. Refunds do not count toward the dispute rate, which is why refunding an early fraud warning is almost always cheaper than fighting the resulting chargeback.\n\n## Webhooks\n\n`charge.dispute.created` fires when the dispute opens, `charge.dispute.updated` fires when evidence is submitted or the status changes, and `charge.dispute.closed` fires on the final decision. The `closed` event carries the final status in its payload.\n",
+        "char_start": 2245,
+        "char_end": 2924,
+        "rank": 5,
+        "score": 0.06702806800603867,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "dispute-evidence-product",
+    "query": "What evidence works best for a product not received dispute?",
+    "query_type": "semantic",
+    "expected_answer": "Shipping documentation with a tracking number and delivery confirmation.",
+    "generated_answer": "Shipping documentation with a tracking number and a delivery confirmation carries the most weight for a `product_not_received` dispute [1].",
+    "retrieval": {
+      "example_id": "dispute-evidence-product",
+      "query": "What evidence works best for a product not received dispute?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "0cfae2316946670e",
+        "433242e10c4b5ea6",
+        "37a67d5ee905ad5d",
+        "711676881f669054",
+        "5f16a0cf73d4f327"
+      ],
+      "relevant_chunk_ids": [
+        "0cfae2316946670e"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.07697699948039372,
+      "rerank_latency_ms": 290.14480600017123
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer matches the expected answer in substance and every factual claim is supported by the retrieved context.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 770,
+      "completion_tokens": 26,
+      "total_tokens": 796,
+      "latency_ms": 7267.133715999989
+    },
+    "passages": [
+      {
+        "chunk_id": "0cfae2316946670e",
+        "document_id": "disputes.md",
+        "content": "## Evidence\n\nEvidence is submitted as a structured object rather than free text, because issuing banks score specific fields. The fields that matter most depend on the dispute reason. For a `product_not_received` dispute, shipping documentation with a tracking number and a delivery confirmation carries the most weight. For a `fraudulent` dispute, the customer's IP address, billing address match, and any record of prior undisputed purchases from the same customer are what the bank looks at.\n\nEvidence can be updated any number of times before it is submitted, but submission is final. Once you submit, the evidence object becomes read-only.\n\n",
+        "char_start": 953,
+        "char_end": 1599,
+        "rank": 1,
+        "score": 0.9782145023345947,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "433242e10c4b5ea6",
+        "document_id": "disputes.md",
+        "content": "## Dispute rate\n\nCard networks monitor the ratio of disputes to total charges. Exceeding roughly one percent puts an account into a network monitoring programme, which carries monthly fines and can eventually result in the account losing card acceptance. Refunds do not count toward the dispute rate, which is why refunding an early fraud warning is almost always cheaper than fighting the resulting chargeback.\n\n## Webhooks\n\n`charge.dispute.created` fires when the dispute opens, `charge.dispute.updated` fires when evidence is submitted or the status changes, and `charge.dispute.closed` fires on the final decision. The `closed` event carries the final status in its payload.\n",
+        "char_start": 2245,
+        "char_end": 2924,
+        "rank": 2,
+        "score": 0.005596680101007223,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "37a67d5ee905ad5d",
+        "document_id": "disputes.md",
+        "content": "# Disputes\n\nA dispute, also called a chargeback, is created when a cardholder asks their bank to reverse a charge. The bank pulls the funds from your account while it investigates, and you have a fixed window to submit evidence that the charge was legitimate.\n\n",
+        "char_start": 0,
+        "char_end": 261,
+        "rank": 3,
+        "score": 0.00237001059576869,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "711676881f669054",
+        "document_id": "disputes.md",
+        "content": "## The dispute lifecycle\n\nWhen a dispute is opened, the disputed amount and a separate dispute fee are immediately withdrawn from your balance. The Dispute object is created with a status of `needs_response` and an `evidence_details.due_by` timestamp.\n\nSubmitting evidence moves the dispute to `under_review`. The issuing bank then takes anywhere from 60 to 75 days to reach a decision. A dispute you win moves to `won` and the disputed amount is returned to your balance; the dispute fee is not returned. A dispute you lose moves to `lost` and nothing is returned.\n\nIf you do not respond before the due date, the dispute closes automatically in the cardholder's favour and moves to `lost`.\n\n",
+        "char_start": 261,
+        "char_end": 953,
+        "rank": 4,
+        "score": 0.0019318690756335855,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "5f16a0cf73d4f327",
+        "document_id": "disputes.md",
+        "content": "## Dispute fees\n\nThe dispute fee is charged the moment the dispute is created and is not refunded regardless of outcome. This is a bank cost, not a service charge, and it applies even to disputes you win. The fee amount varies by country and currency.\n\n## Early fraud warnings\n\nSome card networks send a fraud signal before a formal dispute is filed. An early fraud warning indicates the issuer has flagged the charge as fraudulent but the cardholder has not yet filed a chargeback. Refunding the charge at this stage usually prevents the dispute from being filed at all, which avoids the dispute fee and keeps the charge off your dispute rate.\n\n",
+        "char_start": 1599,
+        "char_end": 2245,
+        "rank": 5,
+        "score": 0.0006451688823290169,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "dispute-evidence-fraud",
+    "query": "What does the bank look at in a fraudulent dispute?",
+    "query_type": "semantic",
+    "expected_answer": "The customer's IP address, billing address match, and any prior undisputed purchases from the same customer.",
+    "generated_answer": "The bank looks at the customer's IP address, billing address match, and any record of prior undisputed purchases from the same customer in a `fraudulent` dispute. [1]",
+    "retrieval": {
+      "example_id": "dispute-evidence-fraud",
+      "query": "What does the bank look at in a fraudulent dispute?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "0cfae2316946670e",
+        "5f16a0cf73d4f327",
+        "37a67d5ee905ad5d",
+        "433242e10c4b5ea6",
+        "711676881f669054"
+      ],
+      "relevant_chunk_ids": [
+        "0cfae2316946670e"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.08752900066610891,
+      "rerank_latency_ms": 414.6129689997906
+    },
+    "judge": {
+      "correctness": "partially-correct",
+      "faithfulness": "faithful",
+      "explanation": "The generated answer is partially correct because it misses the word 'undisputed' in 'prior undisputed purchases'. The answer is faithful because it only makes claims supported by the context.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 770,
+      "completion_tokens": 39,
+      "total_tokens": 809,
+      "latency_ms": 8349.03087099974
+    },
+    "passages": [
+      {
+        "chunk_id": "0cfae2316946670e",
+        "document_id": "disputes.md",
+        "content": "## Evidence\n\nEvidence is submitted as a structured object rather than free text, because issuing banks score specific fields. The fields that matter most depend on the dispute reason. For a `product_not_received` dispute, shipping documentation with a tracking number and a delivery confirmation carries the most weight. For a `fraudulent` dispute, the customer's IP address, billing address match, and any record of prior undisputed purchases from the same customer are what the bank looks at.\n\nEvidence can be updated any number of times before it is submitted, but submission is final. Once you submit, the evidence object becomes read-only.\n\n",
+        "char_start": 953,
+        "char_end": 1599,
+        "rank": 1,
+        "score": 0.9927143454551697,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "5f16a0cf73d4f327",
+        "document_id": "disputes.md",
+        "content": "## Dispute fees\n\nThe dispute fee is charged the moment the dispute is created and is not refunded regardless of outcome. This is a bank cost, not a service charge, and it applies even to disputes you win. The fee amount varies by country and currency.\n\n## Early fraud warnings\n\nSome card networks send a fraud signal before a formal dispute is filed. An early fraud warning indicates the issuer has flagged the charge as fraudulent but the cardholder has not yet filed a chargeback. Refunding the charge at this stage usually prevents the dispute from being filed at all, which avoids the dispute fee and keeps the charge off your dispute rate.\n\n",
+        "char_start": 1599,
+        "char_end": 2245,
+        "rank": 2,
+        "score": 0.10487406700849533,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "37a67d5ee905ad5d",
+        "document_id": "disputes.md",
+        "content": "# Disputes\n\nA dispute, also called a chargeback, is created when a cardholder asks their bank to reverse a charge. The bank pulls the funds from your account while it investigates, and you have a fixed window to submit evidence that the charge was legitimate.\n\n",
+        "char_start": 0,
+        "char_end": 261,
+        "rank": 3,
+        "score": 0.09727161377668381,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "433242e10c4b5ea6",
+        "document_id": "disputes.md",
+        "content": "## Dispute rate\n\nCard networks monitor the ratio of disputes to total charges. Exceeding roughly one percent puts an account into a network monitoring programme, which carries monthly fines and can eventually result in the account losing card acceptance. Refunds do not count toward the dispute rate, which is why refunding an early fraud warning is almost always cheaper than fighting the resulting chargeback.\n\n## Webhooks\n\n`charge.dispute.created` fires when the dispute opens, `charge.dispute.updated` fires when evidence is submitted or the status changes, and `charge.dispute.closed` fires on the final decision. The `closed` event carries the final status in its payload.\n",
+        "char_start": 2245,
+        "char_end": 2924,
+        "rank": 4,
+        "score": 0.03769688308238983,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "711676881f669054",
+        "document_id": "disputes.md",
+        "content": "## The dispute lifecycle\n\nWhen a dispute is opened, the disputed amount and a separate dispute fee are immediately withdrawn from your balance. The Dispute object is created with a status of `needs_response` and an `evidence_details.due_by` timestamp.\n\nSubmitting evidence moves the dispute to `under_review`. The issuing bank then takes anywhere from 60 to 75 days to reach a decision. A dispute you win moves to `won` and the disputed amount is returned to your balance; the dispute fee is not returned. A dispute you lose moves to `lost` and nothing is returned.\n\nIf you do not respond before the due date, the dispute closes automatically in the cardholder's favour and moves to `lost`.\n\n",
+        "char_start": 261,
+        "char_end": 953,
+        "rank": 5,
+        "score": 0.009151708334684372,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "dispute-no-response",
+    "query": "What happens if I miss the evidence deadline?",
+    "query_type": "factual",
+    "expected_answer": "The dispute closes automatically in the cardholder's favour and is marked lost.",
+    "generated_answer": "If you do not respond before the due date, the dispute closes automatically in the cardholder's favour and moves to `lost`. [1]",
+    "retrieval": {
+      "example_id": "dispute-no-response",
+      "query": "What happens if I miss the evidence deadline?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "711676881f669054",
+        "37a67d5ee905ad5d",
+        "0cfae2316946670e",
+        "433242e10c4b5ea6"
+      ],
+      "relevant_chunk_ids": [
+        "711676881f669054"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.06375500015565194,
+      "rerank_latency_ms": 206.34300300025643
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately describes the consequence of missing the evidence deadline, and all factual claims are supported by the retrieved context.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 631,
+      "completion_tokens": 30,
+      "total_tokens": 661,
+      "latency_ms": 6296.240237000347
+    },
+    "passages": [
+      {
+        "chunk_id": "711676881f669054",
+        "document_id": "disputes.md",
+        "content": "## The dispute lifecycle\n\nWhen a dispute is opened, the disputed amount and a separate dispute fee are immediately withdrawn from your balance. The Dispute object is created with a status of `needs_response` and an `evidence_details.due_by` timestamp.\n\nSubmitting evidence moves the dispute to `under_review`. The issuing bank then takes anywhere from 60 to 75 days to reach a decision. A dispute you win moves to `won` and the disputed amount is returned to your balance; the dispute fee is not returned. A dispute you lose moves to `lost` and nothing is returned.\n\nIf you do not respond before the due date, the dispute closes automatically in the cardholder's favour and moves to `lost`.\n\n",
+        "char_start": 261,
+        "char_end": 953,
+        "rank": 1,
+        "score": 0.06869608163833618,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "37a67d5ee905ad5d",
+        "document_id": "disputes.md",
+        "content": "# Disputes\n\nA dispute, also called a chargeback, is created when a cardholder asks their bank to reverse a charge. The bank pulls the funds from your account while it investigates, and you have a fixed window to submit evidence that the charge was legitimate.\n\n",
+        "char_start": 0,
+        "char_end": 261,
+        "rank": 2,
+        "score": 0.005754159763455391,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "0cfae2316946670e",
+        "document_id": "disputes.md",
+        "content": "## Evidence\n\nEvidence is submitted as a structured object rather than free text, because issuing banks score specific fields. The fields that matter most depend on the dispute reason. For a `product_not_received` dispute, shipping documentation with a tracking number and a delivery confirmation carries the most weight. For a `fraudulent` dispute, the customer's IP address, billing address match, and any record of prior undisputed purchases from the same customer are what the bank looks at.\n\nEvidence can be updated any number of times before it is submitted, but submission is final. Once you submit, the evidence object becomes read-only.\n\n",
+        "char_start": 953,
+        "char_end": 1599,
+        "rank": 3,
+        "score": 0.0047045061364769936,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "433242e10c4b5ea6",
+        "document_id": "disputes.md",
+        "content": "## Dispute rate\n\nCard networks monitor the ratio of disputes to total charges. Exceeding roughly one percent puts an account into a network monitoring programme, which carries monthly fines and can eventually result in the account losing card acceptance. Refunds do not count toward the dispute rate, which is why refunding an early fraud warning is almost always cheaper than fighting the resulting chargeback.\n\n## Webhooks\n\n`charge.dispute.created` fires when the dispute opens, `charge.dispute.updated` fires when evidence is submitted or the status changes, and `charge.dispute.closed` fires on the final decision. The `closed` event carries the final status in its payload.\n",
+        "char_start": 2245,
+        "char_end": 2924,
+        "rank": 4,
+        "score": 0.0026664764154702425,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "dispute-evidence-immutable",
+    "query": "Can I change evidence after submitting it?",
+    "query_type": "factual",
+    "expected_answer": "No. Submission is final and the evidence object becomes read-only.",
+    "generated_answer": "No, once you submit evidence, it becomes read-only. [1]",
+    "retrieval": {
+      "example_id": "dispute-evidence-immutable",
+      "query": "Can I change evidence after submitting it?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "0cfae2316946670e",
+        "433242e10c4b5ea6",
+        "37a67d5ee905ad5d",
+        "711676881f669054",
+        "5195c705002a4880"
+      ],
+      "relevant_chunk_ids": [
+        "0cfae2316946670e"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.08845100001053652,
+      "rerank_latency_ms": 395.88695500060567
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "The generated answer accurately reflects the expected answer, and all claims are supported by the retrieved context.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 775,
+      "completion_tokens": 16,
+      "total_tokens": 791,
+      "latency_ms": 7240.398057000675
+    },
+    "passages": [
+      {
+        "chunk_id": "0cfae2316946670e",
+        "document_id": "disputes.md",
+        "content": "## Evidence\n\nEvidence is submitted as a structured object rather than free text, because issuing banks score specific fields. The fields that matter most depend on the dispute reason. For a `product_not_received` dispute, shipping documentation with a tracking number and a delivery confirmation carries the most weight. For a `fraudulent` dispute, the customer's IP address, billing address match, and any record of prior undisputed purchases from the same customer are what the bank looks at.\n\nEvidence can be updated any number of times before it is submitted, but submission is final. Once you submit, the evidence object becomes read-only.\n\n",
+        "char_start": 953,
+        "char_end": 1599,
+        "rank": 1,
+        "score": 0.5933724045753479,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "433242e10c4b5ea6",
+        "document_id": "disputes.md",
+        "content": "## Dispute rate\n\nCard networks monitor the ratio of disputes to total charges. Exceeding roughly one percent puts an account into a network monitoring programme, which carries monthly fines and can eventually result in the account losing card acceptance. Refunds do not count toward the dispute rate, which is why refunding an early fraud warning is almost always cheaper than fighting the resulting chargeback.\n\n## Webhooks\n\n`charge.dispute.created` fires when the dispute opens, `charge.dispute.updated` fires when evidence is submitted or the status changes, and `charge.dispute.closed` fires on the final decision. The `closed` event carries the final status in its payload.\n",
+        "char_start": 2245,
+        "char_end": 2924,
+        "rank": 2,
+        "score": 0.24212007224559784,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "37a67d5ee905ad5d",
+        "document_id": "disputes.md",
+        "content": "# Disputes\n\nA dispute, also called a chargeback, is created when a cardholder asks their bank to reverse a charge. The bank pulls the funds from your account while it investigates, and you have a fixed window to submit evidence that the charge was legitimate.\n\n",
+        "char_start": 0,
+        "char_end": 261,
+        "rank": 3,
+        "score": 0.02494601160287857,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "711676881f669054",
+        "document_id": "disputes.md",
+        "content": "## The dispute lifecycle\n\nWhen a dispute is opened, the disputed amount and a separate dispute fee are immediately withdrawn from your balance. The Dispute object is created with a status of `needs_response` and an `evidence_details.due_by` timestamp.\n\nSubmitting evidence moves the dispute to `under_review`. The issuing bank then takes anywhere from 60 to 75 days to reach a decision. A dispute you win moves to `won` and the disputed amount is returned to your balance; the dispute fee is not returned. A dispute you lose moves to `lost` and nothing is returned.\n\nIf you do not respond before the due date, the dispute closes automatically in the cardholder's favour and moves to `lost`.\n\n",
+        "char_start": 261,
+        "char_end": 953,
+        "rank": 4,
+        "score": 0.016595162451267242,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "5195c705002a4880",
+        "document_id": "invoices.md",
+        "content": "# Invoices and subscriptions\n\nAn Invoice is a statement of amounts owed by a customer. It can be created directly for a one-off bill, or generated automatically at the end of each billing period by a Subscription.\n\n## Invoice lifecycle\n\nAn invoice starts as a `draft`. While it is a draft it can be edited freely: line items added or removed, the customer changed, discounts applied. Drafts are not visible to the customer and no payment is attempted.\n\nFinalising an invoice moves it to `open` and freezes its line items. An open invoice has a hosted payment page and, depending on your settings, triggers an automatic collection attempt or an email to the customer.\n\n",
+        "char_start": 0,
+        "char_end": 668,
+        "rank": 5,
+        "score": 0.00034161549410782754,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "dispute-rate-threshold",
+    "query": "What dispute rate puts my account at risk?",
+    "query_type": "factual",
+    "expected_answer": "Roughly one percent, above which the account enters a network monitoring programme with fines.",
+    "generated_answer": "Exceeding roughly one percent puts an account into a network monitoring programme [1].",
+    "retrieval": {
+      "example_id": "dispute-rate-threshold",
+      "query": "What dispute rate puts my account at risk?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "433242e10c4b5ea6",
+        "5f16a0cf73d4f327",
+        "37a67d5ee905ad5d",
+        "e5de82ceefd870c6",
+        "711676881f669054"
+      ],
+      "relevant_chunk_ids": [
+        "433242e10c4b5ea6"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.07501800064346753,
+      "rerank_latency_ms": 344.5531090001168
+    },
+    "judge": {
+      "correctness": "partially-correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer is partially correct because it mentions the network monitoring programme, but it lacks the information about the monthly fines. the answer is faithful because it accurately reflects the context, which supports the claim about exceeding one percent putting an account into a network monitoring programme.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 754,
+      "completion_tokens": 18,
+      "total_tokens": 772,
+      "latency_ms": 7271.117442000104
+    },
+    "passages": [
+      {
+        "chunk_id": "433242e10c4b5ea6",
+        "document_id": "disputes.md",
+        "content": "## Dispute rate\n\nCard networks monitor the ratio of disputes to total charges. Exceeding roughly one percent puts an account into a network monitoring programme, which carries monthly fines and can eventually result in the account losing card acceptance. Refunds do not count toward the dispute rate, which is why refunding an early fraud warning is almost always cheaper than fighting the resulting chargeback.\n\n## Webhooks\n\n`charge.dispute.created` fires when the dispute opens, `charge.dispute.updated` fires when evidence is submitted or the status changes, and `charge.dispute.closed` fires on the final decision. The `closed` event carries the final status in its payload.\n",
+        "char_start": 2245,
+        "char_end": 2924,
+        "rank": 1,
+        "score": 0.4836089313030243,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "5f16a0cf73d4f327",
+        "document_id": "disputes.md",
+        "content": "## Dispute fees\n\nThe dispute fee is charged the moment the dispute is created and is not refunded regardless of outcome. This is a bank cost, not a service charge, and it applies even to disputes you win. The fee amount varies by country and currency.\n\n## Early fraud warnings\n\nSome card networks send a fraud signal before a formal dispute is filed. An early fraud warning indicates the issuer has flagged the charge as fraudulent but the cardholder has not yet filed a chargeback. Refunding the charge at this stage usually prevents the dispute from being filed at all, which avoids the dispute fee and keeps the charge off your dispute rate.\n\n",
+        "char_start": 1599,
+        "char_end": 2245,
+        "rank": 2,
+        "score": 0.08443040400743484,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "37a67d5ee905ad5d",
+        "document_id": "disputes.md",
+        "content": "# Disputes\n\nA dispute, also called a chargeback, is created when a cardholder asks their bank to reverse a charge. The bank pulls the funds from your account while it investigates, and you have a fixed window to submit evidence that the charge was legitimate.\n\n",
+        "char_start": 0,
+        "char_end": 261,
+        "rank": 3,
+        "score": 0.017793351784348488,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "e5de82ceefd870c6",
+        "document_id": "refunds.md",
+        "content": "## Refunds and negative balances\n\nIf your available balance is lower than the refund amount, the refund still proceeds and your balance goes negative. A negative balance is settled by your next incoming payments, or by a debit from your bank account if no payments arrive within seven days.\n\n## Refunds on disputed charges\n\nA charge that is under dispute cannot be refunded. The dispute process determines where the money goes, and issuing a refund on top of it would move the same funds twice. Withdraw the dispute response first, or wait for the dispute to close.\n\n",
+        "char_start": 1875,
+        "char_end": 2442,
+        "rank": 4,
+        "score": 0.004461633041501045,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "711676881f669054",
+        "document_id": "disputes.md",
+        "content": "## The dispute lifecycle\n\nWhen a dispute is opened, the disputed amount and a separate dispute fee are immediately withdrawn from your balance. The Dispute object is created with a status of `needs_response` and an `evidence_details.due_by` timestamp.\n\nSubmitting evidence moves the dispute to `under_review`. The issuing bank then takes anywhere from 60 to 75 days to reach a decision. A dispute you win moves to `won` and the disputed amount is returned to your balance; the dispute fee is not returned. A dispute you lose moves to `lost` and nothing is returned.\n\nIf you do not respond before the due date, the dispute closes automatically in the cardholder's favour and moves to `lost`.\n\n",
+        "char_start": 261,
+        "char_end": 953,
+        "rank": 5,
+        "score": 0.002568089170381427,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "dispute-efw-vs-rate",
+    "query": "Why is refunding an early fraud warning cheaper than fighting the chargeback?",
+    "query_type": "multi-hop",
+    "expected_answer": "Refunding usually prevents the dispute being filed, and refunds do not count toward the dispute rate, so you avoid both the dispute fee and the rate impact.",
+    "generated_answer": "Refunding an early fraud warning is almost always cheaper than fighting the resulting chargeback because refunds do not count toward the dispute rate [1]. This means you avoid the dispute fee, which is charged the moment the dispute is created and is not refunded regardless of outcome [2].",
+    "retrieval": {
+      "example_id": "dispute-efw-vs-rate",
+      "query": "Why is refunding an early fraud warning cheaper than fighting the chargeback?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "433242e10c4b5ea6",
+        "5f16a0cf73d4f327",
+        "37a67d5ee905ad5d",
+        "60427fbf98615483",
+        "f41eaf437f7837b8"
+      ],
+      "relevant_chunk_ids": [
+        "433242e10c4b5ea6",
+        "5f16a0cf73d4f327"
+      ],
+      "precision_at_k": 0.4,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.09091099946090253,
+      "rerank_latency_ms": 333.80102400042233
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "The generated answer accurately explains why refunding an early fraud warning is cheaper than fighting the chargeback, citing the avoidance of the dispute fee and the impact on the dispute rate. The explanation is supported by the retrieved context, which provides detailed information on dispute rates, fees, and refund timing.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 734,
+      "completion_tokens": 56,
+      "total_tokens": 790,
+      "latency_ms": 7386.934058000406
+    },
+    "passages": [
+      {
+        "chunk_id": "433242e10c4b5ea6",
+        "document_id": "disputes.md",
+        "content": "## Dispute rate\n\nCard networks monitor the ratio of disputes to total charges. Exceeding roughly one percent puts an account into a network monitoring programme, which carries monthly fines and can eventually result in the account losing card acceptance. Refunds do not count toward the dispute rate, which is why refunding an early fraud warning is almost always cheaper than fighting the resulting chargeback.\n\n## Webhooks\n\n`charge.dispute.created` fires when the dispute opens, `charge.dispute.updated` fires when evidence is submitted or the status changes, and `charge.dispute.closed` fires on the final decision. The `closed` event carries the final status in its payload.\n",
+        "char_start": 2245,
+        "char_end": 2924,
+        "rank": 1,
+        "score": 0.9953378438949585,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "5f16a0cf73d4f327",
+        "document_id": "disputes.md",
+        "content": "## Dispute fees\n\nThe dispute fee is charged the moment the dispute is created and is not refunded regardless of outcome. This is a bank cost, not a service charge, and it applies even to disputes you win. The fee amount varies by country and currency.\n\n## Early fraud warnings\n\nSome card networks send a fraud signal before a formal dispute is filed. An early fraud warning indicates the issuer has flagged the charge as fraudulent but the cardholder has not yet filed a chargeback. Refunding the charge at this stage usually prevents the dispute from being filed at all, which avoids the dispute fee and keeps the charge off your dispute rate.\n\n",
+        "char_start": 1599,
+        "char_end": 2245,
+        "rank": 2,
+        "score": 0.9485366940498352,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "37a67d5ee905ad5d",
+        "document_id": "disputes.md",
+        "content": "# Disputes\n\nA dispute, also called a chargeback, is created when a cardholder asks their bank to reverse a charge. The bank pulls the funds from your account while it investigates, and you have a fixed window to submit evidence that the charge was legitimate.\n\n",
+        "char_start": 0,
+        "char_end": 261,
+        "rank": 3,
+        "score": 0.011098871938884258,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "60427fbf98615483",
+        "document_id": "refunds.md",
+        "content": "## Settlement timing\n\nA refund is submitted to the customer's bank immediately, but the funds do not appear on their statement right away. Card refunds typically take five to ten business days to settle, and the exact timing is controlled by the issuing bank rather than by us. Bank debit refunds settle more slowly, usually within ten to fifteen business days.\n\nDuring this window the Refund object has a status of `pending`. It moves to `succeeded` once the issuer confirms the credit, or to `failed` if the issuer rejects it \u2014 most commonly because the customer's card was closed between the charge and the refund.\n\n",
+        "char_start": 735,
+        "char_end": 1354,
+        "rank": 4,
+        "score": 0.0009560584439896047,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "f41eaf437f7837b8",
+        "document_id": "refunds.md",
+        "content": "## Fees\n\nThe processing fee from the original charge is not returned when you refund. This is true for both full and partial refunds. For a $100 charge with a $3.20 fee, a full refund returns $100 to the customer and leaves your balance $3.20 lower than before the charge existed.\n\nApplication fees behave differently. When a charge that carried an application fee is refunded, the application fee is refunded proportionally and automatically, unless you set `refund_application_fee` to false at the time of the refund.\n\n",
+        "char_start": 1354,
+        "char_end": 1875,
+        "rank": 5,
+        "score": 0.0006570243858732283,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "dispute-closed-webhook",
+    "query": "Which webhook carries the final dispute outcome?",
+    "query_type": "keyword",
+    "expected_answer": "charge.dispute.closed, which includes the final status in its payload.",
+    "generated_answer": "The `closed` event carries the final status in its payload [1]. This event fires on the final decision [1].",
+    "retrieval": {
+      "example_id": "dispute-closed-webhook",
+      "query": "Which webhook carries the final dispute outcome?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "433242e10c4b5ea6",
+        "0cfae2316946670e",
+        "711676881f669054",
+        "5f16a0cf73d4f327",
+        "37a67d5ee905ad5d"
+      ],
+      "relevant_chunk_ids": [
+        "433242e10c4b5ea6"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.10591899990686215,
+      "rerank_latency_ms": 420.50605500025995
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately describes the final dispute outcome webhook as `charge.dispute.closed`, which is supported by the context that it fires on the final decision and carries the final status in its payload.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 767,
+      "completion_tokens": 26,
+      "total_tokens": 793,
+      "latency_ms": 7526.7559029998665
+    },
+    "passages": [
+      {
+        "chunk_id": "433242e10c4b5ea6",
+        "document_id": "disputes.md",
+        "content": "## Dispute rate\n\nCard networks monitor the ratio of disputes to total charges. Exceeding roughly one percent puts an account into a network monitoring programme, which carries monthly fines and can eventually result in the account losing card acceptance. Refunds do not count toward the dispute rate, which is why refunding an early fraud warning is almost always cheaper than fighting the resulting chargeback.\n\n## Webhooks\n\n`charge.dispute.created` fires when the dispute opens, `charge.dispute.updated` fires when evidence is submitted or the status changes, and `charge.dispute.closed` fires on the final decision. The `closed` event carries the final status in its payload.\n",
+        "char_start": 2245,
+        "char_end": 2924,
+        "rank": 1,
+        "score": 0.8201766014099121,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "0cfae2316946670e",
+        "document_id": "disputes.md",
+        "content": "## Evidence\n\nEvidence is submitted as a structured object rather than free text, because issuing banks score specific fields. The fields that matter most depend on the dispute reason. For a `product_not_received` dispute, shipping documentation with a tracking number and a delivery confirmation carries the most weight. For a `fraudulent` dispute, the customer's IP address, billing address match, and any record of prior undisputed purchases from the same customer are what the bank looks at.\n\nEvidence can be updated any number of times before it is submitted, but submission is final. Once you submit, the evidence object becomes read-only.\n\n",
+        "char_start": 953,
+        "char_end": 1599,
+        "rank": 2,
+        "score": 0.01035794522613287,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "711676881f669054",
+        "document_id": "disputes.md",
+        "content": "## The dispute lifecycle\n\nWhen a dispute is opened, the disputed amount and a separate dispute fee are immediately withdrawn from your balance. The Dispute object is created with a status of `needs_response` and an `evidence_details.due_by` timestamp.\n\nSubmitting evidence moves the dispute to `under_review`. The issuing bank then takes anywhere from 60 to 75 days to reach a decision. A dispute you win moves to `won` and the disputed amount is returned to your balance; the dispute fee is not returned. A dispute you lose moves to `lost` and nothing is returned.\n\nIf you do not respond before the due date, the dispute closes automatically in the cardholder's favour and moves to `lost`.\n\n",
+        "char_start": 261,
+        "char_end": 953,
+        "rank": 3,
+        "score": 0.0007086604018695652,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "5f16a0cf73d4f327",
+        "document_id": "disputes.md",
+        "content": "## Dispute fees\n\nThe dispute fee is charged the moment the dispute is created and is not refunded regardless of outcome. This is a bank cost, not a service charge, and it applies even to disputes you win. The fee amount varies by country and currency.\n\n## Early fraud warnings\n\nSome card networks send a fraud signal before a formal dispute is filed. An early fraud warning indicates the issuer has flagged the charge as fraudulent but the cardholder has not yet filed a chargeback. Refunding the charge at this stage usually prevents the dispute from being filed at all, which avoids the dispute fee and keeps the charge off your dispute rate.\n\n",
+        "char_start": 1599,
+        "char_end": 2245,
+        "rank": 4,
+        "score": 0.00039326914702542126,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "37a67d5ee905ad5d",
+        "document_id": "disputes.md",
+        "content": "# Disputes\n\nA dispute, also called a chargeback, is created when a cardholder asks their bank to reverse a charge. The bank pulls the funds from your account while it investigates, and you have a fixed window to submit evidence that the charge was legitimate.\n\n",
+        "char_start": 0,
+        "char_end": 261,
+        "rank": 5,
+        "score": 0.0003071597602684051,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "invoice-definition",
+    "query": "Which object represents a bill a customer needs to pay?",
+    "query_type": "semantic",
+    "expected_answer": "The Invoice object, created directly or generated by a subscription each billing period.",
+    "generated_answer": "An Invoice represents a bill a customer needs to pay. [1]",
+    "retrieval": {
+      "example_id": "invoice-definition",
+      "query": "Which object represents a bill a customer needs to pay?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "5195c705002a4880",
+        "0cfae2316946670e",
+        "b2f879500e6e1f7f",
+        "ecda609ff4ce8fd8",
+        "60427fbf98615483"
+      ],
+      "relevant_chunk_ids": [
+        "5195c705002a4880"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.11093699959019432,
+      "rerank_latency_ms": 542.909590999443
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately describes the Invoice object and its purpose, and all factual claims are supported by the retrieved context.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 860,
+      "completion_tokens": 15,
+      "total_tokens": 875,
+      "latency_ms": 8273.69781499965
+    },
+    "passages": [
+      {
+        "chunk_id": "5195c705002a4880",
+        "document_id": "invoices.md",
+        "content": "# Invoices and subscriptions\n\nAn Invoice is a statement of amounts owed by a customer. It can be created directly for a one-off bill, or generated automatically at the end of each billing period by a Subscription.\n\n## Invoice lifecycle\n\nAn invoice starts as a `draft`. While it is a draft it can be edited freely: line items added or removed, the customer changed, discounts applied. Drafts are not visible to the customer and no payment is attempted.\n\nFinalising an invoice moves it to `open` and freezes its line items. An open invoice has a hosted payment page and, depending on your settings, triggers an automatic collection attempt or an email to the customer.\n\n",
+        "char_start": 0,
+        "char_end": 668,
+        "rank": 1,
+        "score": 0.053419794887304306,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "0cfae2316946670e",
+        "document_id": "disputes.md",
+        "content": "## Evidence\n\nEvidence is submitted as a structured object rather than free text, because issuing banks score specific fields. The fields that matter most depend on the dispute reason. For a `product_not_received` dispute, shipping documentation with a tracking number and a delivery confirmation carries the most weight. For a `fraudulent` dispute, the customer's IP address, billing address match, and any record of prior undisputed purchases from the same customer are what the bank looks at.\n\nEvidence can be updated any number of times before it is submitted, but submission is final. Once you submit, the evidence object becomes read-only.\n\n",
+        "char_start": 953,
+        "char_end": 1599,
+        "rank": 2,
+        "score": 0.022638071328401566,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "b2f879500e6e1f7f",
+        "document_id": "invoices.md",
+        "content": "## Trials\n\nA subscription with a trial period does not generate a payable invoice until the trial ends. A zero-amount invoice is still created at the start of the trial so that the billing period is recorded. Trials can be extended while active by updating `trial_end`, but a trial cannot be added to a subscription after it has started billing.\n\n## Credit notes\n\nA credit note reduces the amount owed on an invoice that has already been finalised. Because a finalised invoice is immutable, this is the only way to correct an overcharge after finalisation. A credit note on a paid invoice can either refund the customer or add the amount to their customer balance, applied automatically against their next invoice.\n",
+        "char_start": 2276,
+        "char_end": 2991,
+        "rank": 3,
+        "score": 0.015184257179498672,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "ecda609ff4ce8fd8",
+        "document_id": "refunds.md",
+        "content": "# Refunds\n\nA refund returns money from your account balance to a customer who was previously charged. Refunds are created against a specific charge and can never exceed the amount of that charge.\n\n## Creating a refund\n\nTo refund a charge in full, create a Refund object with only the charge identifier. To refund part of a charge, pass an `amount` in the smallest currency unit \u2014 1250 for $12.50. You may issue multiple partial refunds against the same charge as long as their combined total does not exceed the original charge amount. Attempting to exceed it returns a `charge_already_refunded` error.\n\nA refund cannot be cancelled once it has been created. If you refund by mistake, the only remedy is to charge the customer again.\n\n",
+        "char_start": 0,
+        "char_end": 735,
+        "rank": 4,
+        "score": 0.011604092083871365,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "60427fbf98615483",
+        "document_id": "refunds.md",
+        "content": "## Settlement timing\n\nA refund is submitted to the customer's bank immediately, but the funds do not appear on their statement right away. Card refunds typically take five to ten business days to settle, and the exact timing is controlled by the issuing bank rather than by us. Bank debit refunds settle more slowly, usually within ten to fifteen business days.\n\nDuring this window the Refund object has a status of `pending`. It moves to `succeeded` once the issuer confirms the credit, or to `failed` if the issuer rejects it \u2014 most commonly because the customer's card was closed between the charge and the refund.\n\n",
+        "char_start": 735,
+        "char_end": 1354,
+        "rank": 5,
+        "score": 0.004589657299220562,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "invoice-auto-finalise",
+    "query": "When does a draft invoice get finalised automatically?",
+    "query_type": "factual",
+    "expected_answer": "One hour after creation, unless auto_advance is set to false.",
+    "generated_answer": "According to [1], a draft invoice is finalised automatically one hour after creation unless `auto_advance` is set to false.",
+    "retrieval": {
+      "example_id": "invoice-auto-finalise",
+      "query": "When does a draft invoice get finalised automatically?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "0aabcd347db24908",
+        "5195c705002a4880",
+        "b2f879500e6e1f7f",
+        "22799f7e2cc49418",
+        "9b7e484f64a22308"
+      ],
+      "relevant_chunk_ids": [
+        "0aabcd347db24908"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.09517600028630113,
+      "rerank_latency_ms": 514.300245999948
+    },
+    "judge": {
+      "correctness": "partially-correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer is partially correct because it mentions that auto_advance can be set to false, but it does not fully explain the automatic finalisation process. the answer is faithful because it only makes claims that are supported by the retrieved context.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 783,
+      "completion_tokens": 27,
+      "total_tokens": 810,
+      "latency_ms": 7385.118293000232
+    },
+    "passages": [
+      {
+        "chunk_id": "0aabcd347db24908",
+        "document_id": "invoices.md",
+        "content": "An invoice that is paid moves to `paid`. One that is written off moves to `uncollectible`. One that is cancelled before payment moves to `void`. A voided invoice is preserved for your records but is treated as though it never existed for revenue purposes.\n\nInvoices are finalised automatically one hour after creation unless you set `auto_advance` to false, which keeps the invoice in draft indefinitely and hands control of finalisation to your own code.\n\n",
+        "char_start": 668,
+        "char_end": 1125,
+        "rank": 1,
+        "score": 0.9895854592323303,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "5195c705002a4880",
+        "document_id": "invoices.md",
+        "content": "# Invoices and subscriptions\n\nAn Invoice is a statement of amounts owed by a customer. It can be created directly for a one-off bill, or generated automatically at the end of each billing period by a Subscription.\n\n## Invoice lifecycle\n\nAn invoice starts as a `draft`. While it is a draft it can be edited freely: line items added or removed, the customer changed, discounts applied. Drafts are not visible to the customer and no payment is attempted.\n\nFinalising an invoice moves it to `open` and freezes its line items. An open invoice has a hosted payment page and, depending on your settings, triggers an automatic collection attempt or an email to the customer.\n\n",
+        "char_start": 0,
+        "char_end": 668,
+        "rank": 2,
+        "score": 0.8166842460632324,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "b2f879500e6e1f7f",
+        "document_id": "invoices.md",
+        "content": "## Trials\n\nA subscription with a trial period does not generate a payable invoice until the trial ends. A zero-amount invoice is still created at the start of the trial so that the billing period is recorded. Trials can be extended while active by updating `trial_end`, but a trial cannot be added to a subscription after it has started billing.\n\n## Credit notes\n\nA credit note reduces the amount owed on an invoice that has already been finalised. Because a finalised invoice is immutable, this is the only way to correct an overcharge after finalisation. A credit note on a paid invoice can either refund the customer or add the amount to their customer balance, applied automatically against their next invoice.\n",
+        "char_start": 2276,
+        "char_end": 2991,
+        "rank": 3,
+        "score": 0.14066509902477264,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "22799f7e2cc49418",
+        "document_id": "invoices.md",
+        "content": "## Failed payments and dunning\n\nWhen an invoice payment fails, the subscription moves to `past_due` and the retry schedule begins. The default schedule retries after 3 days, then 5 days, then 7 days. After the final retry, the subscription moves to whatever you configured as the terminal state: `canceled`, `unpaid`, or left in `past_due`.\n\nA subscription in `unpaid` keeps generating invoices but does not attempt to collect them. A subscription in `canceled` stops generating invoices entirely and cannot be reactivated \u2014 you must create a new subscription.\n\n",
+        "char_start": 1714,
+        "char_end": 2276,
+        "rank": 4,
+        "score": 0.007870523259043694,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "9b7e484f64a22308",
+        "document_id": "invoices.md",
+        "content": "## Subscription billing periods\n\nA subscription generates an invoice at the start of each billing period, covering that period in advance. The invoice is created a few hours before the period begins, which gives failed payments time to retry before service is interrupted.\n\nChanging a subscription mid-period produces a proration. Two line items are added to the next invoice: a credit for the unused portion of the old price, and a charge for the remaining portion of the new one. Set `proration_behavior` to `none` to change the price with no adjustment for the period already elapsed.\n\n",
+        "char_start": 1125,
+        "char_end": 1714,
+        "rank": 5,
+        "score": 0.0027056229300796986,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "invoice-finalise-effect",
+    "query": "What changes when an invoice is finalised?",
+    "query_type": "factual",
+    "expected_answer": "It moves to open, its line items are frozen, and it gets a hosted payment page.",
+    "generated_answer": "When an invoice is finalised, it moves to `open` and freezes its line items. [2]",
+    "retrieval": {
+      "example_id": "invoice-finalise-effect",
+      "query": "What changes when an invoice is finalised?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "0aabcd347db24908",
+        "5195c705002a4880",
+        "b2f879500e6e1f7f",
+        "22799f7e2cc49418",
+        "9b7e484f64a22308"
+      ],
+      "relevant_chunk_ids": [
+        "5195c705002a4880"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5,
+      "ndcg_at_k": 0.6309297535714575,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.08035500013647834,
+      "rerank_latency_ms": 508.67726700016647
+    },
+    "judge": {
+      "correctness": "partially-correct",
+      "faithfulness": "partially-faithful",
+      "explanation": "the generated answer is partially correct as it mentions the invoice moving to open and freezing its line items, but it misses the hosted payment page. the answer is partially faithful as it mentions the invoice being finalised, but it does not provide a complete explanation of the process.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 782,
+      "completion_tokens": 23,
+      "total_tokens": 805,
+      "latency_ms": 7369.091432999994
+    },
+    "passages": [
+      {
+        "chunk_id": "0aabcd347db24908",
+        "document_id": "invoices.md",
+        "content": "An invoice that is paid moves to `paid`. One that is written off moves to `uncollectible`. One that is cancelled before payment moves to `void`. A voided invoice is preserved for your records but is treated as though it never existed for revenue purposes.\n\nInvoices are finalised automatically one hour after creation unless you set `auto_advance` to false, which keeps the invoice in draft indefinitely and hands control of finalisation to your own code.\n\n",
+        "char_start": 668,
+        "char_end": 1125,
+        "rank": 1,
+        "score": 0.9759023785591125,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "5195c705002a4880",
+        "document_id": "invoices.md",
+        "content": "# Invoices and subscriptions\n\nAn Invoice is a statement of amounts owed by a customer. It can be created directly for a one-off bill, or generated automatically at the end of each billing period by a Subscription.\n\n## Invoice lifecycle\n\nAn invoice starts as a `draft`. While it is a draft it can be edited freely: line items added or removed, the customer changed, discounts applied. Drafts are not visible to the customer and no payment is attempted.\n\nFinalising an invoice moves it to `open` and freezes its line items. An open invoice has a hosted payment page and, depending on your settings, triggers an automatic collection attempt or an email to the customer.\n\n",
+        "char_start": 0,
+        "char_end": 668,
+        "rank": 2,
+        "score": 0.9319398999214172,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "b2f879500e6e1f7f",
+        "document_id": "invoices.md",
+        "content": "## Trials\n\nA subscription with a trial period does not generate a payable invoice until the trial ends. A zero-amount invoice is still created at the start of the trial so that the billing period is recorded. Trials can be extended while active by updating `trial_end`, but a trial cannot be added to a subscription after it has started billing.\n\n## Credit notes\n\nA credit note reduces the amount owed on an invoice that has already been finalised. Because a finalised invoice is immutable, this is the only way to correct an overcharge after finalisation. A credit note on a paid invoice can either refund the customer or add the amount to their customer balance, applied automatically against their next invoice.\n",
+        "char_start": 2276,
+        "char_end": 2991,
+        "rank": 3,
+        "score": 0.8632918000221252,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "22799f7e2cc49418",
+        "document_id": "invoices.md",
+        "content": "## Failed payments and dunning\n\nWhen an invoice payment fails, the subscription moves to `past_due` and the retry schedule begins. The default schedule retries after 3 days, then 5 days, then 7 days. After the final retry, the subscription moves to whatever you configured as the terminal state: `canceled`, `unpaid`, or left in `past_due`.\n\nA subscription in `unpaid` keeps generating invoices but does not attempt to collect them. A subscription in `canceled` stops generating invoices entirely and cannot be reactivated \u2014 you must create a new subscription.\n\n",
+        "char_start": 1714,
+        "char_end": 2276,
+        "rank": 4,
+        "score": 0.1756061315536499,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "9b7e484f64a22308",
+        "document_id": "invoices.md",
+        "content": "## Subscription billing periods\n\nA subscription generates an invoice at the start of each billing period, covering that period in advance. The invoice is created a few hours before the period begins, which gives failed payments time to retry before service is interrupted.\n\nChanging a subscription mid-period produces a proration. Two line items are added to the next invoice: a credit for the unused portion of the old price, and a charge for the remaining portion of the new one. Set `proration_behavior` to `none` to change the price with no adjustment for the period already elapsed.\n\n",
+        "char_start": 1125,
+        "char_end": 1714,
+        "rank": 5,
+        "score": 0.028808100149035454,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "invoice-void-meaning",
+    "query": "What does voiding an invoice do to revenue reporting?",
+    "query_type": "semantic",
+    "expected_answer": "The invoice is kept for records but treated as if it never existed for revenue purposes.",
+    "generated_answer": "Voiding an invoice is treated as though it never existed for revenue purposes. [1]",
+    "retrieval": {
+      "example_id": "invoice-void-meaning",
+      "query": "What does voiding an invoice do to revenue reporting?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "0aabcd347db24908",
+        "5195c705002a4880",
+        "b2f879500e6e1f7f",
+        "22799f7e2cc49418",
+        "9b7e484f64a22308"
+      ],
+      "relevant_chunk_ids": [
+        "0aabcd347db24908"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.09414500073035015,
+      "rerank_latency_ms": 416.90016799930163
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately reflects the context, which states that a voided invoice is preserved for records but treated as though it never existed for revenue purposes.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 784,
+      "completion_tokens": 19,
+      "total_tokens": 803,
+      "latency_ms": 7599.957784999788
+    },
+    "passages": [
+      {
+        "chunk_id": "0aabcd347db24908",
+        "document_id": "invoices.md",
+        "content": "An invoice that is paid moves to `paid`. One that is written off moves to `uncollectible`. One that is cancelled before payment moves to `void`. A voided invoice is preserved for your records but is treated as though it never existed for revenue purposes.\n\nInvoices are finalised automatically one hour after creation unless you set `auto_advance` to false, which keeps the invoice in draft indefinitely and hands control of finalisation to your own code.\n\n",
+        "char_start": 668,
+        "char_end": 1125,
+        "rank": 1,
+        "score": 0.9209497570991516,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "5195c705002a4880",
+        "document_id": "invoices.md",
+        "content": "# Invoices and subscriptions\n\nAn Invoice is a statement of amounts owed by a customer. It can be created directly for a one-off bill, or generated automatically at the end of each billing period by a Subscription.\n\n## Invoice lifecycle\n\nAn invoice starts as a `draft`. While it is a draft it can be edited freely: line items added or removed, the customer changed, discounts applied. Drafts are not visible to the customer and no payment is attempted.\n\nFinalising an invoice moves it to `open` and freezes its line items. An open invoice has a hosted payment page and, depending on your settings, triggers an automatic collection attempt or an email to the customer.\n\n",
+        "char_start": 0,
+        "char_end": 668,
+        "rank": 2,
+        "score": 0.00755442725494504,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "b2f879500e6e1f7f",
+        "document_id": "invoices.md",
+        "content": "## Trials\n\nA subscription with a trial period does not generate a payable invoice until the trial ends. A zero-amount invoice is still created at the start of the trial so that the billing period is recorded. Trials can be extended while active by updating `trial_end`, but a trial cannot be added to a subscription after it has started billing.\n\n## Credit notes\n\nA credit note reduces the amount owed on an invoice that has already been finalised. Because a finalised invoice is immutable, this is the only way to correct an overcharge after finalisation. A credit note on a paid invoice can either refund the customer or add the amount to their customer balance, applied automatically against their next invoice.\n",
+        "char_start": 2276,
+        "char_end": 2991,
+        "rank": 3,
+        "score": 0.0017108396859839559,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "22799f7e2cc49418",
+        "document_id": "invoices.md",
+        "content": "## Failed payments and dunning\n\nWhen an invoice payment fails, the subscription moves to `past_due` and the retry schedule begins. The default schedule retries after 3 days, then 5 days, then 7 days. After the final retry, the subscription moves to whatever you configured as the terminal state: `canceled`, `unpaid`, or left in `past_due`.\n\nA subscription in `unpaid` keeps generating invoices but does not attempt to collect them. A subscription in `canceled` stops generating invoices entirely and cannot be reactivated \u2014 you must create a new subscription.\n\n",
+        "char_start": 1714,
+        "char_end": 2276,
+        "rank": 4,
+        "score": 0.0009235285106115043,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "9b7e484f64a22308",
+        "document_id": "invoices.md",
+        "content": "## Subscription billing periods\n\nA subscription generates an invoice at the start of each billing period, covering that period in advance. The invoice is created a few hours before the period begins, which gives failed payments time to retry before service is interrupted.\n\nChanging a subscription mid-period produces a proration. Two line items are added to the next invoice: a credit for the unused portion of the old price, and a charge for the remaining portion of the new one. Set `proration_behavior` to `none` to change the price with no adjustment for the period already elapsed.\n\n",
+        "char_start": 1125,
+        "char_end": 1714,
+        "rank": 5,
+        "score": 0.0007221633568406105,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "invoice-credit-note",
+    "query": "How do I correct an overcharge on an invoice that is already finalised?",
+    "query_type": "semantic",
+    "expected_answer": "With a credit note, since a finalised invoice is immutable.",
+    "generated_answer": "You can correct an overcharge on an invoice that is already finalised by creating a credit note. [1]",
+    "retrieval": {
+      "example_id": "invoice-credit-note",
+      "query": "How do I correct an overcharge on an invoice that is already finalised?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "b2f879500e6e1f7f",
+        "0aabcd347db24908",
+        "5195c705002a4880",
+        "9b7e484f64a22308",
+        "ecda609ff4ce8fd8"
+      ],
+      "relevant_chunk_ids": [
+        "b2f879500e6e1f7f"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.09520399999018991,
+      "rerank_latency_ms": 441.90396799967857
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately describes how to correct an overcharge on a finalised invoice, and all factual claims are supported by the retrieved context.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 823,
+      "completion_tokens": 24,
+      "total_tokens": 847,
+      "latency_ms": 7279.390828000032
+    },
+    "passages": [
+      {
+        "chunk_id": "b2f879500e6e1f7f",
+        "document_id": "invoices.md",
+        "content": "## Trials\n\nA subscription with a trial period does not generate a payable invoice until the trial ends. A zero-amount invoice is still created at the start of the trial so that the billing period is recorded. Trials can be extended while active by updating `trial_end`, but a trial cannot be added to a subscription after it has started billing.\n\n## Credit notes\n\nA credit note reduces the amount owed on an invoice that has already been finalised. Because a finalised invoice is immutable, this is the only way to correct an overcharge after finalisation. A credit note on a paid invoice can either refund the customer or add the amount to their customer balance, applied automatically against their next invoice.\n",
+        "char_start": 2276,
+        "char_end": 2991,
+        "rank": 1,
+        "score": 0.9947006702423096,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "0aabcd347db24908",
+        "document_id": "invoices.md",
+        "content": "An invoice that is paid moves to `paid`. One that is written off moves to `uncollectible`. One that is cancelled before payment moves to `void`. A voided invoice is preserved for your records but is treated as though it never existed for revenue purposes.\n\nInvoices are finalised automatically one hour after creation unless you set `auto_advance` to false, which keeps the invoice in draft indefinitely and hands control of finalisation to your own code.\n\n",
+        "char_start": 668,
+        "char_end": 1125,
+        "rank": 2,
+        "score": 0.02425704151391983,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "5195c705002a4880",
+        "document_id": "invoices.md",
+        "content": "# Invoices and subscriptions\n\nAn Invoice is a statement of amounts owed by a customer. It can be created directly for a one-off bill, or generated automatically at the end of each billing period by a Subscription.\n\n## Invoice lifecycle\n\nAn invoice starts as a `draft`. While it is a draft it can be edited freely: line items added or removed, the customer changed, discounts applied. Drafts are not visible to the customer and no payment is attempted.\n\nFinalising an invoice moves it to `open` and freezes its line items. An open invoice has a hosted payment page and, depending on your settings, triggers an automatic collection attempt or an email to the customer.\n\n",
+        "char_start": 0,
+        "char_end": 668,
+        "rank": 3,
+        "score": 0.02401287481188774,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "9b7e484f64a22308",
+        "document_id": "invoices.md",
+        "content": "## Subscription billing periods\n\nA subscription generates an invoice at the start of each billing period, covering that period in advance. The invoice is created a few hours before the period begins, which gives failed payments time to retry before service is interrupted.\n\nChanging a subscription mid-period produces a proration. Two line items are added to the next invoice: a credit for the unused portion of the old price, and a charge for the remaining portion of the new one. Set `proration_behavior` to `none` to change the price with no adjustment for the period already elapsed.\n\n",
+        "char_start": 1125,
+        "char_end": 1714,
+        "rank": 4,
+        "score": 0.017235806211829185,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "ecda609ff4ce8fd8",
+        "document_id": "refunds.md",
+        "content": "# Refunds\n\nA refund returns money from your account balance to a customer who was previously charged. Refunds are created against a specific charge and can never exceed the amount of that charge.\n\n## Creating a refund\n\nTo refund a charge in full, create a Refund object with only the charge identifier. To refund part of a charge, pass an `amount` in the smallest currency unit \u2014 1250 for $12.50. You may issue multiple partial refunds against the same charge as long as their combined total does not exceed the original charge amount. Attempting to exceed it returns a `charge_already_refunded` error.\n\nA refund cannot be cancelled once it has been created. If you refund by mistake, the only remedy is to charge the customer again.\n\n",
+        "char_start": 0,
+        "char_end": 735,
+        "rank": 5,
+        "score": 0.007363051176071167,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "subscription-retry-schedule",
+    "query": "What is the default retry schedule for a failed invoice payment?",
+    "query_type": "factual",
+    "expected_answer": "After 3 days, then 5 days, then 7 days.",
+    "generated_answer": "The default retry schedule for a failed invoice payment is 3 days, then 5 days, then 7 days. [1]",
+    "retrieval": {
+      "example_id": "subscription-retry-schedule",
+      "query": "What is the default retry schedule for a failed invoice payment?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "22799f7e2cc49418",
+        "9b7e484f64a22308",
+        "0aabcd347db24908",
+        "60427fbf98615483",
+        "5195c705002a4880"
+      ],
+      "relevant_chunk_ids": [
+        "22799f7e2cc49418"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.1462519994674949,
+      "rerank_latency_ms": 377.3282399997697
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer matches the expected answer in substance and every factual claim is supported by the retrieved context.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 769,
+      "completion_tokens": 28,
+      "total_tokens": 797,
+      "latency_ms": 7363.854130999243
+    },
+    "passages": [
+      {
+        "chunk_id": "22799f7e2cc49418",
+        "document_id": "invoices.md",
+        "content": "## Failed payments and dunning\n\nWhen an invoice payment fails, the subscription moves to `past_due` and the retry schedule begins. The default schedule retries after 3 days, then 5 days, then 7 days. After the final retry, the subscription moves to whatever you configured as the terminal state: `canceled`, `unpaid`, or left in `past_due`.\n\nA subscription in `unpaid` keeps generating invoices but does not attempt to collect them. A subscription in `canceled` stops generating invoices entirely and cannot be reactivated \u2014 you must create a new subscription.\n\n",
+        "char_start": 1714,
+        "char_end": 2276,
+        "rank": 1,
+        "score": 0.9977735877037048,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "9b7e484f64a22308",
+        "document_id": "invoices.md",
+        "content": "## Subscription billing periods\n\nA subscription generates an invoice at the start of each billing period, covering that period in advance. The invoice is created a few hours before the period begins, which gives failed payments time to retry before service is interrupted.\n\nChanging a subscription mid-period produces a proration. Two line items are added to the next invoice: a credit for the unused portion of the old price, and a charge for the remaining portion of the new one. Set `proration_behavior` to `none` to change the price with no adjustment for the period already elapsed.\n\n",
+        "char_start": 1125,
+        "char_end": 1714,
+        "rank": 2,
+        "score": 0.22677485644817352,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "0aabcd347db24908",
+        "document_id": "invoices.md",
+        "content": "An invoice that is paid moves to `paid`. One that is written off moves to `uncollectible`. One that is cancelled before payment moves to `void`. A voided invoice is preserved for your records but is treated as though it never existed for revenue purposes.\n\nInvoices are finalised automatically one hour after creation unless you set `auto_advance` to false, which keeps the invoice in draft indefinitely and hands control of finalisation to your own code.\n\n",
+        "char_start": 668,
+        "char_end": 1125,
+        "rank": 3,
+        "score": 0.003644769312813878,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "60427fbf98615483",
+        "document_id": "refunds.md",
+        "content": "## Settlement timing\n\nA refund is submitted to the customer's bank immediately, but the funds do not appear on their statement right away. Card refunds typically take five to ten business days to settle, and the exact timing is controlled by the issuing bank rather than by us. Bank debit refunds settle more slowly, usually within ten to fifteen business days.\n\nDuring this window the Refund object has a status of `pending`. It moves to `succeeded` once the issuer confirms the credit, or to `failed` if the issuer rejects it \u2014 most commonly because the customer's card was closed between the charge and the refund.\n\n",
+        "char_start": 735,
+        "char_end": 1354,
+        "rank": 4,
+        "score": 0.0030737239867448807,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "5195c705002a4880",
+        "document_id": "invoices.md",
+        "content": "# Invoices and subscriptions\n\nAn Invoice is a statement of amounts owed by a customer. It can be created directly for a one-off bill, or generated automatically at the end of each billing period by a Subscription.\n\n## Invoice lifecycle\n\nAn invoice starts as a `draft`. While it is a draft it can be edited freely: line items added or removed, the customer changed, discounts applied. Drafts are not visible to the customer and no payment is attempted.\n\nFinalising an invoice moves it to `open` and freezes its line items. An open invoice has a hosted payment page and, depending on your settings, triggers an automatic collection attempt or an email to the customer.\n\n",
+        "char_start": 0,
+        "char_end": 668,
+        "rank": 5,
+        "score": 0.002926880493760109,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "subscription-proration",
+    "query": "What happens on the next invoice if I change a subscription mid-period?",
+    "query_type": "semantic",
+    "expected_answer": "Two proration line items: a credit for the unused old price and a charge for the remaining new one.",
+    "generated_answer": "Two line items are added to the next invoice: a credit for the unused portion of the old price, and a charge for the remaining portion of the new one. [1]",
+    "retrieval": {
+      "example_id": "subscription-proration",
+      "query": "What happens on the next invoice if I change a subscription mid-period?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "9b7e484f64a22308",
+        "5195c705002a4880",
+        "b2f879500e6e1f7f",
+        "22799f7e2cc49418",
+        "0aabcd347db24908"
+      ],
+      "relevant_chunk_ids": [
+        "9b7e484f64a22308"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.1480979999541887,
+      "rerank_latency_ms": 344.35601599943766
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately describes the proration process for changing a subscription mid-period, and all claims are supported by the retrieved context.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 787,
+      "completion_tokens": 37,
+      "total_tokens": 824,
+      "latency_ms": 8324.089695000112
+    },
+    "passages": [
+      {
+        "chunk_id": "9b7e484f64a22308",
+        "document_id": "invoices.md",
+        "content": "## Subscription billing periods\n\nA subscription generates an invoice at the start of each billing period, covering that period in advance. The invoice is created a few hours before the period begins, which gives failed payments time to retry before service is interrupted.\n\nChanging a subscription mid-period produces a proration. Two line items are added to the next invoice: a credit for the unused portion of the old price, and a charge for the remaining portion of the new one. Set `proration_behavior` to `none` to change the price with no adjustment for the period already elapsed.\n\n",
+        "char_start": 1125,
+        "char_end": 1714,
+        "rank": 1,
+        "score": 0.9974172115325928,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "5195c705002a4880",
+        "document_id": "invoices.md",
+        "content": "# Invoices and subscriptions\n\nAn Invoice is a statement of amounts owed by a customer. It can be created directly for a one-off bill, or generated automatically at the end of each billing period by a Subscription.\n\n## Invoice lifecycle\n\nAn invoice starts as a `draft`. While it is a draft it can be edited freely: line items added or removed, the customer changed, discounts applied. Drafts are not visible to the customer and no payment is attempted.\n\nFinalising an invoice moves it to `open` and freezes its line items. An open invoice has a hosted payment page and, depending on your settings, triggers an automatic collection attempt or an email to the customer.\n\n",
+        "char_start": 0,
+        "char_end": 668,
+        "rank": 2,
+        "score": 0.16219118237495422,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "b2f879500e6e1f7f",
+        "document_id": "invoices.md",
+        "content": "## Trials\n\nA subscription with a trial period does not generate a payable invoice until the trial ends. A zero-amount invoice is still created at the start of the trial so that the billing period is recorded. Trials can be extended while active by updating `trial_end`, but a trial cannot be added to a subscription after it has started billing.\n\n## Credit notes\n\nA credit note reduces the amount owed on an invoice that has already been finalised. Because a finalised invoice is immutable, this is the only way to correct an overcharge after finalisation. A credit note on a paid invoice can either refund the customer or add the amount to their customer balance, applied automatically against their next invoice.\n",
+        "char_start": 2276,
+        "char_end": 2991,
+        "rank": 3,
+        "score": 0.12601278722286224,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "22799f7e2cc49418",
+        "document_id": "invoices.md",
+        "content": "## Failed payments and dunning\n\nWhen an invoice payment fails, the subscription moves to `past_due` and the retry schedule begins. The default schedule retries after 3 days, then 5 days, then 7 days. After the final retry, the subscription moves to whatever you configured as the terminal state: `canceled`, `unpaid`, or left in `past_due`.\n\nA subscription in `unpaid` keeps generating invoices but does not attempt to collect them. A subscription in `canceled` stops generating invoices entirely and cannot be reactivated \u2014 you must create a new subscription.\n\n",
+        "char_start": 1714,
+        "char_end": 2276,
+        "rank": 4,
+        "score": 0.032499272376298904,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "0aabcd347db24908",
+        "document_id": "invoices.md",
+        "content": "An invoice that is paid moves to `paid`. One that is written off moves to `uncollectible`. One that is cancelled before payment moves to `void`. A voided invoice is preserved for your records but is treated as though it never existed for revenue purposes.\n\nInvoices are finalised automatically one hour after creation unless you set `auto_advance` to false, which keeps the invoice in draft indefinitely and hands control of finalisation to your own code.\n\n",
+        "char_start": 668,
+        "char_end": 1125,
+        "rank": 5,
+        "score": 0.003798793302848935,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "subscription-canceled-vs-unpaid",
+    "query": "What is the difference between an unpaid and a canceled subscription?",
+    "query_type": "multi-hop",
+    "expected_answer": "Unpaid keeps generating invoices without collecting them; canceled stops generating invoices and cannot be reactivated.",
+    "generated_answer": "An unpaid subscription keeps generating invoices but does not attempt to collect them [1]. A canceled subscription stops generating invoices entirely and cannot be reactivated [1].",
+    "retrieval": {
+      "example_id": "subscription-canceled-vs-unpaid",
+      "query": "What is the difference between an unpaid and a canceled subscription?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "22799f7e2cc49418",
+        "9b7e484f64a22308",
+        "b2f879500e6e1f7f",
+        "5195c705002a4880",
+        "60427fbf98615483"
+      ],
+      "relevant_chunk_ids": [
+        "22799f7e2cc49418"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.06763799956388539,
+      "rerank_latency_ms": 288.6464029998024
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately describes the difference between an unpaid and a canceled subscription, and all claims are supported by the retrieved context.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 817,
+      "completion_tokens": 32,
+      "total_tokens": 849,
+      "latency_ms": 8482.832086999224
+    },
+    "passages": [
+      {
+        "chunk_id": "22799f7e2cc49418",
+        "document_id": "invoices.md",
+        "content": "## Failed payments and dunning\n\nWhen an invoice payment fails, the subscription moves to `past_due` and the retry schedule begins. The default schedule retries after 3 days, then 5 days, then 7 days. After the final retry, the subscription moves to whatever you configured as the terminal state: `canceled`, `unpaid`, or left in `past_due`.\n\nA subscription in `unpaid` keeps generating invoices but does not attempt to collect them. A subscription in `canceled` stops generating invoices entirely and cannot be reactivated \u2014 you must create a new subscription.\n\n",
+        "char_start": 1714,
+        "char_end": 2276,
+        "rank": 1,
+        "score": 0.9471901655197144,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "9b7e484f64a22308",
+        "document_id": "invoices.md",
+        "content": "## Subscription billing periods\n\nA subscription generates an invoice at the start of each billing period, covering that period in advance. The invoice is created a few hours before the period begins, which gives failed payments time to retry before service is interrupted.\n\nChanging a subscription mid-period produces a proration. Two line items are added to the next invoice: a credit for the unused portion of the old price, and a charge for the remaining portion of the new one. Set `proration_behavior` to `none` to change the price with no adjustment for the period already elapsed.\n\n",
+        "char_start": 1125,
+        "char_end": 1714,
+        "rank": 2,
+        "score": 0.0025455928407609463,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "b2f879500e6e1f7f",
+        "document_id": "invoices.md",
+        "content": "## Trials\n\nA subscription with a trial period does not generate a payable invoice until the trial ends. A zero-amount invoice is still created at the start of the trial so that the billing period is recorded. Trials can be extended while active by updating `trial_end`, but a trial cannot be added to a subscription after it has started billing.\n\n## Credit notes\n\nA credit note reduces the amount owed on an invoice that has already been finalised. Because a finalised invoice is immutable, this is the only way to correct an overcharge after finalisation. A credit note on a paid invoice can either refund the customer or add the amount to their customer balance, applied automatically against their next invoice.\n",
+        "char_start": 2276,
+        "char_end": 2991,
+        "rank": 3,
+        "score": 0.0013177075888961554,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "5195c705002a4880",
+        "document_id": "invoices.md",
+        "content": "# Invoices and subscriptions\n\nAn Invoice is a statement of amounts owed by a customer. It can be created directly for a one-off bill, or generated automatically at the end of each billing period by a Subscription.\n\n## Invoice lifecycle\n\nAn invoice starts as a `draft`. While it is a draft it can be edited freely: line items added or removed, the customer changed, discounts applied. Drafts are not visible to the customer and no payment is attempted.\n\nFinalising an invoice moves it to `open` and freezes its line items. An open invoice has a hosted payment page and, depending on your settings, triggers an automatic collection attempt or an email to the customer.\n\n",
+        "char_start": 0,
+        "char_end": 668,
+        "rank": 4,
+        "score": 0.0007628498133271933,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "60427fbf98615483",
+        "document_id": "refunds.md",
+        "content": "## Settlement timing\n\nA refund is submitted to the customer's bank immediately, but the funds do not appear on their statement right away. Card refunds typically take five to ten business days to settle, and the exact timing is controlled by the issuing bank rather than by us. Bank debit refunds settle more slowly, usually within ten to fifteen business days.\n\nDuring this window the Refund object has a status of `pending`. It moves to `succeeded` once the issuer confirms the credit, or to `failed` if the issuer rejects it \u2014 most commonly because the customer's card was closed between the charge and the refund.\n\n",
+        "char_start": 735,
+        "char_end": 1354,
+        "rank": 5,
+        "score": 0.00010992047464242205,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  },
+  {
+    "id": "subscription-trial-invoice",
+    "query": "Is an invoice created at the start of a free trial?",
+    "query_type": "factual",
+    "expected_answer": "Yes, a zero-amount invoice, so the billing period is recorded.",
+    "generated_answer": "Yes, a zero-amount invoice is created at the start of a trial so that the billing period is recorded. [1]",
+    "retrieval": {
+      "example_id": "subscription-trial-invoice",
+      "query": "Is an invoice created at the start of a free trial?",
+      "k": 5,
+      "retrieved_chunk_ids": [
+        "b2f879500e6e1f7f",
+        "9b7e484f64a22308",
+        "5195c705002a4880",
+        "0aabcd347db24908",
+        "22799f7e2cc49418"
+      ],
+      "relevant_chunk_ids": [
+        "b2f879500e6e1f7f"
+      ],
+      "precision_at_k": 0.2,
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "ndcg_at_k": 1.0,
+      "hit_at_k": 1.0,
+      "retrieval_latency_ms": 0.09371299984195502,
+      "rerank_latency_ms": 522.4800149999282
+    },
+    "judge": {
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately reflects the context, which states that a zero-amount invoice is created at the start of a trial to record the billing period.",
+      "measured": true
+    },
+    "generation": {
+      "model": "llama-3.1-8b-instant",
+      "prompt_tokens": 785,
+      "completion_tokens": 27,
+      "total_tokens": 812,
+      "latency_ms": 6259.474120999585
+    },
+    "passages": [
+      {
+        "chunk_id": "b2f879500e6e1f7f",
+        "document_id": "invoices.md",
+        "content": "## Trials\n\nA subscription with a trial period does not generate a payable invoice until the trial ends. A zero-amount invoice is still created at the start of the trial so that the billing period is recorded. Trials can be extended while active by updating `trial_end`, but a trial cannot be added to a subscription after it has started billing.\n\n## Credit notes\n\nA credit note reduces the amount owed on an invoice that has already been finalised. Because a finalised invoice is immutable, this is the only way to correct an overcharge after finalisation. A credit note on a paid invoice can either refund the customer or add the amount to their customer balance, applied automatically against their next invoice.\n",
+        "char_start": 2276,
+        "char_end": 2991,
+        "rank": 1,
+        "score": 0.9789301156997681,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "9b7e484f64a22308",
+        "document_id": "invoices.md",
+        "content": "## Subscription billing periods\n\nA subscription generates an invoice at the start of each billing period, covering that period in advance. The invoice is created a few hours before the period begins, which gives failed payments time to retry before service is interrupted.\n\nChanging a subscription mid-period produces a proration. Two line items are added to the next invoice: a credit for the unused portion of the old price, and a charge for the remaining portion of the new one. Set `proration_behavior` to `none` to change the price with no adjustment for the period already elapsed.\n\n",
+        "char_start": 1125,
+        "char_end": 1714,
+        "rank": 2,
+        "score": 0.2252107858657837,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "5195c705002a4880",
+        "document_id": "invoices.md",
+        "content": "# Invoices and subscriptions\n\nAn Invoice is a statement of amounts owed by a customer. It can be created directly for a one-off bill, or generated automatically at the end of each billing period by a Subscription.\n\n## Invoice lifecycle\n\nAn invoice starts as a `draft`. While it is a draft it can be edited freely: line items added or removed, the customer changed, discounts applied. Drafts are not visible to the customer and no payment is attempted.\n\nFinalising an invoice moves it to `open` and freezes its line items. An open invoice has a hosted payment page and, depending on your settings, triggers an automatic collection attempt or an email to the customer.\n\n",
+        "char_start": 0,
+        "char_end": 668,
+        "rank": 3,
+        "score": 0.11013703048229218,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "0aabcd347db24908",
+        "document_id": "invoices.md",
+        "content": "An invoice that is paid moves to `paid`. One that is written off moves to `uncollectible`. One that is cancelled before payment moves to `void`. A voided invoice is preserved for your records but is treated as though it never existed for revenue purposes.\n\nInvoices are finalised automatically one hour after creation unless you set `auto_advance` to false, which keeps the invoice in draft indefinitely and hands control of finalisation to your own code.\n\n",
+        "char_start": 668,
+        "char_end": 1125,
+        "rank": 4,
+        "score": 0.005119897425174713,
+        "retriever_name": "bm25+rerank"
+      },
+      {
+        "chunk_id": "22799f7e2cc49418",
+        "document_id": "invoices.md",
+        "content": "## Failed payments and dunning\n\nWhen an invoice payment fails, the subscription moves to `past_due` and the retry schedule begins. The default schedule retries after 3 days, then 5 days, then 7 days. After the final retry, the subscription moves to whatever you configured as the terminal state: `canceled`, `unpaid`, or left in `past_due`.\n\nA subscription in `unpaid` keeps generating invoices but does not attempt to collect them. A subscription in `canceled` stops generating invoices entirely and cannot be reactivated \u2014 you must create a new subscription.\n\n",
+        "char_start": 1714,
+        "char_end": 2276,
+        "rank": 5,
+        "score": 0.0009293779148720205,
+        "retriever_name": "bm25+rerank"
+      }
+    ]
+  }
+]

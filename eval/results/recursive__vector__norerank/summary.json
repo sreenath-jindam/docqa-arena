@@ -1,0 +1,43 @@
+{
+  "config": {
+    "chunker": "recursive",
+    "retriever": "vector",
+    "reranker": null,
+    "top_k": 5,
+    "rerank_candidates": 20,
+    "embed_model": "BAAI/bge-m3",
+    "rerank_model": "BAAI/bge-reranker-v2-m3",
+    "chunk_size": 800,
+    "chunk_overlap": 120,
+    "generator_model": "llama-3.1-8b-instant",
+    "judge_backend": "llm",
+    "device": "cuda",
+    "slug": "recursive__vector__norerank"
+  },
+  "started_at": "2026-08-15T12:44:28.745105+00:00",
+  "finished_at": "2026-08-15T12:48:40.742524+00:00",
+  "total_examples": 31,
+  "retrieval": {
+    "precision_at_k": 0.2064516129032258,
+    "recall_at_k": 1.0,
+    "mrr": 0.9086021505376345,
+    "ndcg_at_k": 0.9280646637436265,
+    "hit_at_k": 1.0,
+    "retrieval_latency_ms_mean": 4.891706096772865,
+    "retrieval_latency_ms_p95": 6.044427000233554,
+    "rerank_latency_ms_mean": 0.0,
+    "rerank_latency_ms_p95": 0.0
+  },
+  "generation": {
+    "judge_coverage": 0.0,
+    "judged_examples": 0,
+    "correctness": null,
+    "faithfulness": null,
+    "correct_count": 0,
+    "faithful_count": 0,
+    "prompt_tokens_mean": 770.8064516129032,
+    "completion_tokens_mean": 27.516129032258064,
+    "latency_ms_mean": 8002.24300309678,
+    "latency_ms_p95": 11390.321675999985
+  }
+}

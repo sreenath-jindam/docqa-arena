@@ -94,8 +94,16 @@ def run_single_config(
         try:
             verdict = judge.judge(example.query, example.expected_answer, result.answer, result.passages)
             judge_dict = verdict.__dict__.copy()
-        except Exception as exc:  # a rate-limited judge should not kill the sweep
-            judge_dict = {"correctness": "incorrect", "faithfulness": "unfaithful", "explanation": f"judge error: {exc}"}
+            judge_dict["measured"] = True
+        except Exception as exc:  # a rate-limited judge must not kill the sweep
+            # null, not zero. An unmeasured item is not an unfaithful one, and
+            # averaging the two together turns an outage into a quality score.
+            judge_dict = {
+                "correctness": None,
+                "faithfulness": None,
+                "measured": False,
+                "explanation": f"judge unavailable: {exc}",
+            }
 
         evaluations.append(
             {
@@ -138,6 +146,9 @@ def summarize(cfg: PipelineConfig, evaluations: list[dict], started: str) -> dic
     retrieval_latencies = [r["retrieval_latency_ms"] for r in retrieval]
     rerank_latencies = [r["rerank_latency_ms"] for r in retrieval]
 
+    measured = [j for j in judges if j.get("measured")]
+    coverage = len(measured) / len(judges) if judges else 0.0
+
     return {
         "config": {**cfg.to_dict(), "slug": cfg.slug},
         "started_at": started,
@@ -155,10 +166,15 @@ def summarize(cfg: PipelineConfig, evaluations: list[dict], started: str) -> dic
             "rerank_latency_ms_p95": percentile(rerank_latencies, 95),
         },
         "generation": {
-            "correctness": mean([CORRECTNESS_SCORE.get(j["correctness"], 0.0) for j in judges]),
-            "faithfulness": mean([FAITHFULNESS_SCORE.get(j["faithfulness"], 0.0) for j in judges]),
-            "correct_count": sum(1 for j in judges if j["correctness"] == "correct"),
-            "faithful_count": sum(1 for j in judges if j["faithfulness"] == "faithful"),
+            # Averaged over measured items only; `judge_coverage` says how many
+            # that was. A config scored on 3 of 31 answers is not comparable to
+            # one scored on all 31, and the leaderboard refuses to rank it.
+            "judge_coverage": coverage,
+            "judged_examples": len(measured),
+            "correctness": mean([CORRECTNESS_SCORE[j["correctness"]] for j in measured]) if measured else None,
+            "faithfulness": mean([FAITHFULNESS_SCORE[j["faithfulness"]] for j in measured]) if measured else None,
+            "correct_count": sum(1 for j in measured if j["correctness"] == "correct"),
+            "faithful_count": sum(1 for j in measured if j["faithfulness"] == "faithful"),
             "prompt_tokens_mean": mean([g["prompt_tokens"] for g in generation]),
             "completion_tokens_mean": mean([g["completion_tokens"] for g in generation]),
             "latency_ms_mean": mean([g["latency_ms"] for g in generation]),
@@ -205,10 +221,13 @@ def run_sweep(
         try:
             summary = run_single_config(app, cfg, examples, documents, judge, out_dir, verbose)
             summaries.append(summary)
+            gen = summary["generation"]
+            faith = f"{gen['faithfulness']:.3f}" if gen["faithfulness"] is not None else "unmeasured"
             print(
                 f"  done in {time.perf_counter() - start:.1f}s  "
                 f"mrr={summary['retrieval']['mrr']:.3f}  "
-                f"faithfulness={summary['generation']['faithfulness']:.3f}",
+                f"faithfulness={faith}  "
+                f"judge_coverage={gen['judge_coverage']:.0%}",
                 flush=True,
             )
         except Exception:
