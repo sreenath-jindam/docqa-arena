@@ -21,6 +21,7 @@ from .chunkers import build_chunker
 from .config import AppConfig, PipelineConfig
 from .corpus import load_corpus
 from .embeddings import build_embedder
+from .gate import OUT_OF_SCOPE_ANSWER, RelevanceGate
 from .generate import build_generator, build_messages
 from .rerank import build_reranker
 from .retrievers import build_retriever
@@ -36,6 +37,7 @@ class AnswerResult:
     generation: GenerationResult | None
     timings_ms: dict[str, float] = field(default_factory=dict)
     cache_stats: dict[str, Any] = field(default_factory=dict)
+    gate: dict[str, Any] | None = None
 
     def to_dict(self) -> dict:
         return {
@@ -44,6 +46,7 @@ class AnswerResult:
             "passages": [p.dict() for p in self.passages],
             "timings_ms": {k: round(v, 2) for k, v in self.timings_ms.items()},
             "cache_stats": self.cache_stats,
+            "gate": self.gate,
             "model": self.generation.model if self.generation else None,
             "tokens": (
                 {
@@ -64,6 +67,11 @@ class RAGPipeline:
         self.cache = EmbeddingCache(app_config.cache_file, enabled=cache_enabled)
         self.embedder = build_embedder(self.cfg.embed_model, device=self.cfg.device, cache=self.cache)
         self.store = ChromaStore(app_config.index_path, self.cfg.collection_name, self.embedder)
+        self.gate = RelevanceGate(
+            min_score=self.cfg.gate_min_score,
+            min_top_score=self.cfg.gate_min_top_score,
+            enabled=self.cfg.gate_enabled,
+        )
         self._chunks: list[Chunk] | None = None
         self._retriever = None
         self._reranker = None
@@ -130,7 +138,9 @@ class RAGPipeline:
         }
 
     # -- query ----------------------------------------------------------
-    def retrieve(self, query: str, k: int | None = None) -> tuple[list[RetrievalResult], dict[str, float]]:
+    def retrieve(
+        self, query: str, k: int | None = None
+    ) -> tuple[list[RetrievalResult], dict[str, float], dict[str, Any] | None]:
         k = k or self.cfg.top_k
         timings: dict[str, float] = {}
 
@@ -146,19 +156,28 @@ class RAGPipeline:
         else:
             results = results[:k]
 
-        return results, timings
+        decision = self.gate.apply(results)
+        return decision.passages, timings, (decision.to_dict() if self.gate.enabled else None)
 
     def answer(self, query: str, k: int | None = None, generate: bool = True) -> AnswerResult:
         total_start = time.perf_counter()
-        results, timings = self.retrieve(query, k)
+        results, timings, gate_info = self.retrieve(query, k)
 
         generation = None
         answer_text = ""
         if generate:
-            t0 = time.perf_counter()
-            generation = self.generator.generate(build_messages(query, results))
-            timings["generation"] = (time.perf_counter() - t0) * 1000
-            answer_text = generation.answer
+            if not results and self.gate.enabled:
+                # The gate found nothing relevant. Skipping the LLM call is not
+                # just a saving: given only irrelevant context the generator
+                # sometimes answers from it anyway, which is the exact failure
+                # the gate exists to prevent.
+                answer_text = OUT_OF_SCOPE_ANSWER
+                timings["generation"] = 0.0
+            else:
+                t0 = time.perf_counter()
+                generation = self.generator.generate(build_messages(query, results))
+                timings["generation"] = (time.perf_counter() - t0) * 1000
+                answer_text = generation.answer
 
         timings["total"] = (time.perf_counter() - total_start) * 1000
         return AnswerResult(
@@ -168,6 +187,7 @@ class RAGPipeline:
             generation=generation,
             timings_ms=timings,
             cache_stats=self.cache.stats(),
+            gate=gate_info,
         )
 
     def health(self) -> dict:

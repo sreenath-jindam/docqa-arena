@@ -118,6 +118,7 @@ def ask(request: AskRequest, pipeline: RAGPipeline = Depends(get_pipeline)) -> A
         cache=payload["cache_stats"],
         tokens=payload["tokens"],
         model=payload["model"],
+        gate=payload["gate"],
     )
 
 
@@ -125,11 +126,12 @@ def ask(request: AskRequest, pipeline: RAGPipeline = Depends(get_pipeline)) -> A
 def search(request: SearchRequest, pipeline: RAGPipeline = Depends(get_pipeline)) -> SearchResponse:
     """Retrieval without generation — the endpoint to hit when an answer looks
     wrong and you need to know whether the right passages were even fetched."""
-    passages, timings = pipeline.retrieve(request.query, k=request.top_k)
+    passages, timings, gate = pipeline.retrieve(request.query, k=request.top_k)
     return SearchResponse(
         query=request.query,
         passages=[p.dict() for p in passages],
         timings_ms=timings,
+        gate=gate,
     )
 
 

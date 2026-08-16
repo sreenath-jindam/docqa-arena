@@ -21,6 +21,7 @@ class AskRequest(BaseModel):
 
 
 class Passage(BaseModel):
+    semantic_score: float | None = None
     chunk_id: str
     document_id: str
     content: str
@@ -46,6 +47,7 @@ class AskResponse(BaseModel):
     cache: dict[str, Any] = {}
     tokens: dict[str, int] | None = None
     model: str | None = None
+    gate: dict[str, Any] | None = None
 
 
 class SearchRequest(BaseModel):
@@ -57,6 +59,7 @@ class SearchResponse(BaseModel):
     query: str
     passages: list[Passage]
     timings_ms: Timings
+    gate: dict[str, Any] | None = None
 
 
 class HealthResponse(BaseModel):

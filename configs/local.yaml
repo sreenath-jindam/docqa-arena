@@ -18,6 +18,9 @@ pipeline:
   generator_model: llama-3.1-8b-instant
   judge_backend: llm
   device: cpu
+  gate_enabled: true       # threshold measured with scripts/tune_threshold.py
+  gate_min_score: 0.60
+  gate_min_top_score: 0.66
 
 sweep:
   chunkers: [fixed, recursive, semantic]

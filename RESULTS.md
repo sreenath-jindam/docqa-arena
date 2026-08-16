@@ -179,6 +179,54 @@ The multi-hop question is the genuine retrieval failure of the four: its two
 evidence spans sit in different sections, and a top-5 that surfaces one of them
 looks like a partial hit to the metric and a complete miss to the generator.
 
+### 8. The service answered out-of-scope questions, and the fused score could not stop it
+
+Asked *"Many people sent money to me at once and my bank account is down. What
+should I do?"* — a question the corpus does not address — the service returned a
+fluent, cited answer about negative balances after a refund. Retrieval had
+surfaced its five nearest chunks, as retrievers always do, and the generator
+answered from the least-bad one.
+
+The obvious fix, thresholding on the retrieval score, does not work here. RRF
+computes `1/(60 + rank)`, so a rank-1 result scores ~0.033 whether it is a
+perfect match or unrelated. **The fused score encodes position, not relevance.**
+
+Preserving the underlying cosine similarity through fusion gives a signal that
+is comparable across queries. Measured over the 31 golden questions and 12
+out-of-scope questions (`scripts/tune_threshold.py`):
+
+| | min | median | max |
+|---|---|---|---|
+| in-scope (n=31) | 0.691 | 0.796 | 0.900 |
+| out-of-scope (n=12) | 0.368 | 0.549 | 0.720 |
+
+The distributions overlap by 0.029, and the entire overlap is one adversarial
+query: *"What is the refund policy for my gym membership?"* at 0.720. That is
+arguably not a clean negative — the corpus **is** about refund policy, it is
+just not about gyms, and a bi-encoder placing those close together is the model
+working correctly. Excluding it, the next-highest out-of-scope query scores
+0.649 against a worst in-scope of 0.691: a gap of **0.042**.
+
+**Gate set at 0.66** (`gate_min_top_score`), with individual passages filtered at
+0.60. On this sample it admits all 31 in-scope questions and rejects 11 of 12
+out-of-scope ones. The threshold sits below the observed in-scope minimum rather
+than at it, because dropping a passage that would have answered the question is
+the worse failure — the generator can decline, but it cannot retrieve.
+
+Verified in the running service:
+
+| query | similarity | result |
+|---|---|---|
+| bank account down (out of scope) | 0.631 | blocked, **8 ms total** — no LLM call |
+| card refund settlement time | 0.888 | answered, both timings returned |
+| which object represents a bill (weakest in-scope) | 0.691 | answered |
+
+When the gate fires it skips generation entirely: 8 ms against ~700 ms for an
+answered query. Refusing is two orders of magnitude cheaper than answering.
+
+**The gate is disabled during sweeps.** Filtering passages would change what
+recall@5 measures, so it is a service-layer control, not part of the benchmark.
+
 ---
 
 ## Service latency
@@ -232,6 +280,12 @@ document headings, which makes retrieved passages readable in the UI.
 The reranker stays implemented, tested, and one config flag away — the sweep
 established what it costs and what it buys, which is the point.
 
+**Relevance gating enabled at 0.66.** The out-of-scope failure in §8 was found
+by using the service, not by the sweep — the golden set contains only questions
+the corpus can answer, so a benchmark built from it cannot detect a query being
+answered that should have been refused. The gate closes that gap, and the
+threshold behind it is measured rather than guessed.
+
 ---
 
 ## Limitations
@@ -263,3 +317,16 @@ established what it costs and what it buys, which is the point.
   mapped to {0, 0.5, 1}. Averaging ordinals is a convenience, not a measurement.
 - **Latency was measured on one machine, single-threaded, no concurrency.**
   Nothing here says how the service behaves under load.
+- **The relevance threshold rests on 12 negative examples.** That is enough to
+  show the distributions are nearly separable, not enough to characterise the
+  tail. The value 0.66 is specific to `bge-small-en-v1.5` on this corpus and
+  will not transfer to `bge-m3` or to different documents; re-run
+  `scripts/tune_threshold.py` after changing either.
+- **The gate cannot filter BM25-only results.** Lexical retrieval produces no
+  score comparable across queries, so the gate abstains rather than filtering on
+  a number that does not mean what the threshold assumes. A `bm25` service
+  configuration is therefore ungated.
+- **The golden set cannot measure the gate.** Every question in it is answerable
+  from the corpus, so it contains no true negatives. False-refusal rate is
+  measured against it; false-answer rate is not measured at all beyond the 12
+  hand-written out-of-scope queries.

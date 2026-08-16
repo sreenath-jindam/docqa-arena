@@ -110,12 +110,28 @@ if (ask_clicked or search_clicked) and query.strip():
                     f"<div class='passage-card'>"
                     f"<div class='passage-meta'>[{i}] {passage['document_id']} · "
                     f"chars {passage['char_start']}–{passage['char_end']} · "
-                    f"score {passage['score']:.3f} · {passage['retriever_name']}</div>"
+                    f"score {passage['score']:.3f}"
+                    f"{' · sim ' + format(passage['semantic_score'], '.3f') if passage.get('semantic_score') is not None else ''}"
+                    f" · {passage['retriever_name']}</div>"
                     f"{passage['content'][:600].replace('<', '&lt;')}"
                     f"{'…' if len(passage['content']) > 600 else ''}"
                     f"</div>",
                     unsafe_allow_html=True,
                 )
+
+    gate = data.get("gate")
+    if gate is not None:
+        if not gate["passed"]:
+            st.warning(
+                f"Relevance gate: no passage cleared the threshold "
+                f"(best similarity {gate['best_score']:.3f} < {gate['threshold']}). "
+                f"Nothing was sent to the model."
+            )
+        elif gate["dropped"]:
+            st.caption(
+                f"Relevance gate kept {gate['kept']} of {gate['kept'] + gate['dropped']} passages "
+                f"(best similarity {gate['best_score']:.3f})."
+            )
 
     timings = data.get("timings_ms", {})
     st.divider()

@@ -119,7 +119,14 @@ class BM25Retriever(Retriever):
 
 
 class HybridRetriever(Retriever):
-    """Reciprocal Rank Fusion over vector and BM25 result lists."""
+    """Reciprocal Rank Fusion over vector and BM25 result lists.
+
+    RRF scores are computed from rank alone, so a rank-1 result always scores
+    ~1/61 whether it is a perfect match or completely unrelated. That makes the
+    fused score useless as a relevance threshold. To keep thresholding possible,
+    the underlying cosine similarity is preserved on each result in
+    `semantic_score`, and the relevance gate reads that instead.
+    """
 
     name = "hybrid"
 
@@ -135,10 +142,13 @@ class HybridRetriever(Retriever):
 
         fused: dict[str, float] = {}
         best: dict[str, RetrievalResult] = {}
+        semantic: dict[str, float] = {}
         for results in lists:
             for result in results:
                 fused[result.chunk_id] = fused.get(result.chunk_id, 0.0) + 1.0 / (self.rrf_k + result.rank)
                 best.setdefault(result.chunk_id, result)
+                if result.retriever_name == "vector":
+                    semantic[result.chunk_id] = result.score
 
         ordered = sorted(fused.items(), key=lambda kv: (-kv[1], kv[0]))
         out = []
@@ -154,6 +164,7 @@ class HybridRetriever(Retriever):
                     rank=rank,
                     score=float(score),
                     retriever_name="hybrid",
+                    semantic_score=semantic.get(chunk_id),
                 )
             )
         return out

@@ -78,3 +78,58 @@ def test_chunker_and_bm25_compose(doc):
     results = BM25Retriever(chunks).retrieve("processing fee", 3)
     assert results
     assert "fee" in results[0].content.lower()
+
+
+class TestRelevanceGate:
+    """The gate must reject out-of-scope queries without dropping real answers."""
+
+    @staticmethod
+    def result(cid, sim, rank):
+        return RetrievalResult(cid, "d.md", f"content {cid}", 0, 10, rank, 0.032, "hybrid", semantic_score=sim)
+
+    def test_drops_everything_when_nothing_is_close(self):
+        from src.gate import RelevanceGate
+
+        gate = RelevanceGate(min_score=0.45, min_top_score=0.50)
+        decision = gate.apply([self.result("a", 0.31, 1), self.result("b", 0.28, 2)])
+        assert decision.passed is False
+        assert decision.passages == []
+        assert decision.dropped == 2
+
+    def test_keeps_strong_passages_and_drops_weak_ones(self):
+        from src.gate import RelevanceGate
+
+        gate = RelevanceGate(min_score=0.45, min_top_score=0.50)
+        decision = gate.apply(
+            [self.result("a", 0.72, 1), self.result("b", 0.51, 2), self.result("c", 0.30, 3)]
+        )
+        assert decision.passed is True
+        assert [p.chunk_id for p in decision.passages] == ["a", "b"]
+        assert decision.dropped == 1
+
+    def test_ranks_are_renumbered_contiguously(self):
+        """Citation numbers refer to position, so a gap would misattribute a claim."""
+        from src.gate import RelevanceGate
+
+        gate = RelevanceGate(min_score=0.45, min_top_score=0.50)
+        decision = gate.apply(
+            [self.result("a", 0.80, 1), self.result("b", 0.10, 2), self.result("c", 0.60, 3)]
+        )
+        assert [p.rank for p in decision.passages] == [1, 2]
+
+    def test_abstains_when_no_semantic_score_is_available(self):
+        """BM25-only results carry no comparable score; filtering on a missing
+        number would be worse than not filtering at all."""
+        from src.gate import RelevanceGate
+
+        results = [RetrievalResult("a", "d.md", "x", 0, 1, 1, 5.0, "bm25")]
+        decision = RelevanceGate(min_score=0.9, min_top_score=0.9).apply(results)
+        assert decision.passed is True
+        assert len(decision.passages) == 1
+
+    def test_disabled_gate_is_a_passthrough(self):
+        from src.gate import RelevanceGate
+
+        results = [self.result("a", 0.01, 1)]
+        decision = RelevanceGate(enabled=False).apply(results)
+        assert decision.passages == results

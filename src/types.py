@@ -48,6 +48,11 @@ class RetrievalResult:
     rank: int
     score: float
     retriever_name: str
+    # Cosine similarity against the query, when a dense retriever produced or
+    # scored this chunk. Unlike `score` (which may be an RRF or cross-encoder
+    # value) this is comparable across queries, so it is what the relevance
+    # gate thresholds on. None for BM25-only results.
+    semantic_score: float | None = None
 
     def dict(self) -> dict[str, Any]:
         return asdict(self)

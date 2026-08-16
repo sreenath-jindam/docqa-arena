@@ -18,13 +18,6 @@ from typing import Any
 
 import yaml
 
-try:
-    from dotenv import load_dotenv
-
-    load_dotenv()
-except ImportError:
-    pass
-
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
@@ -49,6 +42,11 @@ class PipelineConfig:
     generator_model: str = "llama-3.1-8b-instant"
     judge_backend: str = "llm"          # llm | ragas
     device: str = "auto"                # auto | cpu | cuda
+    # Relevance gate. Off by default so the sweep measures retrieval unfiltered
+    # — a gate that silently drops passages would change what recall means.
+    gate_enabled: bool = False
+    gate_min_score: float = 0.45        # drop individual passages below this
+    gate_min_top_score: float = 0.50    # below this, treat the query as out of scope
 
     @property
     def slug(self) -> str:

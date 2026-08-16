@@ -84,6 +84,9 @@ class ChromaStore:
         return chunks
 
     def query(self, query_vector: list[float], k: int) -> list[RetrievalResult]:
+        """Returns cosine *similarity* in `score` (1 - distance), so callers can
+        threshold on it. This is the only score in the pipeline that carries
+        absolute meaning; RRF and rerank scores do not."""
         raw = self.collection.query(
             query_embeddings=[query_vector],
             n_results=k,
