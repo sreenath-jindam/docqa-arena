@@ -18,9 +18,15 @@ Three things make it survive a quota that is smaller than the work:
    false`` and is excluded from the averages, and ``judge_coverage`` records how
    much of each configuration was actually measured.
 
+Free tiers are smaller than this job, so the script also accepts several API
+keys and moves to the next one when a daily quota is exhausted. Keys are read
+from ``JUDGE_API_KEYS`` (comma-separated) or ``--api-keys``, falling back to the
+single ``JUDGE_API_KEY``/``LLM_API_KEY`` from ``.env``.
+
 Usage:
-    python scripts/rejudge.py --results eval/results --dry-run
-    python scripts/rejudge.py --results eval/results --judge-model llama-3.1-8b-instant
+    python scripts/rejudge.py --dry-run
+    python scripts/rejudge.py --judge-model llama-3.3-70b-versatile
+    python scripts/rejudge.py --api-keys gsk_mine,gsk_borrowed
 """
 
 from __future__ import annotations
@@ -69,6 +75,27 @@ class VerdictCache:
 
     def __len__(self) -> int:
         return len(self.data)
+
+
+def collect_api_keys(explicit: str | None) -> list[str]:
+    """Ordered, de-duplicated list of keys to try.
+
+    Order is preserved so the first key listed is spent first — put your own
+    key ahead of a borrowed one.
+    """
+    raw = explicit or os.environ.get("JUDGE_API_KEYS") or ""
+    keys = [k.strip() for k in raw.split(",") if k.strip()]
+    if not keys:
+        single = os.environ.get("JUDGE_API_KEY") or os.environ.get("LLM_API_KEY") or ""
+        keys = [single] if single else []
+
+    seen: set[str] = set()
+    ordered = []
+    for key in keys:
+        if key not in seen:
+            seen.add(key)
+            ordered.append(key)
+    return ordered
 
 
 def to_passages(raw: list[dict]) -> list[RetrievalResult]:
@@ -124,6 +151,11 @@ def main() -> None:
     parser.add_argument("--judge-model", default=None, help="override JUDGE_MODEL, e.g. llama-3.1-8b-instant")
     parser.add_argument("--backend", default="llm", choices=["llm", "ragas", "stub"])
     parser.add_argument("--limit", type=int, default=None, help="stop after N judge calls (to stay inside a quota)")
+    parser.add_argument(
+        "--api-keys",
+        default=None,
+        help="comma-separated keys, tried in order as each daily quota runs out",
+    )
     parser.add_argument("--dry-run", action="store_true", help="report what needs judging and exit")
     args = parser.parse_args()
 
@@ -163,12 +195,29 @@ def main() -> None:
         return
 
     # -- judge ----------------------------------------------------------
+    api_keys = collect_api_keys(args.api_keys)
+    if not api_keys:
+        raise SystemExit("no API key found. Set JUDGE_API_KEY in .env, or pass --api-keys.")
+    if len(api_keys) > 1:
+        print(f"\n{len(api_keys)} API keys available; rotating as each quota is exhausted")
+
+    key_index = 0
     judge = build_judge(args.backend)
+    if hasattr(judge, "api_key"):
+        judge.api_key = api_keys[0]
+
     calls = 0
-    for key, evaluation in pending.items():
+    skipped = 0
+    exhausted = False
+    items = list(pending.items())
+    position = 0
+
+    while position < len(items):
         if args.limit and calls >= args.limit:
             print(f"\nstopping at --limit {args.limit}")
             break
+
+        key, evaluation = items[position]
         try:
             verdict = judge.judge(
                 evaluation["query"],
@@ -178,14 +227,39 @@ def main() -> None:
             )
             cache.put(key, {**verdict.__dict__, "measured": True})
             calls += 1
+            position += 1
             if calls % 10 == 0:
-                print(f"  judged {calls}/{len(pending)}", flush=True)
+                print(f"  judged {calls}/{len(items)}", flush=True)
         except JudgeUnavailable as exc:
-            # Quota gone. Everything judged so far is already on disk; stop
-            # cleanly and let the next run resume from the cache.
-            print(f"\njudge unavailable after {calls} calls: {exc}")
-            print("Cached verdicts are saved. Re-run this script when the quota resets.")
-            break
+            message = str(exc)
+            quota_hit = "quota" in message.lower() or "rate limited" in message.lower()
+
+            if not quota_hit:
+                # A malformed response costs one item, not the run.
+                skipped += 1
+                position += 1
+                print(f"  skipped one item ({message[:80]})")
+                continue
+
+            # Quota exhausted on this key. Move to the next one and retry the
+            # *same* item — it was never judged, so advancing would silently
+            # drop it.
+            key_index += 1
+            if key_index >= len(api_keys):
+                print(f"\nall {len(api_keys)} key(s) exhausted after {calls} calls: {message[:160]}")
+                print("Cached verdicts are saved. Re-run when a quota resets.")
+                exhausted = True
+                break
+
+            print(f"\n  key {key_index} exhausted after {calls} calls; switching to key {key_index + 1}")
+            judge = build_judge(args.backend)
+            if hasattr(judge, "api_key"):
+                judge.api_key = api_keys[key_index]
+
+    if skipped:
+        print(f"\n{skipped} item(s) skipped on malformed judge output; re-run to retry them.")
+    if not exhausted and calls and position >= len(items):
+        print(f"\nall {len(items)} pending triples judged")
 
     # -- write back -----------------------------------------------------
     print("\nrewriting summaries:")

@@ -214,10 +214,17 @@ def _parse_judge(raw: str) -> JudgeResult:
     match = re.search(r"\{.*\}", text, flags=re.DOTALL)
     if not match:
         raise JudgeUnavailable(f"unparseable judge output: {raw[:200]}")
+    blob = match.group(0)
     try:
-        data = json.loads(match.group(0))
-    except json.JSONDecodeError as exc:
-        raise JudgeUnavailable(f"invalid JSON from judge: {raw[:200]}") from exc
+        data = json.loads(blob)
+    except json.JSONDecodeError:
+        # Judges emit JavaScript-flavoured JSON often enough to be worth
+        # handling: a trailing comma before } or ] is the common case.
+        repaired = re.sub(r",(\s*[}\]])", r"\1", blob)
+        try:
+            data = json.loads(repaired)
+        except json.JSONDecodeError as exc:
+            raise JudgeUnavailable(f"invalid JSON from judge: {raw[:200]}") from exc
 
     correctness = str(data.get("correctness", "incorrect")).lower().strip()
     faithfulness = str(data.get("faithfulness", "unfaithful")).lower().strip()

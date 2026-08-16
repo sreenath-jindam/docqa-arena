@@ -28,10 +28,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99292, Requested 1228. Please try again in 7m29.28s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "partially-correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer is partially correct because it does not mention that the issuing bank controls the exact timing, but it is faithful because it only makes claims supported by the context",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -122,10 +122,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99278, Requested 1269. Please try again in 7m52.608s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "partially-correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer is partially correct because it correctly states that bank debit refunds are slower, but incorrectly states that card refunds take five to ten business days to settle. The retrieved context supports the generated answer's claims.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -216,10 +216,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99267, Requested 1255. Please try again in 7m31.008s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately reflects the context, which states that the original processing fee is not returned on either a full or a partial refund.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -310,10 +310,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99255, Requested 1411. Please try again in 9m35.424s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately reflects the context, including the specific condition for not refunding the application fee.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -404,10 +404,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99245, Requested 1258. Please try again in 7m14.592s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "partially-correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer is partially correct because it correctly states that multiple partial refunds can be issued, but it does not mention the requirement that the combined total of the refunds cannot exceed the original charge amount. the answer is faithful because it is supported by the retrieved context.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -498,10 +498,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99235, Requested 1230. Please try again in 6m41.76s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer matches the expected answer in substance and every factual claim is supported by the retrieved context.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -592,10 +592,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99224, Requested 1236. Please try again in 6m37.44s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer correctly states that a charge under dispute cannot be refunded, and this is supported by the context which explains that the dispute process determines where the money goes.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -686,10 +686,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99215, Requested 1254. Please try again in 6m45.215999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately describes the outcome of refunding more than the available balance, and all factual claims are supported by the retrieved context.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -780,10 +780,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99205, Requested 1255. Please try again in 6m37.44s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately reflects the context, stating that refund.updated is the correct webhook to use when the application needs to know the money actually reached the customer.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -874,10 +874,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99194, Requested 1260. Please try again in 6m32.256s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "partially-correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer is partially correct because it correctly identifies the status of a refund as pending, but it does not fully explain the process of the status changing to succeeded or failed once the issuer responds, which is mentioned in the context.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -968,10 +968,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99184, Requested 1246. Please try again in 6m11.52s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately reflects the context, which states that attempting to exceed the original charge amount returns a `charge_already_refunded` error.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -1062,10 +1062,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99175, Requested 1109. Please try again in 4m5.376s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately describes the dispute status when it is first created, and all factual claims are supported by the retrieved context.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -1156,10 +1156,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99164, Requested 1332. Please try again in 7m8.544s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately reflects the expected answer and is supported by the retrieved context, which provides the exact time frame for the issuing bank to decide a dispute.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -1250,10 +1250,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99153, Requested 1340. Please try again in 7m5.952s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately reflects the context, which clearly states that the dispute fee is not returned even on a win.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -1344,10 +1344,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99142, Requested 1258. Please try again in 5m45.6s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately describes the process of opening a dispute, and all factual claims are supported by the retrieved context.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -1438,10 +1438,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99134, Requested 1147. Please try again in 4m2.784s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "partially-correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer is partially correct because it mentions shipping documentation with a tracking number and delivery confirmation, but it incorrectly states that this evidence is submitted as a structured object. The retrieved context supports the claim that shipping documentation with a tracking number and delivery confirmation carries the most weight for a product_not_received dispute.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -1532,10 +1532,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99123, Requested 1342. Please try again in 6m41.76s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "partially-correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer is partially correct because it includes all required parts, but incorrectly includes the word 'fraudulent' which is not present in the context. the answer is faithful because it only includes claims supported by the context.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -1626,10 +1626,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99114, Requested 1115. Please try again in 3m17.856s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately describes the consequence of missing the evidence deadline, and all factual claims are supported by the retrieved context.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -1720,10 +1720,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99104, Requested 1199. Please try again in 4m21.792s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "partially-correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer is partially correct because it correctly states that evidence can be updated before submission, but incorrectly states that it can be updated after submission. the explanation is faithful because it accurately reflects the context.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -1814,10 +1814,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99093, Requested 1332. Please try again in 6m7.2s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "partially-correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer is partially correct because it mentions the network monitoring programme and fines, but it also includes additional information about refunds not counting towards the dispute rate, which is not relevant to the question being asked. the answer is faithful because it accurately represents the context provided.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -1908,10 +1908,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99080, Requested 1386. Please try again in 6m42.624s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately reflects the context, explaining that refunds do not count toward the dispute rate, which is why refunding an early fraud warning is cheaper than fighting the chargeback.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -2002,10 +2002,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99074, Requested 1043. Please try again in 1m41.088s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "partially-correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer is partially correct because it correctly identifies the closed event, but does not mention the specific webhook that carries the final dispute outcome, which is charge.dispute.closed.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -2096,10 +2096,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99064, Requested 1207. Please try again in 3m54.144s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "partially-correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer is partially correct because it does not mention that the invoice can be generated by a subscription each billing period, but it is faithful because it only makes claims supported by the context",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -2190,10 +2190,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99056, Requested 1082. Please try again in 1m59.232s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "partially-correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer is partially correct because it mentions auto_advance, but the context does not explicitly state that the invoice is finalised one hour after creation. however, the context does support the claim that auto_advance affects the finalisation of the invoice.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -2284,10 +2284,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99047, Requested 1102. Please try again in 2m8.735999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "partially-correct",
+      "faithfulness": "partially-faithful",
+      "explanation": "the generated answer is partially correct as it mentions that line items are frozen, but it misses the other two changes that occur when an invoice is finalised, which are that it moves to open and gets a hosted payment page. the answer is partially faithful as it mentions that line items are frozen, but it does not provide a clear source for this information in the context.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -2378,10 +2378,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99038, Requested 1083. Please try again in 1m44.544s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately reflects the context, which clearly states that a voided invoice is treated as though it never existed for revenue purposes.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -2472,10 +2472,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99029, Requested 1111. Please try again in 2m0.96s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately reflects the retrieved context, stating that a finalised invoice is immutable and can only be corrected with a credit note.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -2566,10 +2566,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99021, Requested 1158. Please try again in 2m34.656s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer matches the expected answer in substance and every factual claim is supported by the retrieved context.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -2660,10 +2660,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99013, Requested 1129. Please try again in 2m2.688s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately describes the proration process for changing a subscription mid-period, and all factual claims are supported by the retrieved context.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -2754,10 +2754,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99004, Requested 1094. Please try again in 1m24.672s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately describes the difference between unpaid and canceled subscriptions, and all factual claims are supported by the retrieved context.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",
@@ -2848,10 +2848,10 @@
       "rerank_latency_ms": 0.0
     },
     "judge": {
-      "correctness": null,
-      "faithfulness": null,
-      "measured": false,
-      "explanation": "judge error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01m020ktr0eestey9bw5gzs616` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98995, Requested 1188. Please try again in 2m38.112s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      "correctness": "correct",
+      "faithfulness": "faithful",
+      "explanation": "the generated answer accurately reflects the context, which states that a zero-amount invoice is created at the start of a trial to record the billing period.",
+      "measured": true
     },
     "generation": {
       "model": "llama-3.1-8b-instant",

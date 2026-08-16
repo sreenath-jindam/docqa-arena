@@ -135,3 +135,27 @@ def test_summary_reports_none_when_nothing_was_judged():
     generation = summarize(PipelineConfig(), evaluations, "2026-01-01T00:00:00Z")["generation"]
     assert generation["faithfulness"] is None
     assert generation["judge_coverage"] == 0.0
+
+
+def test_judge_parser_repairs_trailing_commas():
+    """Judges emit JavaScript-flavoured JSON; one stray comma must not cost a run.
+
+    This exact payload — a trailing comma before the closing brace — stopped a
+    186-call re-judging run after five calls.
+    """
+    from eval.judge import _parse_judge
+
+    payload = '{"correctness": "correct", "faithfulness": "faithful", "explanation": "matches", }'
+    verdict = _parse_judge(payload)
+    assert verdict.correctness == "correct"
+    assert verdict.faithfulness == "faithful"
+
+    fenced = '```json\n{"correctness":"partially-correct","faithfulness":"faithful","explanation":"ok",}\n```'
+    assert _parse_judge(fenced).correctness == "partially-correct"
+
+
+def test_judge_parser_still_rejects_real_garbage():
+    from eval.judge import JudgeUnavailable, _parse_judge
+
+    with pytest.raises(JudgeUnavailable):
+        _parse_judge("I'm sorry, I can't evaluate that.")

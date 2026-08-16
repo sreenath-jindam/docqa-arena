@@ -29,12 +29,12 @@
     "rerank_latency_ms_p95": 691.0829360003845
   },
   "generation": {
-    "judge_coverage": 0.7741935483870968,
-    "judged_examples": 24,
-    "correctness": 0.875,
-    "faithfulness": 0.9791666666666666,
-    "correct_count": 18,
-    "faithful_count": 23,
+    "judge_coverage": 1.0,
+    "judged_examples": 31,
+    "correctness": 0.8709677419354839,
+    "faithfulness": 0.9838709677419355,
+    "correct_count": 23,
+    "faithful_count": 30,
     "prompt_tokens_mean": 783.6451612903226,
     "completion_tokens_mean": 26.903225806451612,
     "latency_ms_mean": 7428.772406967812,
